@@ -49,7 +49,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 button, input, select { font: inherit; color: inherit; }
-button { cursor: pointer; }
+button { cursor: pointer; transition: border-color .15s ease, background-color .15s ease, color .15s ease; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
 
@@ -59,14 +59,14 @@ button { cursor: pointer; }
 .map p { margin: 0; color: var(--muted); }
 .map ol { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; counter-reset: step; }
 .map li button { width: 100%; text-align: left; border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 9px 12px; display: flex; gap: 10px; align-items: baseline; }
-.map li button::before { counter-increment: step; content: counter(step); font: 600 12px var(--f-mono); color: var(--accent); min-width: 1.2em; }
+.map li button::before { counter-increment: step; content: counter(step); font-weight: 700; font-size: 12px; font-variant-numeric: tabular-nums; color: var(--accent); min-width: 1.2em; }
 .map li button:hover { border-color: var(--accent); }
 .map .reset { align-self: flex-start; background: none; border: 0; color: var(--muted); text-decoration: underline; padding: 0; }
 .map .links { margin: 0; font-size: 14px; }
 .map .links a { color: var(--accent); }
 .demo-note { font-size: 13px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 12px; }
 
-.phone { width: 390px; height: min(820px, calc(100vh - 64px)); border-radius: 46px; background: var(--frame); padding: 12px; box-shadow: 0 30px 60px -30px rgba(0,0,0,.45); }
+.phone { width: 390px; height: min(820px, calc(100vh - 64px)); border-radius: 46px; background: var(--frame); padding: 12px; box-shadow: 0 1px 2px rgba(0,0,0,.12), 0 8px 20px -10px rgba(0,0,0,.3); }
 .app { position: relative; height: 100%; border-radius: 36px; overflow: hidden; background: var(--surface-2); display: flex; flex-direction: column; }
 
 @media (max-width: 860px) {
@@ -87,13 +87,14 @@ button { cursor: pointer; }
 .nav button { background: none; border: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 10.5px; color: var(--muted); padding: 4px 0; position: relative; }
 .nav button svg { width: 22px; height: 22px; }
 .nav button[aria-current="page"] { color: var(--accent); font-weight: 700; }
-.badge { position: absolute; top: 0; left: calc(50% + 6px); background: var(--accent); color: var(--accent-ink); font: 600 10px/16px var(--f-mono); min-width: 16px; height: 16px; border-radius: 8px; padding: 0 4px; }
+.badge { position: absolute; top: 0; left: calc(50% + 6px); background: var(--accent); color: var(--accent-ink); font-size: 10px; font-weight: 700; line-height: 16px; min-width: 16px; height: 16px; border-radius: 8px; padding: 0 4px; }
 
 .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 14px; display: flex; flex-direction: column; gap: 10px; }
 .card h3 { margin: 0; font: 600 15.5px/1.3 var(--f-body); }
 .muted { color: var(--muted); }
 .small { font-size: 13px; }
-.mono { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+.mono { font-variant-numeric: tabular-nums; }
+.code { font-family: var(--f-mono); font-size: .92em; }
 .row { display: flex; gap: 10px; align-items: center; }
 .row > .grow { flex: 1; min-width: 0; }
 .between { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
@@ -107,10 +108,10 @@ button { cursor: pointer; }
 .tile .muted { font-size: 12.5px; }
 .tile .mark { width: 34px; height: 34px; border-radius: 10px; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; }
 .tile .mark svg { width: 20px; height: 20px; }
-.soon { font: 600 10px var(--f-mono); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.soon { font-size: 12.5px; color: var(--muted); }
 
 .remind { background: var(--accent); color: var(--accent-ink); border-radius: var(--r); padding: 14px; display: flex; flex-direction: column; gap: 10px; }
-.remind .lbl { font: 600 10.5px var(--f-mono); letter-spacing: .08em; text-transform: uppercase; opacity: .8; }
+.remind .lbl { font-size: 13px; opacity: .85; }
 .remind b { font-size: 15.5px; }
 .remind .btn { background: var(--accent-ink); color: var(--accent); }
 
@@ -119,7 +120,7 @@ button { cursor: pointer; }
 .btn.small { padding: 8px 12px; font-size: 13px; border-radius: 10px; }
 .btn[disabled] { opacity: .45; cursor: not-allowed; }
 .btn.block { width: 100%; }
-.sticky-cta { position: sticky; bottom: -24px; margin: 0 -18px -24px; padding: 12px 18px 16px; background: linear-gradient(to bottom, transparent, var(--surface-2) 30%); display: flex; flex-direction: column; gap: 6px; }
+.sticky-cta { position: sticky; bottom: -24px; margin: 0 -18px -24px; padding: 12px 18px 16px; background: var(--surface-2); border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 6px; }
 
 .steps { display: flex; gap: 4px; }
 .steps span { flex: 1; height: 4px; border-radius: 2px; background: var(--line); }
@@ -127,7 +128,7 @@ button { cursor: pointer; }
 
 .fields { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 label.f { display: flex; flex-direction: column; gap: 4px; font-size: 12.5px; color: var(--muted); }
-label.f input, label.f select { border: 1px solid var(--line); background: var(--surface-2); border-radius: 10px; padding: 9px 10px; font-family: var(--f-mono); color: var(--ink); width: 100%; min-width: 0; }
+label.f input, label.f select { border: 1px solid var(--line); background: var(--surface-2); border-radius: 10px; padding: 9px 10px; font-variant-numeric: tabular-nums; color: var(--ink); width: 100%; min-width: 0; }
 .check { display: flex; gap: 10px; align-items: flex-start; padding: 10px 0; border-top: 1px solid var(--line); }
 .check:first-of-type { border-top: 0; }
 .check input { margin-top: 3px; width: 18px; height: 18px; accent-color: var(--accent); flex: none; }
@@ -135,8 +136,7 @@ label.f input, label.f select { border: 1px solid var(--line); background: var(-
 
 .warn { background: var(--warn-soft); color: var(--ink); border-radius: var(--r); padding: 12px 14px; font-size: 13.5px; display: flex; flex-direction: column; gap: 6px; }
 .warn b { color: var(--warn); }
-.law { font: 500 11.5px/1.4 var(--f-mono); color: var(--muted); }
-.law::before { content: "§ "; color: var(--accent); }
+.law { font-size: 12.5px; color: var(--muted); }
 
 .seg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
 .seg button { border: 1px solid var(--line); background: var(--surface); border-radius: 12px; padding: 10px 6px; display: flex; flex-direction: column; gap: 2px; align-items: center; }
@@ -147,19 +147,16 @@ table.est { width: 100%; border-collapse: collapse; font-size: 13px; }
 table.est td { padding: 8px 0; border-top: 1px solid var(--line); vertical-align: top; }
 table.est tr:first-child td { border-top: 0; }
 table.est td:last-child { text-align: right; white-space: nowrap; padding-left: 8px; }
-.art { font: 400 11px var(--f-mono); color: var(--muted); }
+.art { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
 .total { display: flex; justify-content: space-between; align-items: baseline; border-top: 2px solid var(--ink); padding-top: 10px; font-weight: 700; }
 .total .mono { font-size: 17px; }
 
 .exec { border: 1px solid var(--line); background: var(--surface); border-radius: var(--r); padding: 12px; display: flex; flex-direction: column; gap: 6px; text-align: left; width: 100%; }
 .exec[aria-pressed="true"] { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
-.chips { display: flex; flex-wrap: wrap; gap: 6px; }
-.chip { font-size: 11.5px; border-radius: 999px; padding: 3px 8px; background: var(--surface-2); border: 1px solid var(--line); }
-.chip.ok { background: var(--accent-soft); border-color: transparent; color: var(--accent); font-weight: 600; }
 .star { color: var(--warn); }
 
-.group-h { font: 600 11px var(--f-mono); letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
-.line-item { display: flex; gap: 10px; justify-content: space-between; padding: 7px 0; border-top: 1px dashed var(--line); font-size: 13.5px; }
+.group-h { font-size: 13px; font-weight: 700; color: var(--muted); margin-top: 4px; }
+.line-item { display: flex; gap: 10px; align-items: center; justify-content: space-between; padding: 7px 0; border-top: 1px dashed var(--line); font-size: 13.5px; }
 .line-item:first-of-type { border-top: 0; }
 .line-item .grow { flex: 1; min-width: 0; }
 .rm { background: none; border: 0; color: var(--muted); font-size: 12px; text-decoration: underline; padding: 0; }
@@ -175,14 +172,16 @@ table.est td:last-child { text-align: right; white-space: nowrap; padding-left: 
 .dot { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--line); background: var(--surface); display: grid; place-items: center; }
 .st.done .dot { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
 .st.active .dot { border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
-.dot svg { width: 12px; height: 12px; }
+.dot svg { width: 12px; height: 12px; stroke-width: 3; }
 .st .body { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
 .photo { height: 92px; border-radius: 10px; background: repeating-linear-gradient(45deg, var(--surface-2) 0 10px, var(--line) 10px 11px); display: grid; place-items: center; font-size: 12px; color: var(--muted); }
 
 .entry summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
 .entry summary::-webkit-details-marker { display: none; }
 .entry[open] summary { margin-bottom: 8px; }
-.pill { font: 600 11px var(--f-mono); padding: 3px 8px; border-radius: 999px; background: var(--surface-2); color: var(--muted); white-space: nowrap; }
+.entry .group-h { display: block; margin-top: 12px; }
+.entry > .btn { display: block; margin-top: 8px; }
+.pill { font-size: 12px; font-weight: 600; padding: 3px 8px; border-radius: 999px; background: var(--surface-2); color: var(--muted); white-space: nowrap; }
 .pill.soon { background: var(--warn-soft); color: var(--warn); }
 .pill.ok { background: var(--accent-soft); color: var(--accent); }
 .stars { display: flex; gap: 6px; }
@@ -235,17 +234,17 @@ table.est td:last-child { text-align: right; white-space: nowrap; padding-left: 
 
 <script>
 const ICON = {
-  back: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>',
-  home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>',
-  proj: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 6h16M4 12h10M4 18h7"/><circle cx="19" cy="17" r="3"/></svg>',
-  cart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M3 4h2l2.4 11h10.2L20 8H6.2"/><circle cx="9" cy="19.5" r="1.4"/><circle cx="17" cy="19.5" r="1.4"/></svg>',
-  pass: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h3"/></svg>',
-  user: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>',
-  bath: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 12h18v3a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5z"/><path d="M6 12V6a2 2 0 0 1 4 0"/></svg>',
-  box: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/></svg>',
-  leaf: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 19c0-9 6-14 15-14 0 9-5 15-14 15"/><path d="M5 19l8-8"/></svg>',
-  heat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 10l9-6 9 6"/><path d="M5 9v11h14V9"/><path d="M9 14h6M9 17h6"/></svg>',
-  check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>'
+  back: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6" /></svg>',
+  home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" /> <path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></svg>',
+  proj: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="8" height="4" x="8" y="2" rx="1" ry="1" /> <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" /> <path d="M12 11h4" /> <path d="M12 16h4" /> <path d="M8 11h.01" /> <path d="M8 16h.01" /></svg>',
+  cart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m2.05 2.05 1.099-.028a1 1 0 0 1 1.008.815l2.69 14.347A1 1 0 0 0 7.83 18H18" /> <path d="M4.563 5h16.435a1 1 0 0 1 .981 1.204l-1.026 6.226A2 2 0 0 1 18.962 14H6.25" /> <circle cx="18" cy="20" r="2" /> <circle cx="8" cy="20" r="2" /></svg>',
+  pass: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 6h4" /> <path d="M2 10h4" /> <path d="M2 14h4" /> <path d="M2 18h4" /> <rect width="16" height="20" x="4" y="2" rx="2" /> <path d="M15 2v20" /> <path d="M15 7h5" /> <path d="M15 12h5" /> <path d="M15 17h5" /></svg>',
+  user: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" /> <circle cx="12" cy="7" r="4" /></svg>',
+  bath: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 4 8 6" /> <path d="M17 19v2" /> <path d="M2 12h20" /> <path d="M7 19v2" /> <path d="M9 5 7.621 3.621A2.121 2.121 0 0 0 4 5v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5" /></svg>',
+  box: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z" /> <path d="M12 22V12" /> <polyline points="3.29 7 12 12 20.71 7" /> <path d="m7.5 4.27 9 5.15" /></svg>',
+  leaf: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 9.536V7a4 4 0 0 1 4-4h1.5a.5.5 0 0 1 .5.5V5a4 4 0 0 1-4 4 4 4 0 0 0-4 4c0 2 1 3 1 5a5 5 0 0 1-1 3" /> <path d="M4 9a5 5 0 0 1 8 4 5 5 0 0 1-8-4" /> <path d="M5 21h14" /></svg>',
+  heat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 8c2-3-2-3 0-6" /> <path d="M15.5 8c2-3-2-3 0-6" /> <path d="M6 10h.01" /> <path d="M6 14h.01" /> <path d="M10 16v-4" /> <path d="M14 16v-4" /> <path d="M18 16v-4" /> <path d="M20 6a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3" /> <path d="M5 20v2" /> <path d="M19 20v2" /></svg>',
+  check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg>'
 };
 
 const TODAY = '22.10.2026';
@@ -454,7 +453,7 @@ const VIEWS = {
       <div class="warn">
         <b>Нужно разрешение исполкома</b>
         <span>Перенос инженерных сетей и сантехнических приборов — это переустройство жилого помещения. Начинать работы можно только после решения местного исполнительного комитета (через службу «одно окно»). Исполнитель приступит к этому этапу после того, как вы загрузите решение.</span>
-        <span class="law">Жилищный кодекс Республики Беларусь — переустройство и перепланировка</span>
+        <span class="law">Основание: Жилищный кодекс Республики Беларусь — переустройство и перепланировка</span>
       </div>` : `
       <div class="card small muted">Замена отделки и сантехники на прежних местах обычно не требует согласования. Если меняете трубы, стены или вентиляцию, отметьте последний пункт — подскажем порядок.</div>`}
       <div class="sticky-cta"><button class="btn block" data-go="bath2" ${Object.values(b.tasks).some(Boolean) ? '' : 'disabled'}>Рассчитать смету</button></div>`;
@@ -468,9 +467,9 @@ const VIEWS = {
         ${Object.entries(TIERS).map(([k, t]) => `<button data-tier="${k}" aria-pressed="${b.tier === k}"><b>${t.name}</b><span class="small muted mono">${t.tile[2]} BYN/м²</span></button>`).join('')}
       </div>
       <div class="card">
-        <div class="between"><h3>Материалы</h3><span class="chip ok">в наличии</span></div>
+        <div class="between"><h3>Материалы</h3><span class="pill ok">в наличии</span></div>
         <table class="est"><tbody>
-          ${c.goods.map(g => `<tr><td>${esc(g.name)}<br><span class="art">арт. ${g.art} · ${String(g.qty).replace('.', ',')} ${g.unit} × ${fmt(g.price)}</span></td><td class="mono">${fmt(g.qty * g.price)}</td></tr>`).join('') || '<tr><td class="muted">Материалы не нужны</td><td></td></tr>'}
+          ${c.goods.map(g => `<tr><td>${esc(g.name)}<br><span class="art">арт. <span class="code">${g.art}</span> · ${String(g.qty).replace('.', ',')} ${g.unit} × ${fmt(g.price)}</span></td><td class="mono">${fmt(g.qty * g.price)}</td></tr>`).join('') || '<tr><td class="muted">Материалы не нужны</td><td></td></tr>'}
         </tbody></table>
         <div class="total"><span>Товары ОМА</span><span class="mono">${fmt(c.goodsSum)}</span></div>
         <span class="small muted">Запас плитки +10% на подрезку. Расчёт ориентировочный и не заменяет проект, если он требуется.</span>
@@ -492,8 +491,8 @@ const VIEWS = {
       return `
       <button class="exec" data-exec="${e.id}" aria-pressed="${b.exec === e.id}">
         <div class="between"><b>${esc(e.name)}</b><span class="mono">${fmt(c.servSum)}</span></div>
-        <span class="small muted">${e.status} · УНП <span class="mono">${e.unp}</span> (демо) · <span class="star">★</span> ${String(e.rating).replace('.', ',')} · ${e.reviews} отзывов по заказам</span>
-        <div class="chips"><span class="chip ok">статус проверен</span><span class="chip">гарантия ${e.warranty} мес</span><span class="chip">старт ${e.start}</span></div>
+        <span class="small muted">${e.status} · УНП <span class="code">${e.unp}</span> (демо) · <span class="star">★</span> ${String(e.rating).replace('.', ',')} · ${e.reviews} отзывов по заказам</span>
+        <span class="small">Статус проверен · гарантия ${e.warranty} мес · старт ${e.start}</span>
       </button>`;
     }).join('');
     const c = bathCalc();
@@ -508,7 +507,7 @@ const VIEWS = {
         <span class="small muted">Каждый этап оплачивается после того, как вы примете его по фото и акту.</span>
       </div>
       <div class="card small muted">Договор на работы вы заключаете с исполнителем. ОМА подбирает и проверяет исполнителя и принимает претензии, но не является стороной договора подряда.
-        <span class="law">Гражданский кодекс РБ; Закон «О защите прав потребителей»</span></div>
+        <span class="law">Основание: Гражданский кодекс РБ; Закон «О защите прав потребителей»</span></div>
       <div class="sticky-cta"><button class="btn block" data-action="bath-to-cart">В корзину: материалы и работы · ${fmt(c.goodsSum + c.servSum)}</button></div>`;
   },
 
@@ -555,7 +554,7 @@ const VIEWS = {
         <div class="between"><h3>${esc(b.title)}</h3><button class="rm" data-action="cart-rm" data-group="${b.group}">Убрать</button></div>
         ${b.goods.length ? `<span class="group-h">Товары · продавец ОМА</span>
           ${b.goods.map(i => `<div class="line-item"><span class="grow">${esc(i.name)} <span class="art">× ${String(i.qty).replace('.', ',')} ${i.unit}</span></span><span class="mono">${fmt(i.qty * i.price)}</span></div>`).join('')}` : ''}
-        ${b.services.length ? `<span class="group-h">Услуги · исполнитель ${esc(b.executor.name)}, УНП ${b.executor.unp} (демо)</span>
+        ${b.services.length ? `<span class="group-h">Услуги · исполнитель ${esc(b.executor.name)}, УНП <span class="code">${b.executor.unp}</span> (демо)</span>
           ${b.services.map(i => `<div class="line-item"><span class="grow">${esc(i.name)}</span><span class="mono">${fmt(i.qty * i.price)}</span></div>`).join('')}
           ${b.staged ? `<span class="small muted">Работы оплачиваются по этапам: сейчас только первый этап.</span>` : ''}` : ''}
         ${b.gov ? `<div class="warn"><b>Перед стартом сантехнических работ</b><span>Загрузите решение исполкома о переустройстве в проекте.</span></div>` : ''}
@@ -580,7 +579,7 @@ const VIEWS = {
         <label class="check"><input type="checkbox" id="c-offer" data-consent="offer" ${c.offer ? 'checked' : ''}><span class="small">Принимаю <u data-action="doc" data-doc="offer">публичную оферту</u> ОМА и условия исполнителя</span></label>
         <label class="check"><input type="checkbox" id="c-pd" data-consent="pd" ${c.pd ? 'checked' : ''}><span class="small">Ознакомлен с <u data-action="doc" data-doc="pd">политикой обработки персональных данных</u> и согласен на передачу имени, телефона и адреса исполнителю для выполнения заказа</span></label>
         <label class="check"><input type="checkbox" id="c-ads" data-consent="ads" ${c.ads ? 'checked' : ''}><span class="small">Хочу получать акции и персональные предложения ОМА (необязательно, можно отозвать в профиле)</span></label>
-        <span class="law">Закон «О защите персональных данных»; Закон «О рекламе»</span>
+        <span class="law">Основание: Закон «О защите персональных данных»; Закон «О рекламе»</span>
       </div>
       <div class="sticky-cta">
         <button class="btn block" data-action="checkout" ${c.offer && c.pd ? '' : 'disabled'}>Оформить заказ (демо) · ${fmt(now)}</button>
@@ -611,7 +610,7 @@ const VIEWS = {
     return `
       <div class="card">
         <h3>${esc(p.title)}</h3>
-        <span class="small muted">${esc(p.executor.name)} · УНП ${p.executor.unp} (демо) · гарантия ${p.executor.warranty} мес</span>
+        <span class="small muted">${esc(p.executor.name)} · УНП <span class="code">${p.executor.unp}</span> (демо) · гарантия ${p.executor.warranty} мес</span>
       </div>
       <div class="card"><div class="timeline">${items}</div></div>
       ${cur === -1 && !p.done ? `<div class="sticky-cta"><button class="btn block" data-go="review">Завершить проект</button></div>` : ''}
@@ -636,7 +635,6 @@ const VIEWS = {
   passport() {
     return `
       <div class="card">
-        <span class="group-h">Объект</span>
         <h3>Квартира · г. Минск, ул. Примерная, 1 (демо)</h3>
         <span class="small muted">Записей: ${S.passport.length} · данные хранятся на серверах в Республике Беларусь</span>
       </div>
@@ -644,7 +642,7 @@ const VIEWS = {
         <details class="card entry" ${idx === 0 ? 'open' : ''}>
           <summary><h3>${esc(e.room)} · ${esc(e.title)}</h3><span class="pill">${e.date}</span></summary>
           <span class="group-h">Материалы</span>
-          ${e.materials.map(m => `<div class="line-item"><span class="grow">${esc(m[1])}<br><span class="art">арт. ${m[0]} · ${m[2]}</span></span><button class="btn small ghost" data-action="rebuy" data-art="${m[0]}" data-name="${esc(m[1])}">Докупить</button></div>`).join('')}
+          ${e.materials.map(m => `<div class="line-item"><span class="grow">${esc(m[1])}<br><span class="art">арт. <span class="code">${m[0]}</span> · ${m[2]}</span></span><button class="btn small ghost" data-action="rebuy" data-art="${m[0]}" data-name="${esc(m[1])}">Докупить</button></div>`).join('')}
           <span class="group-h">Работы и гарантия</span>
           <div class="between small"><span>${esc(e.exec)}</span><span class="pill ${e.warrantyState === 'действует' ? 'ok' : ''}">${e.warrantyState}</span></div>
           ${e.warrantyState === 'действует' ? `<button class="btn small ghost" data-action="claim">Гарантийный случай</button>` : ''}
@@ -687,7 +685,7 @@ const DOCS = {
     <li>Исполнителю передаём только то, что нужно для работ, по договору поручения обработки.</li>
     <li>Реклама, аналитика и cookies кроме технических — только с отдельного согласия.</li>
     <li>Данные хранятся в Республике Беларусь. Вы можете получить, изменить, удалить данные и отозвать согласие.</li></ul>
-    <span class="law">Закон РБ «О защите персональных данных»</span>`,
+    <span class="law">Основание: Закон РБ «О защите персональных данных»</span>`,
   mydata: `<h3>Ваши данные (демо)</h3><ul>
     <li>Контакты: имя, телефон, e-mail.</li><li>Адрес объекта и Паспорт дома: материалы, работы, документы.</li>
     <li>Передавались: исполнителям по вашим заказам, банку при выборе рассрочки.</li>
