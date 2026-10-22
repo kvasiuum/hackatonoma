@@ -194,6 +194,7 @@ table.est td:last-child { text-align: right; white-space: nowrap; padding-left: 
 
 .toast { position: absolute; left: 16px; right: 16px; bottom: 84px; background: var(--ink); color: var(--surface); border-radius: 12px; padding: 11px 14px; font-size: 13.5px; transform: translateY(20px); opacity: 0; transition: .25s; pointer-events: none; }
 .toast.show { transform: none; opacity: 1; }
+.has-motion .toast { transition: none; transform: none; }
 .sheet-bg { position: absolute; inset: 0; background: rgba(0,0,0,.4); display: flex; align-items: flex-end; }
 .sheet { background: var(--surface); width: 100%; border-radius: 22px 22px 0 0; padding: 18px 18px calc(18px + env(safe-area-inset-bottom, 0px)); display: flex; flex-direction: column; gap: 10px; max-height: 80%; overflow-y: auto; }
 .sheet h3 { margin: 0; font: 700 16px var(--f-display); }
@@ -232,6 +233,7 @@ table.est td:last-child { text-align: right; white-space: nowrap; padding-left: 
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/motion@14.0.0/dist/motion.js"></script>
 <script>
 const ICON = {
   back: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6" /></svg>',
@@ -361,22 +363,94 @@ function addBundle(group, title, goods, services, executor, extra) {
   S.cart.push({ group, title, goods, services, executor, ...extra });
 }
 
+/* ---------- анимации (Motion) ---------- */
+const MOTION = window.Motion;
+const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const canAnimate = !!MOTION && !REDUCED;
+if (canAnimate) document.documentElement.classList.add('has-motion');
+const EASE_OUT = [0.22, 1, 0.36, 1];
+const anim = (el, kf, opts) => (canAnimate && el ? MOTION.animate(el, kf, opts) : null);
+const FX = { dir: 'tab', lastKey: null, lastCart: 0, counts: {}, justDone: null, star: null, warnIn: false };
+
+function enterScreen(screen, dir) {
+  if (!canAnimate) return;
+  if (dir === 'push' || dir === 'back') {
+    anim(screen, { x: [dir === 'back' ? -24 : 24, 0], opacity: [0, 1] },
+      { x: { type: 'spring', visualDuration: 0.32, bounce: 0 }, opacity: { duration: 0.18, ease: 'easeOut' } });
+  } else {
+    const items = [...screen.children].slice(0, 8);
+    anim(items, { opacity: [0, 1], y: [12, 0] },
+      { delay: MOTION.stagger(0.04), y: { type: 'spring', visualDuration: 0.35, bounce: 0 }, opacity: { duration: 0.2, ease: 'easeOut' } });
+  }
+}
+
+function afterRender(screenChanged) {
+  const screen = document.getElementById('screen');
+  if (screenChanged) enterScreen(screen, FX.dir);
+  // итоговые суммы перетекают к новому значению, когда пользователь меняет параметры
+  screen.querySelectorAll('[data-count]').forEach(el => {
+    const key = el.dataset.count, to = +el.dataset.value, from = FX.counts[key];
+    FX.counts[key] = to;
+    if (!screenChanged && from != null && from !== to && canAnimate) {
+      el.textContent = fmt(from);
+      MOTION.animate(from, to, { duration: 0.45, ease: EASE_OUT, onUpdate: v => { el.textContent = fmt(v); } });
+    }
+  });
+  const count = cartCount();
+  if (count > FX.lastCart) anim(document.querySelector('.nav .badge'), { scale: [1, 1.45, 1] }, { duration: 0.35, ease: 'easeOut' });
+  FX.lastCart = count;
+  if (FX.justDone != null) {
+    const steps = screen.querySelectorAll('.st');
+    anim(steps[FX.justDone]?.querySelector('.dot'), { scale: [0.4, 1] }, { type: 'spring', visualDuration: 0.35, bounce: 0.45 });
+    const next = steps[FX.justDone + 1];
+    if (next) anim(next.querySelector('.body'), { opacity: [0, 1], y: [8, 0] }, { delay: 0.1, type: 'spring', visualDuration: 0.3, bounce: 0 });
+    FX.justDone = null;
+  }
+  if (FX.star) { anim(screen.querySelector(`[data-star="${FX.star}"]`), { scale: [1, 1.3, 1] }, { duration: 0.3, ease: 'easeOut' }); FX.star = null; }
+  if (FX.warnIn) { anim(screen.querySelector('.warn'), { opacity: [0, 1], y: [-6, 0] }, { type: 'spring', visualDuration: 0.3, bounce: 0 }); FX.warnIn = false; }
+}
+
+// отклик на нажатие: короткое сжатие и пружинный возврат
+document.addEventListener('pointerdown', e => {
+  if (!canAnimate) return;
+  const el = e.target.closest('.btn:not([disabled]), .tile:not([disabled]), .exec, .seg button, .nav button, .icon-btn, .map li button, .stars button');
+  if (!el) return;
+  MOTION.animate(el, { scale: 0.97 }, { type: 'spring', visualDuration: 0.12, bounce: 0 });
+  const up = () => MOTION.animate(el, { scale: 1 }, { type: 'spring', visualDuration: 0.25, bounce: 0.3 });
+  ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => el.addEventListener(ev, up, { once: true }));
+});
+
 /* ---------- навигация ---------- */
 function go(screen, opts = {}) {
   if (!opts.replace && S.screen !== screen) S.history.push(S.screen);
+  FX.dir = opts.replace ? 'tab' : 'push';
   S.screen = screen;
   if (opts.projectId) S.projectId = opts.projectId;
   render();
   document.getElementById('screen').scrollTop = 0;
 }
-function back() { S.screen = S.history.pop() || 'home'; render(); }
+function back() { FX.dir = 'back'; S.screen = S.history.pop() || 'home'; render(); }
 function toast(msg) {
   const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
-  clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove('show'), 2600);
+  t.textContent = msg;
+  clearTimeout(toast._t);
+  if (!canAnimate) { t.classList.add('show'); toast._t = setTimeout(() => t.classList.remove('show'), 2600); return; }
+  MOTION.animate(t, { opacity: 1, y: [16, 0] }, { y: { type: 'spring', visualDuration: 0.3, bounce: 0.15 }, opacity: { duration: 0.15 } });
+  toast._t = setTimeout(() => MOTION.animate(t, { opacity: 0, y: 8 }, { duration: 0.18, ease: 'easeIn' }), 2600);
 }
 function sheet(html) {
-  document.getElementById('sheet').innerHTML = html ? `<div class="sheet-bg" data-action="close-sheet"><div class="sheet" role="dialog" aria-modal="true">${html}<button class="btn ghost block" data-action="close-sheet">Закрыть</button></div></div>` : '';
+  const root = document.getElementById('sheet');
+  if (!html && canAnimate && root.firstElementChild) {
+    const bg = root.firstElementChild;
+    MOTION.animate(bg, { opacity: 0 }, { duration: 0.18, ease: 'easeIn' });
+    MOTION.animate(bg.firstElementChild, { y: '100%' }, { duration: 0.2, ease: 'easeIn' }).then(() => { if (root.firstElementChild === bg) root.innerHTML = ''; });
+    return;
+  }
+  root.innerHTML = html ? `<div class="sheet-bg" data-action="close-sheet"><div class="sheet" role="dialog" aria-modal="true">${html}<button class="btn ghost block" data-action="close-sheet">Закрыть</button></div></div>` : '';
+  if (html && canAnimate) {
+    MOTION.animate(root.firstElementChild, { opacity: [0, 1] }, { duration: 0.2, ease: 'easeOut' });
+    MOTION.animate(root.querySelector('.sheet'), { y: ['100%', '0%'] }, { type: 'spring', visualDuration: 0.35, bounce: 0.1 });
+  }
 }
 
 const TABS = [['home', 'Главная', ICON.home], ['projects', 'Проекты', ICON.proj], ['cart', 'Корзина', ICON.cart], ['passport', 'Паспорт', ICON.pass], ['profile', 'Профиль', ICON.user]];
@@ -392,6 +466,11 @@ function render() {
   document.getElementById('nav').innerHTML = TABS.map(([id, label, ic]) =>
     `<button data-go="${id}" ${TAB_OF[s] === id ? 'aria-current="page"' : ''}>${ic}${label}${id === 'cart' && cartCount() ? `<span class="badge">${cartCount()}</span>` : ''}</button>`).join('');
   document.getElementById('screen').innerHTML = (VIEWS[s] || VIEWS.home)();
+  const key = s + ':' + (s === 'project' ? S.projectId : '');
+  const changed = key !== FX.lastKey;
+  FX.lastKey = key;
+  afterRender(changed);
+  FX.dir = 'tab';
 }
 
 /* ---------- экраны ---------- */
@@ -471,7 +550,7 @@ const VIEWS = {
         <table class="est"><tbody>
           ${c.goods.map(g => `<tr><td>${esc(g.name)}<br><span class="art">арт. <span class="code">${g.art}</span> · ${String(g.qty).replace('.', ',')} ${g.unit} × ${fmt(g.price)}</span></td><td class="mono">${fmt(g.qty * g.price)}</td></tr>`).join('') || '<tr><td class="muted">Материалы не нужны</td><td></td></tr>'}
         </tbody></table>
-        <div class="total"><span>Товары ОМА</span><span class="mono">${fmt(c.goodsSum)}</span></div>
+        <div class="total"><span>Товары ОМА</span><span class="mono" data-count="bath-goods" data-value="${c.goodsSum}">${fmt(c.goodsSum)}</span></div>
         <span class="small muted">Запас плитки +10% на подрезку. Расчёт ориентировочный и не заменяет проект, если он требуется.</span>
       </div>
       <div class="card">
@@ -537,7 +616,7 @@ const VIEWS = {
       <div class="card">
         <div class="between"><span>Товары ОМА</span><span class="mono">${fmt(c.goodsSum)}</span></div>
         <div class="between"><span>Услуги партнёров</span><span class="mono">${fmt(c.servSum)}</span></div>
-        <div class="total"><span>Итого</span><span class="mono">${fmt(c.goodsSum + c.servSum)}</span></div>
+        <div class="total"><span>Итого</span><span class="mono" data-count="move-total" data-value="${c.goodsSum + c.servSum}">${fmt(c.goodsSum + c.servSum)}</span></div>
       </div>
       <div class="sticky-cta"><button class="btn block" data-action="move-to-cart" ${c.svc.length + c.goods.length ? '' : 'disabled'}>Добавить в корзину</button></div>`;
   },
@@ -568,7 +647,7 @@ const VIEWS = {
       <div class="card">
         <div class="between"><span>Товары</span><span class="mono">${fmt(goodsTotal)}</span></div>
         <div class="between"><span>Услуги всего</span><span class="mono">${fmt(servTotal)}</span></div>
-        <div class="total"><span>К оплате сейчас</span><span class="mono">${fmt(now)}</span></div>
+        <div class="total"><span>К оплате сейчас</span><span class="mono" data-count="cart-now" data-value="${now}">${fmt(now)}</span></div>
       </div>
       <div class="card"><h3>Способ оплаты</h3>
         ${pay('card', 'Банковская карта', 'Оплата услуг уходит исполнителю через банк, ОМА получает агентское вознаграждение')}
@@ -747,7 +826,7 @@ document.addEventListener('click', e => {
   if (t.dataset.go) { if (TAB_OF[t.dataset.go] === t.dataset.go && t.closest('.nav')) S.history = []; return go(t.dataset.go, { replace: !!t.closest('.nav') }); }
   if (t.dataset.tier) { S.bath.tier = t.dataset.tier; return render(); }
   if (t.dataset.exec) { S.bath.exec = t.dataset.exec; return render(); }
-  if (t.dataset.star) { S.rating = +t.dataset.star; return render(); }
+  if (t.dataset.star) { S.rating = +t.dataset.star; FX.star = t.dataset.star; return render(); }
   const a = t.dataset.action;
   if (a === 'close-sheet') { if (e.target === t) sheet(''); return; }
   if (a === 'back') return back();
@@ -764,7 +843,7 @@ document.addEventListener('click', e => {
   if (a === 'open-project') return go('project', { projectId: t.dataset.id });
   if (a === 'accept') {
     const p = S.projects.find(x => x.id === S.projectId), s = p.stages[+t.dataset.i];
-    s.done = true; render();
+    s.done = true; FX.justDone = +t.dataset.i; render();
     return toast(s.gov ? 'Решение исполкома загружено' : `Этап принят, оплачено ${fmt(s.amount)} (демо)`);
   }
   if (a === 'claim') return sheet(`<h3>Замечание к работе</h3><ul><li>Опишите проблему и приложите фото.</li><li>Обращение уходит исполнителю, копия — в поддержку ОМА.</li><li>Срок ответа и порядок устранения недостатков — по Закону «О защите прав потребителей».</li></ul><button class="btn block" data-action="close-sheet">Отправить (демо)</button>`);
@@ -794,7 +873,7 @@ document.addEventListener('input', e => {
 });
 document.addEventListener('change', e => {
   const t = e.target;
-  if (t.dataset.task) { S.bath.tasks[t.dataset.task] = t.checked; render(); }
+  if (t.dataset.task) { S.bath.tasks[t.dataset.task] = t.checked; FX.warnIn = t.dataset.task === 'move' && t.checked; render(); }
   if (t.dataset.msvc) { S.move.svc[t.dataset.msvc] = t.checked; render(); }
   if (t.dataset.mf) { const k = t.dataset.mf; S.move[k] = k.startsWith('lift') ? t.value === '1' : t.value; render(); }
   if (t.dataset.pay) { S.pay = t.dataset.pay; render(); }
