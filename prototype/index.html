@@ -62,6 +62,8 @@ button { cursor: pointer; }
 .map li button::before { counter-increment: step; content: counter(step); font: 600 12px var(--f-mono); color: var(--accent); min-width: 1.2em; }
 .map li button:hover { border-color: var(--accent); }
 .map .reset { align-self: flex-start; background: none; border: 0; color: var(--muted); text-decoration: underline; padding: 0; }
+.map .links { margin: 0; font-size: 14px; }
+.map .links a { color: var(--accent); }
 .demo-note { font-size: 13px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 12px; }
 
 .phone { width: 390px; height: min(820px, calc(100vh - 64px)); border-radius: 46px; background: var(--frame); padding: 12px; box-shadow: 0 30px 60px -30px rgba(0,0,0,.45); }
@@ -215,6 +217,7 @@ table.est td:last-child { text-align: right; white-space: nowrap; padding-left: 
       <li><button data-jump="move">Сценарий «Переезд»</button></li>
       <li><button data-jump="profile">Согласия и данные</button></li>
     </ol>
+    <p class="links"><a href="../README.html">Концепция сервиса</a> · <a href="../docs/legal-compliance.html">Правовой разбор по законодательству РБ</a></p>
     <button class="reset" data-action="reset">Начать демо заново</button>
     <p class="demo-note">Концепт для хакатона. Это не официальный сервис ОМА: компании, УНП, адреса и цены условные, оплата не проводится, данные никуда не отправляются.</p>
   </aside>
