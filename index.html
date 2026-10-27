@@ -142,6 +142,12 @@ label.f input, label.f select { border: 1px solid var(--line); background: var(-
 .seg button { border: 1px solid var(--line); background: var(--surface); border-radius: 12px; padding: 10px 6px; display: flex; flex-direction: column; gap: 2px; align-items: center; }
 .seg button[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); }
 .seg b { font-size: 13.5px; }
+.seg.two { grid-template-columns: 1fr 1fr; }
+.fields.two { grid-template-columns: 1fr 1fr; }
+.why { font-size: 12px; color: var(--accent); }
+.checks { font-size: 13px; background: var(--surface-2); border-radius: 10px; padding: 8px 12px; }
+.checks summary { cursor: pointer; font-weight: 600; }
+.checks ul { margin: 6px 0 0; padding-left: 18px; display: grid; gap: 4px; }
 
 table.est { width: 100%; border-collapse: collapse; font-size: 13px; }
 table.est td { padding: 8px 0; border-top: 1px solid var(--line); vertical-align: top; }
@@ -207,17 +213,17 @@ table.est td:last-child { text-align: right; white-space: nowrap; padding-left: 
     <h1>ОМА Дом</h1>
     <p>Кликабельный прототип MVP: задача клиента превращается в проект, проект — в Паспорт дома, а Паспорт возвращает клиента в ОМА.</p>
     <ol>
-      <li><button data-jump="home">Главная: выбор задачи</button></li>
-      <li><button data-jump="bath1">Ремонт ванной: замеры и работы</button></li>
-      <li><button data-jump="bath2">Смета из каталога</button></li>
-      <li><button data-jump="bath3">Выбор исполнителя</button></li>
-      <li><button data-jump="cart">Одна корзина и оплата</button></li>
-      <li><button data-jump="projects">Проект: приёмка этапов</button></li>
-      <li><button data-jump="passport">Паспорт дома</button></li>
-      <li><button data-jump="move">Сценарий «Переезд»</button></li>
-      <li><button data-jump="profile">Согласия и данные</button></li>
+      <li><button data-jump="home">Главная: вход из 3D-проекта ОМА</button></li>
+      <li><button data-jump="bath1">Санузел: замеры, работы, кто делает</button></li>
+      <li><button data-jump="bath2">Смета с пояснениями и резерв партии</button></li>
+      <li><button data-jump="bath3">Бригада OMA PRO, исполнитель — ОМА</button></li>
+      <li><button data-jump="cart">Одна корзина, оплата, согласия</button></li>
+      <li><button data-jump="projects">Этапы: фото, чек-лист, приёмка</button></li>
+      <li><button data-jump="passport">Паспорт дома и возврат остатков</button></li>
+      <li><button data-jump="install">Установка с мастером</button></li>
+      <li><button data-jump="profile">«Баланс» и согласия</button></li>
     </ol>
-    <p class="links"><a href="README.html">Концепция сервиса</a> · <a href="docs/legal-compliance.html">Правовой разбор по законодательству РБ</a></p>
+    <p class="links"><a href="slides/">Презентация</a> · <a href="README.html">Концепция</a> · <a href="docs/legal-compliance.html">Правовой разбор</a></p>
     <button class="reset" data-action="reset">Начать демо заново</button>
     <p class="demo-note">Концепт для хакатона. Это не официальный сервис ОМА: компании, УНП, адреса и цены условные, оплата не проводится, данные никуда не отправляются.</p>
   </aside>
@@ -246,10 +252,12 @@ const ICON = {
   box: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z" /> <path d="M12 22V12" /> <polyline points="3.29 7 12 12 20.71 7" /> <path d="m7.5 4.27 9 5.15" /></svg>',
   leaf: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 9.536V7a4 4 0 0 1 4-4h1.5a.5.5 0 0 1 .5.5V5a4 4 0 0 1-4 4 4 4 0 0 0-4 4c0 2 1 3 1 5a5 5 0 0 1-1 3" /> <path d="M4 9a5 5 0 0 1 8 4 5 5 0 0 1-8-4" /> <path d="M5 21h14" /></svg>',
   heat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 8c2-3-2-3 0-6" /> <path d="M15.5 8c2-3-2-3 0-6" /> <path d="M6 10h.01" /> <path d="M6 14h.01" /> <path d="M10 16v-4" /> <path d="M14 16v-4" /> <path d="M18 16v-4" /> <path d="M20 6a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3" /> <path d="M5 20v2" /> <path d="M19 20v2" /></svg>',
+  pot: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12h20" /> <path d="M20 12v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8" /> <path d="m4 8 16-4" /> <path d="m8.86 6.78-.45-1.81a2 2 0 0 1 1.45-2.43l1.94-.48a2 2 0 0 1 2.43 1.46l.45 1.8" /></svg>',
+  wrench: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.106-3.105c.32-.322.863-.22.983.218a6 6 0 0 1-8.259 7.057l-7.91 7.91a1 1 0 0 1-2.999-3l7.91-7.91a6 6 0 0 1 7.057-8.259c.438.12.54.662.219.984z" /></svg>',
   check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg>'
 };
 
-const TODAY = '22.10.2026';
+const TODAY = '27.10.2026';
 const fmt = n => n.toLocaleString('ru-RU', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' BYN';
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
@@ -264,29 +272,52 @@ const TIERS = {
 const PRIMER = ['311 040', 'Грунтовка глубокого проникновения, 10 л', 22];
 const WATERPROOF = ['312 205', 'Гидроизоляция обмазочная, 15 кг', 65];
 
-const EXECS = [
-  { id: 'e3', name: 'ООО «Ремонт-Сервис»', status: 'Юрлицо', unp: '190000003', rating: 4.6, reviews: 212, tile: 33, demol: 10, mixer: 50, shower: 180, move: 380, warranty: 12, start: '29.10' },
-  { id: 'e1', name: 'ООО «Мастер-Отделка»', status: 'Юрлицо', unp: '190000001', rating: 4.8, reviews: 126, tile: 38, demol: 12, mixer: 45, shower: 160, move: 350, warranty: 24, start: '03.11' },
-  { id: 'e2', name: 'ИП Ковалёв А. В.', status: 'ИП', unp: '790000002', rating: 4.9, reviews: 54, tile: 42, demol: 12, mixer: 40, shower: 150, move: 320, warranty: 12, start: '10.11' }
+// цены работ ОМА фиксированы и одинаковы для всех бригад-партнёров
+const PRICE = { demol: 12, waste: 60, prep: 15, tile: 38, mixer: 45, shower: 160, move: 350 };
+const RENTAL = [
+  { name: 'Аренда плиткореза электрического, 3 сут', qty: 1, unit: 'усл', price: 45 },
+  { name: 'Аренда миксера строительного, 3 сут', qty: 1, unit: 'усл', price: 24 }
 ];
-const MOVER = { name: 'ООО «Перевозка-Плюс»', unp: '190000004' };
+const OMA_EXEC = { name: 'ОМА', warranty: 24 };
+const BRIGADES = [
+  { id: 'b1', name: 'ИП Ковалёв А. В.', unp: '790000002', rating: 4.9, reviews: 54, since: 2019, jobs: 38, start: '03.11' },
+  { id: 'b2', name: 'ООО «Мастер-Отделка»', unp: '190000001', rating: 4.8, reviews: 126, since: 2021, jobs: 61, start: '29.10' },
+  { id: 'b3', name: 'ООО «Ремонт-Сервис»', unp: '190000003', rating: 4.6, reviews: 212, since: 2018, jobs: 94, start: '10.11' }
+];
+const INSTALL = [
+  { id: 'i1', name: 'Установка смесителя', price: 45 },
+  { id: 'i2', name: 'Установка унитаза на прежнее место', price: 70 },
+  { id: 'i3', name: 'Подключение стиральной машины', price: 40 },
+  { id: 'i4', name: 'Монтаж электрического полотенцесушителя', price: 55 },
+  { id: 'i5', name: 'Навес полок или карниза, до 3 шт.', price: 35 },
+  { id: 'i6', name: 'Сборка шкафа, за модуль', price: 30 }
+];
+// чек-листы приёмки составляет технолог ОМА; здесь — понятные клиенту формулировки
+const CHECKS = {
+  demol: ['Старая плитка и клей сняты до основания', 'Мусор вывезен, есть документ о передаче отходов', 'Трубы и стояки не повреждены'],
+  prep: ['Гидроизоляция без пропусков, в углах и у труб уложена лента', 'Слой заведён на стены над полом и в зоне душа', 'Мастер прислал фото слоёв до укладки плитки'],
+  tile: ['Швы одинаковой ширины, линии ровные', 'Плитка не звучит «пусто» при простукивании', 'Резы аккуратные, без сколов на видном месте', 'Вода на полу уходит к сливу'],
+  plumb: ['Под смесителем и соединениями сухо после 15 минут работы воды', 'Смеситель закреплён без люфта', 'Силиконовые швы ровные, без пропусков'],
+  install: ['Прибор закреплён без люфта', 'Соединения сухие после проверки водой или током', 'Мастер убрал за собой и показал, как пользоваться']
+};
 
 function initialState() {
   return {
     screen: 'home', history: [], projectId: null,
-    bath: { L: 2.0, W: 1.7, H: 2.5, tasks: { tile: true, mixer: true, shower: false, move: false }, tier: 'std', exec: 'e1' },
-    move: { date: '2026-11-15', rooms: 2, floorFrom: 5, liftFrom: true, floorTo: 3, liftTo: false, svc: { truck: true, pack: true, assembly: true, disposal: false } },
+    bath: { L: 2.0, W: 1.7, H: 2.5, tasks: { tile: true, mixer: true, shower: false, move: false }, tier: 'std', mode: 'master', brigade: 'b1', from3d: '' },
+    install: { sel: { i1: true }, withGood: true, date: '2026-10-30', slot: '12:00–15:00' },
     cart: [],
     pay: 'card',
     consents: { pd: false, ads: false, offer: false },
     profileAds: false,
+    bonus: 1240,
     projects: [],
     rating: 0,
     passport: [{
       id: 'kitchen', room: 'Кухня', title: 'Ремонт кухни', date: '03.2024',
       materials: [['220 415', 'Столешница 38 мм, дуб', '2 шт'], ['402 760', 'Фильтр для воды под мойку «Аква-3»', '1 шт'], ['184 102', 'Плитка-фартук «Кабанчик» 10×20', '3,2 м²']],
-      exec: 'ООО «Ремонт-Сервис» · гарантия до 03.2026', warrantyState: 'истекла',
-      docs: ['Акт приёмки работ (подписан ЭЦП)', 'Кассовый чек ОМА № 0042', 'Договор подряда с исполнителем'],
+      exec: 'Покупка в ОМА, монтаж — сторонний мастер', warrantyState: 'нет данных',
+      docs: ['Кассовый чек ОМА № 0042'],
       reminders: [{ id: 'r1', text: 'Заменить картридж фильтра «Аква-3»', due: '05.11.2026', soon: true, action: 'filter' }]
     }]
   };
@@ -295,65 +326,51 @@ let S = initialState();
 
 /* ---------- расчёты ---------- */
 function bathCalc() {
-  const b = S.bath, t = TIERS[b.tier], ex = EXECS.find(e => e.id === b.exec);
+  const b = S.bath, t = TIERS[b.tier], diy = b.mode === 'diy';
   const L = +b.L || 0, W = +b.W || 0, H = +b.H || 0;
   const perim = 2 * (L + W), floor = L * W, wall = Math.max(0, perim * H - 1.6), surf = wall + floor;
-  const goods = [], services = [], stages = [];
+  const r1 = n => n.toFixed(1).replace('.', ',');
   const up = n => Math.ceil(n);
+  const goods = [], services = [], stages = [];
   if (b.tasks.tile) {
-    const tileQty = Math.ceil(surf * 1.1 * 10) / 10;
-    goods.push({ art: t.tile[0], name: t.tile[1], qty: tileQty, unit: 'м²', price: t.tile[2] });
-    goods.push({ art: t.glue[0], name: t.glue[1], qty: up(surf / 5), unit: 'шт', price: t.glue[2] });
-    goods.push({ art: t.grout[0], name: t.grout[1], qty: up(surf / 10), unit: 'шт', price: t.grout[2] });
-    goods.push({ art: PRIMER[0], name: PRIMER[1], qty: up(surf / 40), unit: 'шт', price: PRIMER[2] });
-    goods.push({ art: WATERPROOF[0], name: WATERPROOF[1], qty: up((floor + perim * 0.2) / 6), unit: 'шт', price: WATERPROOF[2] });
+    goods.push({ art: t.tile[0], name: t.tile[1], qty: Math.ceil(surf * 1.1 * 10) / 10, unit: 'м²', price: t.tile[2], why: `Стены и пол ${r1(surf)} м² и 10% запаса на подрезку` });
+    goods.push({ art: t.glue[0], name: t.glue[1], qty: up(surf / 5), unit: 'шт', price: t.glue[2], why: 'Расход около 5 кг на м²: один мешок на 5 м²' });
+    goods.push({ art: t.grout[0], name: t.grout[1], qty: up(surf / 10), unit: 'шт', price: t.grout[2], why: 'Одна упаковка примерно на 10 м²' });
+    goods.push({ art: PRIMER[0], name: PRIMER[1], qty: up(surf / 40), unit: 'шт', price: PRIMER[2], why: 'Под гидроизоляцию и клей: канистра на 40 м²' });
+    goods.push({ art: WATERPROOF[0], name: WATERPROOF[1], qty: up((floor + perim * 0.2) / 6), unit: 'шт', price: WATERPROOF[2], why: 'Пол и низ стен на 20 см — зона, где чаще всего протекает' });
   }
-  if (b.tasks.mixer) goods.push({ art: t.mixer[0], name: t.mixer[1], qty: 1, unit: 'шт', price: t.mixer[2] });
-  if (b.tasks.shower) goods.push({ art: t.shower[0], name: t.shower[1], qty: 1, unit: 'шт', price: t.shower[2] });
+  if (b.tasks.mixer) goods.push({ art: t.mixer[0], name: t.mixer[1], qty: 1, unit: 'шт', price: t.mixer[2], why: 'Вы выбрали в задаче' });
+  if (b.tasks.shower) goods.push({ art: t.shower[0], name: t.shower[1], qty: 1, unit: 'шт', price: t.shower[2], why: 'Вы выбрали в задаче' });
 
-  if (b.tasks.move) stages.push({ name: 'Решение исполкома о переустройстве', amount: 0, gov: true });
-  if (b.tasks.tile) {
-    const dem = Math.round(surf * ex.demol) + 60;
-    services.push({ name: 'Демонтаж старой отделки', qty: +surf.toFixed(1), unit: 'м²', price: ex.demol });
-    services.push({ name: 'Вывоз строительного мусора (организация с правом обращения с отходами)', qty: 1, unit: 'усл', price: 60 });
-    stages.push({ name: 'Демонтаж и вывоз мусора', amount: dem });
-    const prep = Math.round(floor * 15 + surf * 4);
-    services.push({ name: 'Гидроизоляция и грунтование', qty: 1, unit: 'усл', price: prep });
-    stages.push({ name: 'Гидроизоляция и подготовка', amount: prep });
-    const lay = Math.round(surf * ex.tile);
-    services.push({ name: 'Укладка плитки с затиркой', qty: +surf.toFixed(1), unit: 'м²', price: ex.tile });
-    stages.push({ name: 'Укладка плитки', amount: lay });
+  if (diy) {
+    if (b.tasks.tile) RENTAL.forEach(r => services.push({ ...r }));
+  } else {
+    if (b.tasks.move) stages.push({ kind: 'gov', name: 'Решение исполкома о переустройстве', amount: 0, gov: true });
+    if (b.tasks.tile) {
+      services.push({ name: 'Демонтаж старой отделки', qty: +surf.toFixed(1), unit: 'м²', price: PRICE.demol });
+      services.push({ name: 'Вывоз строительного мусора', qty: 1, unit: 'усл', price: PRICE.waste });
+      stages.push({ kind: 'demol', name: 'Демонтаж и вывоз мусора', amount: Math.round(surf * PRICE.demol) + PRICE.waste });
+      const prep = Math.round(floor * PRICE.prep + surf * 4);
+      services.push({ name: 'Гидроизоляция и грунтование', qty: 1, unit: 'усл', price: prep });
+      stages.push({ kind: 'prep', name: 'Гидроизоляция и подготовка', amount: prep });
+      services.push({ name: 'Укладка плитки с затиркой', qty: +surf.toFixed(1), unit: 'м²', price: PRICE.tile });
+      stages.push({ kind: 'tile', name: 'Укладка плитки', amount: Math.round(surf * PRICE.tile) });
+    }
+    let plumb = 0;
+    if (b.tasks.move) { services.push({ name: 'Перенос водопровода и канализации по разрешению', qty: 1, unit: 'усл', price: PRICE.move }); plumb += PRICE.move; }
+    if (b.tasks.mixer) { services.push({ name: 'Установка смесителя', qty: 1, unit: 'шт', price: PRICE.mixer }); plumb += PRICE.mixer; }
+    if (b.tasks.shower) { services.push({ name: 'Монтаж душевой зоны', qty: 1, unit: 'шт', price: PRICE.shower }); plumb += PRICE.shower; }
+    if (plumb) stages.push({ kind: 'plumb', name: 'Сантехника и финальная приёмка', amount: plumb });
   }
-  if (b.tasks.move) {
-    services.push({ name: 'Перенос водопровода и канализации (по согласованному проекту)', qty: 1, unit: 'усл', price: ex.move });
-  }
-  let plumb = 0;
-  if (b.tasks.mixer) { services.push({ name: 'Установка смесителя', qty: 1, unit: 'шт', price: ex.mixer }); plumb += ex.mixer; }
-  if (b.tasks.shower) { services.push({ name: 'Монтаж душевой зоны', qty: 1, unit: 'шт', price: ex.shower }); plumb += ex.shower; }
-  if (b.tasks.move) plumb += ex.move;
-  if (plumb) stages.push({ name: 'Сантехника и финальная приёмка', amount: plumb });
-
   const sum = arr => arr.reduce((a, i) => a + i.qty * i.price, 0);
-  return { goods, services, stages, goodsSum: sum(goods), servSum: sum(services), ex, surf, floor, wall, tierName: t.name };
+  return { goods, services, stages, goodsSum: sum(goods), servSum: sum(services), diy, surf, floor, wall, tierName: t.name, brigade: BRIGADES.find(x => x.id === b.brigade) };
 }
 
-function moveCalc() {
-  const m = S.move, r = +m.rooms || 1, svc = [], goods = [];
-  const stairs = (m.liftFrom ? 0 : (+m.floorFrom - 1)) + (m.liftTo ? 0 : (+m.floorTo - 1));
-  if (m.svc.truck) {
-    svc.push({ name: 'Перевозка, автомобиль до 5 т', qty: 1, unit: 'рейс', price: 120 + r * 40 });
-    svc.push({ name: 'Грузчики, 2 чел.', qty: 1, unit: 'усл', price: 90 + Math.max(0, stairs) * 8 * r });
-  }
-  if (m.svc.pack) {
-    svc.push({ name: 'Упаковка вещей', qty: r, unit: 'комн', price: 35 });
-    goods.push({ art: '701 104', name: 'Коробка картонная 60×40×40', qty: 15 * r, unit: 'шт', price: 3.2 });
-    goods.push({ art: '701 220', name: 'Скотч упаковочный 48 мм', qty: 4, unit: 'шт', price: 2.9 });
-    goods.push({ art: '701 315', name: 'Стрейч-плёнка 500 мм', qty: 2, unit: 'шт', price: 14.5 });
-  }
-  if (m.svc.assembly) svc.push({ name: 'Разборка и сборка мебели', qty: r, unit: 'комн', price: 60 });
-  if (m.svc.disposal) svc.push({ name: 'Вывоз старой мебели на переработку', qty: 1, unit: 'рейс', price: 70 });
+function installCalc() {
+  const s = S.install, services = INSTALL.filter(i => s.sel[i.id]).map(i => ({ name: i.name, qty: 1, unit: 'шт', price: i.price }));
+  const goods = s.sel.i1 && s.withGood ? [{ art: TIERS.std.mixer[0], name: TIERS.std.mixer[1], qty: 1, unit: 'шт', price: TIERS.std.mixer[2] }] : [];
   const sum = arr => arr.reduce((a, i) => a + i.qty * i.price, 0);
-  return { svc, goods, goodsSum: sum(goods), servSum: sum(svc), stairs };
+  return { services, goods, goodsSum: sum(goods), servSum: sum(services) };
 }
 
 /* ---------- корзина ---------- */
@@ -454,8 +471,8 @@ function sheet(html) {
 }
 
 const TABS = [['home', 'Главная', ICON.home], ['projects', 'Проекты', ICON.proj], ['cart', 'Корзина', ICON.cart], ['passport', 'Паспорт', ICON.pass], ['profile', 'Профиль', ICON.user]];
-const TAB_OF = { home: 'home', bath1: 'home', bath2: 'home', bath3: 'home', move: 'home', cart: 'cart', projects: 'projects', project: 'projects', review: 'projects', passport: 'passport', profile: 'profile' };
-const TITLES = { home: 'ОМА Дом', bath1: 'Ремонт ванной', bath2: 'Смета', bath3: 'Исполнитель', move: 'Переезд', cart: 'Корзина', projects: 'Мои проекты', project: 'Проект', review: 'Завершение проекта', passport: 'Паспорт дома', profile: 'Профиль' };
+const TAB_OF = { home: 'home', bath1: 'home', bath2: 'home', bath3: 'home', install: 'home', cart: 'cart', projects: 'projects', project: 'projects', review: 'projects', passport: 'passport', profile: 'profile' };
+const TITLES = { home: 'ОМА Дом', bath1: 'Ремонт санузла', bath2: 'Смета', bath3: 'Бригада и дата', install: 'Установка с мастером', cart: 'Корзина', projects: 'Мои проекты', project: 'Проект', review: 'Завершение проекта', passport: 'Паспорт дома', profile: 'Профиль' };
 
 function render() {
   const s = S.screen;
@@ -474,6 +491,10 @@ function render() {
 }
 
 /* ---------- экраны ---------- */
+const steps = n => `<div class="steps">${[1, 2, 3, 4].map(i => `<span class="${i <= n ? 'on' : ''}"></span>`).join('')}</div>`;
+const law = text => `<span class="law">Основание: ${text}</span>`;
+const execLine = p => p.brigade ? `Исполнитель ОМА · бригада ${esc(p.brigade.name)}` : 'Исполнитель ОМА';
+
 const VIEWS = {
   home() {
     const soon = S.passport.flatMap(e => e.reminders.filter(r => r.soon).map(r => ({ ...r, room: e.room })));
@@ -484,7 +505,7 @@ const VIEWS = {
         <div class="remind">
           <span class="lbl">Паспорт дома · ${esc(r.room)}</span>
           <b>${esc(r.text)} до ${r.due}</b>
-          <span class="small">Картридж есть в наличии, замена мастером — от 25 BYN.</span>
+          <span class="small">Картридж есть в наличии, замена мастером ОМА — 25 BYN.</span>
           <button class="btn small" data-action="reminder" data-id="${r.id}">Заказать картридж и замену</button>
         </div>`).join('')}
       ${active.map(p => `
@@ -492,15 +513,21 @@ const VIEWS = {
           <div class="between"><h3>${esc(p.title)}</h3><span class="pill ok">в работе</span></div>
           <span class="small muted">Этап ${Math.min(p.stages.findIndex(x => !x.done) + 1 || p.stages.length, p.stages.length)} из ${p.stages.length}: ${esc((p.stages.find(x => !x.done) || p.stages[p.stages.length - 1]).name)}</span>
         </button>`).join('')}
+      ${!S.bath.from3d && !active.length ? `
+        <div class="card">
+          <div class="between"><h3>Ваш 3D-проект ванной готов</h3><span class="pill ok">дизайнер ОМА</span></div>
+          <span class="small muted">Проект № В-2026-1047 от 20.10.2026. Превратим его в смету, зарезервируем материалы и подберём бригаду.</span>
+          <button class="btn small" data-action="import3d">Продолжить проект</button>
+        </div>` : ''}
       <div class="tiles">
-        <button class="tile" data-go="bath1"><span class="mark">${ICON.bath}</span><b>Ремонт ванной</b><span class="muted">Смета, материалы и мастер в одном заказе</span></button>
-        <button class="tile" data-go="move"><span class="mark">${ICON.box}</span><b>Переезд</b><span class="muted">Перевозка, упаковка, сборка мебели</span></button>
-        <button class="tile" disabled><span class="mark">${ICON.leaf}</span><b>Дача к сезону</b><span class="soon">после MVP</span></button>
-        <button class="tile" disabled><span class="mark">${ICON.heat}</span><b>Утепление дома</b><span class="soon">после MVP</span></button>
+        <button class="tile" data-go="bath1"><span class="mark">${ICON.bath}</span><b>Ремонт санузла</b><span class="muted">Смета, материалы и работы под ответственностью ОМА</span></button>
+        <button class="tile" data-go="install"><span class="mark">${ICON.wrench}</span><b>Установка с мастером</b><span class="muted">Смеситель, унитаз, полки, шкаф — цена известна заранее</span></button>
+        <button class="tile" disabled><span class="mark">${ICON.pot}</span><b>Кухня</b><span class="soon">следующая волна, из 3D-конструктора</span></button>
+        <button class="tile" disabled><span class="mark">${ICON.leaf}</span><b>Дача и сад</b><span class="soon">после кухни и полов</span></button>
       </div>
       <div class="card">
         <h3>Как это работает</h3>
-        <span class="small muted">Вы описываете задачу, ОМА считает материалы по каталогу и подбирает проверенного исполнителя. Товары и работы оплачиваются в одной корзине, работы — по этапам после приёмки. Всё, что сделано, сохраняется в Паспорте дома.</span>
+        <span class="small muted">ОМА считает материалы по каталогу, резервирует одну партию и привозит её к началу работ. Работы выполняет проверенная бригада-партнёр, а отвечает за них ОМА. Платите за этап только после приёмки. Всё сделанное хранится в Паспорте дома.</span>
       </div>`;
   },
 
@@ -509,7 +536,17 @@ const VIEWS = {
     const task = (key, title, hint) => `
       <label class="check"><input type="checkbox" id="t-${key}" data-task="${key}" ${b.tasks[key] ? 'checked' : ''}><span><b>${title}</b><br><span class="small muted">${hint}</span></span></label>`;
     return `
-      <div class="steps"><span class="on"></span><span></span><span></span><span></span></div>
+      ${steps(1)}
+      ${b.from3d ? `
+      <div class="card">
+        <div class="between"><h3>3D-проект № ${esc(b.from3d)}</h3><span class="pill ok">загружен</span></div>
+        <span class="small muted">Размеры, плитка и сантехника перенесены из проекта дизайнера ОМА. Всё можно поправить.</span>
+      </div>` : `
+      <div class="card">
+        <h3>Есть 3D-проект ванной от ОМА?</h3>
+        <span class="small muted">Бесплатный проект делают дизайнеры в магазинах ОМА. Загрузим размеры и выбранные товары.</span>
+        <button class="btn small ghost" data-action="import3d">Загрузить проект по номеру</button>
+      </div>`}
       <div class="card">
         <h3>Размеры помещения, м</h3>
         <div class="fields">
@@ -531,112 +568,131 @@ const VIEWS = {
       ${b.tasks.move ? `
       <div class="warn">
         <b>Нужно разрешение исполкома</b>
-        <span>Перенос инженерных сетей и сантехнических приборов — это переустройство жилого помещения. Начинать работы можно только после решения местного исполнительного комитета (через службу «одно окно»). Исполнитель приступит к этому этапу после того, как вы загрузите решение.</span>
-        <span class="law">Основание: Жилищный кодекс Республики Беларусь — переустройство и перепланировка</span>
+        <span>Перенос инженерных сетей и сантехнических приборов — переустройство жилого помещения. Эти работы начнутся только после решения районного исполкома, которое вы загрузите в проект. Гидроизоляция пола разрешения не требует.</span>
+        ${law('Жилищный кодекс; постановление Совмина № 164 от 03.04.2026')}
       </div>` : `
-      <div class="card small muted">Замена отделки и сантехники на прежних местах обычно не требует согласования. Если меняете трубы, стены или вентиляцию, отметьте последний пункт — подскажем порядок.</div>`}
+      <div class="card small muted">Замена отделки и сантехники на прежних местах и гидроизоляция не требуют согласования. Если переносите трубы, стены или вентиляцию, отметьте последний пункт — подскажем порядок.</div>`}
+      <div class="card">
+        <h3>Кто делает работы</h3>
+        <div class="seg two" role="group" aria-label="Кто делает работы">
+          <button data-mode="master" aria-pressed="${b.mode === 'master'}"><b>Мастер ОМА</b><span class="small muted">фиксированная цена, гарантия ОМА</span></button>
+          <button data-mode="diy" aria-pressed="${b.mode === 'diy'}"><b>Сделаю сам</b><span class="small muted">аренда инструмента ОМА</span></button>
+        </div>
+      </div>
       <div class="sticky-cta"><button class="btn block" data-go="bath2" ${Object.values(b.tasks).some(Boolean) ? '' : 'disabled'}>Рассчитать смету</button></div>`;
   },
 
   bath2() {
     const c = bathCalc(), b = S.bath;
+    const works = c.diy ? `
+      <div class="card">
+        <h3>Аренда инструмента ОМА</h3>
+        ${c.services.map(i => `<div class="line-item"><span class="grow">${esc(i.name)}</span><span class="mono">${fmt(i.price)}</span></div>`).join('') || '<span class="small muted">Для выбранных работ инструмент не нужен.</span>'}
+        <span class="small muted">Инструмент выдаётся в магазине по договору проката. Довезти материалы можно на прицепе ОМА — он тоже сдаётся напрокат.</span>
+      </div>` : `
+      <div class="card">
+        <h3>Работы по фиксированной цене ОМА</h3>
+        <table class="est"><tbody>
+          ${c.services.map(i => `<tr><td>${esc(i.name)}<br><span class="art">${String(i.qty).replace('.', ',')} ${i.unit} × ${fmt(i.price)}</span></td><td class="mono">${fmt(i.qty * i.price)}</td></tr>`).join('')}
+        </tbody></table>
+        <div class="total"><span>Работы</span><span class="mono" data-count="bath-serv" data-value="${c.servSum}">${fmt(c.servSum)}</span></div>
+        <span class="small muted">Цена одинакова для всех бригад-партнёров. Мастер не попросит доплату за «непредвиденное» без вашего согласия в приложении.</span>
+      </div>`;
     return `
-      <div class="steps"><span class="on"></span><span class="on"></span><span></span><span></span></div>
+      ${steps(2)}
       <div class="seg" role="group" aria-label="Уровень материалов">
         ${Object.entries(TIERS).map(([k, t]) => `<button data-tier="${k}" aria-pressed="${b.tier === k}"><b>${t.name}</b><span class="small muted mono">${t.tile[2]} BYN/м²</span></button>`).join('')}
       </div>
       <div class="card">
         <div class="between"><h3>Материалы</h3><span class="pill ok">в наличии</span></div>
+        <span class="small">Плитка и затирка — из одной партии, резерв на 7 дней. Оттенок не будет отличаться, если понадобится докупить.</span>
         <table class="est"><tbody>
-          ${c.goods.map(g => `<tr><td>${esc(g.name)}<br><span class="art">арт. <span class="code">${g.art}</span> · ${String(g.qty).replace('.', ',')} ${g.unit} × ${fmt(g.price)}</span></td><td class="mono">${fmt(g.qty * g.price)}</td></tr>`).join('') || '<tr><td class="muted">Материалы не нужны</td><td></td></tr>'}
+          ${c.goods.map(g => `<tr><td>${esc(g.name)}<br><span class="art">арт. <span class="code">${g.art}</span> · ${String(g.qty).replace('.', ',')} ${g.unit} × ${fmt(g.price)}</span><br><span class="why">${esc(g.why)}</span></td><td class="mono">${fmt(g.qty * g.price)}</td></tr>`).join('') || '<tr><td class="muted">Материалы не нужны</td><td></td></tr>'}
         </tbody></table>
         <div class="total"><span>Товары ОМА</span><span class="mono" data-count="bath-goods" data-value="${c.goodsSum}">${fmt(c.goodsSum)}</span></div>
-        <span class="small muted">Запас плитки +10% на подрезку. Расчёт ориентировочный и не заменяет проект, если он требуется.</span>
+        <span class="small muted">Расчёт ориентировочный и не заменяет проектную документацию, если она требуется.</span>
       </div>
-      <div class="card">
-        <h3>Работы под ключ</h3>
-        <span class="small muted">Стоимость зависит от исполнителя: от ${fmt(Math.min(...EXECS.map(e => { const o = S.bath.exec; S.bath.exec = e.id; const v = bathCalc().servSum; S.bath.exec = o; return v; })))}. Выберите на следующем шаге.</span>
-      </div>
+      ${works}
       <div class="sticky-cta">
-        <button class="btn block" data-go="bath3">Выбрать исполнителя</button>
-        <button class="btn ghost block" data-action="goods-only">Купить только материалы</button>
+        ${c.diy
+          ? `<button class="btn block" data-action="bath-to-cart">В корзину: материалы и аренда · ${fmt(c.goodsSum + c.servSum)}</button>`
+          : `<button class="btn block" data-go="bath3">Выбрать бригаду и дату</button>
+             <button class="btn ghost block" data-action="goods-only">Купить только материалы</button>`}
       </div>`;
   },
 
   bath3() {
-    const b = S.bath;
-    const cards = EXECS.map(e => {
-      const o = b.exec; b.exec = e.id; const c = bathCalc(); b.exec = o;
-      return `
-      <button class="exec" data-exec="${e.id}" aria-pressed="${b.exec === e.id}">
-        <div class="between"><b>${esc(e.name)}</b><span class="mono">${fmt(c.servSum)}</span></div>
-        <span class="small muted">${e.status} · УНП <span class="code">${e.unp}</span> (демо) · <span class="star">★</span> ${String(e.rating).replace('.', ',')} · ${e.reviews} отзывов по заказам</span>
-        <span class="small">Статус проверен · гарантия ${e.warranty} мес · старт ${e.start}</span>
-      </button>`;
-    }).join('');
-    const c = bathCalc();
+    const b = S.bath, c = bathCalc();
+    const cards = BRIGADES.map(g => `
+      <button class="exec" data-brigade="${g.id}" aria-pressed="${b.brigade === g.id}">
+        <div class="between"><b>${esc(g.name)}</b><span class="small">старт ${g.start}</span></div>
+        <span class="small muted">УНП <span class="code">${g.unp}</span> (демо) · <span class="star">★</span> ${String(g.rating).replace('.', ',')} · ${g.reviews} отзывов по заказам ОМА</span>
+        <span class="small">В OMA PRO с ${g.since} года · ${g.jobs} объектов с ОМА</span>
+      </button>`).join('');
     return `
-      <div class="steps"><span class="on"></span><span class="on"></span><span class="on"></span><span></span></div>
+      ${steps(3)}
+      <div class="card">
+        <h3>Исполнитель и гарантия — ОМА</h3>
+        <span class="small muted">Работы выполняет бригада-партнёр из OMA PRO, прошедшая проверку и пробный объект. Цена одна для всех бригад — ${fmt(c.servSum)}, гарантия на работы 24 месяца. Выберите удобный старт.</span>
+      </div>
       ${cards}
       <div class="card">
         <h3>Этапы и оплата</h3>
         <table class="est"><tbody>
-          ${c.stages.map((s, i) => `<tr><td>${i + 1}. ${esc(s.name)}</td><td class="mono">${s.gov ? 'вы' : fmt(s.amount)}</td></tr>`).join('')}
+          ${c.stages.map((s, i) => `<tr><td>${i + 1}. ${esc(s.name)}</td><td class="mono">${s.gov ? 'документ' : fmt(s.amount)}</td></tr>`).join('')}
         </tbody></table>
-        <span class="small muted">Каждый этап оплачивается после того, как вы примете его по фото и акту.</span>
+        <span class="small muted">Материалы приедут к началу работ. Каждый этап оплачивается после того, как вы примете его по фото и чек-листу.</span>
       </div>
-      <div class="card small muted">Договор на работы вы заключаете с исполнителем. ОМА подбирает и проверяет исполнителя и принимает претензии, но не является стороной договора подряда.
-        <span class="law">Основание: Гражданский кодекс РБ; Закон «О защите прав потребителей»</span></div>
+      <div class="card small muted">Договор бытового подряда вы заключаете с ОМА. Если с работой что-то не так, отвечает ОМА, а не «мастер, которого не найти».
+        ${law('Гражданский кодекс; Закон «О защите прав потребителей»; Правила бытового обслуживания, постановление Совмина № 134')}</div>
       <div class="sticky-cta"><button class="btn block" data-action="bath-to-cart">В корзину: материалы и работы · ${fmt(c.goodsSum + c.servSum)}</button></div>`;
   },
 
-  move() {
-    const m = S.move, c = moveCalc();
-    const sv = (k, t, h) => `<label class="check"><input type="checkbox" id="m-${k}" data-msvc="${k}" ${m.svc[k] ? 'checked' : ''}><span><b>${t}</b><br><span class="small muted">${h}</span></span></label>`;
+  install() {
+    const s = S.install, c = installCalc();
     return `
       <div class="card">
-        <h3>Откуда и куда</h3>
-        <div class="fields">
-          <label class="f">Дата<input id="mDate" type="date" value="${m.date}" data-mf="date"></label>
-          <label class="f">Комнат<input id="mRooms" type="number" min="1" max="6" value="${m.rooms}" data-mf="rooms"></label>
-          <label class="f">Этаж сейчас<input id="mFrom" type="number" min="1" max="30" value="${m.floorFrom}" data-mf="floorFrom"></label>
+        <h3>Что установить</h3>
+        <div>
+          ${INSTALL.map(i => `<label class="check"><input type="checkbox" id="inst-${i.id}" data-inst="${i.id}" ${s.sel[i.id] ? 'checked' : ''}><span class="between"><span>${esc(i.name)}</span><span class="mono">${fmt(i.price)}</span></span></label>`).join('')}
         </div>
-        <div class="fields">
-          <label class="f">Лифт сейчас<select id="mLiftFrom" data-mf="liftFrom"><option value="1" ${m.liftFrom ? 'selected' : ''}>есть</option><option value="0" ${!m.liftFrom ? 'selected' : ''}>нет</option></select></label>
-          <label class="f">Этаж новый<input id="mTo" type="number" min="1" max="30" value="${m.floorTo}" data-mf="floorTo"></label>
-          <label class="f">Лифт там<select id="mLiftTo" data-mf="liftTo"><option value="1" ${m.liftTo ? 'selected' : ''}>есть</option><option value="0" ${!m.liftTo ? 'selected' : ''}>нет</option></select></label>
-        </div>
+        ${s.sel.i1 ? `<label class="check"><input type="checkbox" id="inst-good" data-instgood="1" ${s.withGood ? 'checked' : ''}><span class="small">Добавить смеситель: ${esc(TIERS.std.mixer[1])}, ${fmt(TIERS.std.mixer[2])} — в наличии</span></label>` : ''}
       </div>
-      <div class="card"><h3>Что нужно</h3><div>
-        ${sv('truck', 'Перевозка с грузчиками', `${esc(MOVER.name)} (демо) · подъём без лифта: ${c.stairs} эт.`)}
-        ${sv('pack', 'Упаковка', 'Коробки, скотч и плёнка из ОМА приедут заранее')}
-        ${sv('assembly', 'Разборка и сборка мебели', 'Мастера ОМА')}
-        ${sv('disposal', 'Вывоз старой мебели', 'Передача на переработку организации с правом обращения с отходами')}
-      </div></div>
       <div class="card">
-        <div class="between"><span>Товары ОМА</span><span class="mono">${fmt(c.goodsSum)}</span></div>
-        <div class="between"><span>Услуги партнёров</span><span class="mono">${fmt(c.servSum)}</span></div>
-        <div class="total"><span>Итого</span><span class="mono" data-count="move-total" data-value="${c.goodsSum + c.servSum}">${fmt(c.goodsSum + c.servSum)}</span></div>
+        <h3>Когда приехать</h3>
+        <div class="fields two">
+          <label class="f">Дата<input id="iDate" type="date" value="${s.date}" data-if="date"></label>
+          <label class="f">Время<select id="iSlot" data-if="slot">${['9:00–12:00', '12:00–15:00', '15:00–18:00'].map(x => `<option ${s.slot === x ? 'selected' : ''}>${x}</option>`).join('')}</select></label>
+        </div>
       </div>
-      <div class="sticky-cta"><button class="btn block" data-action="move-to-cart" ${c.svc.length + c.goods.length ? '' : 'disabled'}>Добавить в корзину</button></div>`;
+      <div class="card">
+        <div class="between"><span>Товары</span><span class="mono">${fmt(c.goodsSum)}</span></div>
+        <div class="between"><span>Работы</span><span class="mono">${fmt(c.servSum)}</span></div>
+        <div class="total"><span>Итого</span><span class="mono" data-count="inst-total" data-value="${c.goodsSum + c.servSum}">${fmt(c.goodsSum + c.servSum)}</span></div>
+        <span class="small muted">Исполнитель — ОМА, гарантия на работу 12 месяцев. Если понадобятся дополнительные работы, мастер согласует их с вами в приложении.</span>
+        ${law('Правила бытового обслуживания, постановление Совмина № 134')}
+      </div>
+      <div class="sticky-cta"><button class="btn block" data-action="install-to-cart" ${c.services.length ? '' : 'disabled'}>Добавить в корзину</button></div>`;
   },
 
   cart() {
-    if (!S.cart.length) return `<div class="empty"><b>Корзина пуста</b><span>Начните с задачи на главной — соберём товары и услуги в один заказ.</span><button class="btn" data-go="home">На главную</button></div>`;
+    if (!S.cart.length) return `<div class="empty"><b>Корзина пуста</b><span>Начните с задачи на главной — соберём товары и работы в один заказ.</span><button class="btn" data-go="home">На главную</button></div>`;
     let goodsTotal = 0, servTotal = 0, nowServ = 0;
     const blocks = S.cart.map(b => {
       const g = b.goods.reduce((a, i) => a + i.qty * i.price, 0), s = b.services.reduce((a, i) => a + i.qty * i.price, 0);
       goodsTotal += g; servTotal += s;
       nowServ += b.staged ? (b.stages.find(x => !x.gov) || { amount: 0 }).amount : s;
+      const servHead = b.rental ? 'Аренда · ОМА' : `Работы · ${execLine(b)}`;
       return `
       <div class="card">
         <div class="between"><h3>${esc(b.title)}</h3><button class="rm" data-action="cart-rm" data-group="${b.group}">Убрать</button></div>
-        ${b.goods.length ? `<span class="group-h">Товары · продавец ОМА</span>
+        ${b.goods.length ? `<span class="group-h">Товары · ОМА</span>
           ${b.goods.map(i => `<div class="line-item"><span class="grow">${esc(i.name)} <span class="art">× ${String(i.qty).replace('.', ',')} ${i.unit}</span></span><span class="mono">${fmt(i.qty * i.price)}</span></div>`).join('')}` : ''}
-        ${b.services.length ? `<span class="group-h">Услуги · исполнитель ${esc(b.executor.name)}, УНП <span class="code">${b.executor.unp}</span> (демо)</span>
+        ${b.services.length ? `<span class="group-h">${servHead}</span>
           ${b.services.map(i => `<div class="line-item"><span class="grow">${esc(i.name)}</span><span class="mono">${fmt(i.qty * i.price)}</span></div>`).join('')}
           ${b.staged ? `<span class="small muted">Работы оплачиваются по этапам: сейчас только первый этап.</span>` : ''}` : ''}
-        ${b.gov ? `<div class="warn"><b>Перед стартом сантехнических работ</b><span>Загрузите решение исполкома о переустройстве в проекте.</span></div>` : ''}
+        ${b.delivery ? `<span class="small">${esc(b.delivery)}</span>` : ''}
+        ${b.gov ? `<div class="warn"><b>Перед переносом сетей</b><span>Загрузите решение исполкома о переустройстве в проект.</span></div>` : ''}
       </div>`;
     }).join('');
     const now = goodsTotal + nowServ;
@@ -646,19 +702,24 @@ const VIEWS = {
       ${blocks}
       <div class="card">
         <div class="between"><span>Товары</span><span class="mono">${fmt(goodsTotal)}</span></div>
-        <div class="between"><span>Услуги всего</span><span class="mono">${fmt(servTotal)}</span></div>
+        <div class="between"><span>Работы и аренда всего</span><span class="mono">${fmt(servTotal)}</span></div>
         <div class="total"><span>К оплате сейчас</span><span class="mono" data-count="cart-now" data-value="${now}">${fmt(now)}</span></div>
+        <span class="small muted">Бонусы «Баланс» начислятся на товары и работы (демо: ${Math.round((goodsTotal + servTotal) * 0.01)}).</span>
       </div>
       <div class="card"><h3>Способ оплаты</h3>
-        ${pay('card', 'Банковская карта', 'Оплата услуг уходит исполнителю через банк, ОМА получает агентское вознаграждение')}
+        ${pay('card', 'Банковская карта', 'Оплата на счёт ОМА, чек ОМА на товары и работы')}
         ${pay('erip', 'ЕРИП', 'Счёт появится в системе «Расчёт» после оформления')}
         ${pay('loan', 'Рассрочка банка-партнёра', `6 платежей по ${fmt(now / 6)}. Договор заключает банк, решение — за банком`)}
       </div>
+      <div class="card"><h3>Проверьте заказ</h3>
+        <span class="small muted">Состав, адрес и даты можно исправить до оформления. После оплаты придёт подтверждение договора в приложение и на e-mail.</span>
+        ${law('Правила дистанционной торговли, постановление Совмина № 489')}
+      </div>
       <div class="card"><h3>Согласия</h3>
-        <label class="check"><input type="checkbox" id="c-offer" data-consent="offer" ${c.offer ? 'checked' : ''}><span class="small">Принимаю <u data-action="doc" data-doc="offer">публичную оферту</u> ОМА и условия исполнителя</span></label>
-        <label class="check"><input type="checkbox" id="c-pd" data-consent="pd" ${c.pd ? 'checked' : ''}><span class="small">Ознакомлен с <u data-action="doc" data-doc="pd">политикой обработки персональных данных</u> и согласен на передачу имени, телефона и адреса исполнителю для выполнения заказа</span></label>
+        <label class="check"><input type="checkbox" id="c-offer" data-consent="offer" ${c.offer ? 'checked' : ''}><span class="small">Принимаю <u data-action="doc" data-doc="offer">публичную оферту</u> ОМА: купля-продажа товаров и бытовой подряд</span></label>
+        <label class="check"><input type="checkbox" id="c-pd" data-consent="pd" ${c.pd ? 'checked' : ''}><span class="small">Ознакомлен с <u data-action="doc" data-doc="pd">политикой обработки персональных данных</u>; имя, телефон и адрес передаются бригаде-партнёру только для выполнения заказа</span></label>
         <label class="check"><input type="checkbox" id="c-ads" data-consent="ads" ${c.ads ? 'checked' : ''}><span class="small">Хочу получать акции и персональные предложения ОМА (необязательно, можно отозвать в профиле)</span></label>
-        <span class="law">Основание: Закон «О защите персональных данных»; Закон «О рекламе»</span>
+        ${law('Закон «О защите персональных данных»; Закон «О рекламе»')}
       </div>
       <div class="sticky-cta">
         <button class="btn block" data-action="checkout" ${c.offer && c.pd ? '' : 'disabled'}>Оформить заказ (демо) · ${fmt(now)}</button>
@@ -667,11 +728,11 @@ const VIEWS = {
   },
 
   projects() {
-    if (!S.projects.length) return `<div class="empty"><b>Пока нет проектов</b><span>Оформите ремонт или переезд — здесь появятся этапы, фото и акты.</span><button class="btn" data-go="home">Выбрать задачу</button></div>`;
+    if (!S.projects.length) return `<div class="empty"><b>Пока нет проектов</b><span>Оформите ремонт или установку — здесь появятся этапы, фото и акты.</span><button class="btn" data-go="home">Выбрать задачу</button></div>`;
     return S.projects.map(p => `
       <button class="card" style="text-align:left" data-action="open-project" data-id="${p.id}">
         <div class="between"><h3>${esc(p.title)}</h3><span class="pill ${p.done ? '' : 'ok'}">${p.done ? 'завершён' : 'в работе'}</span></div>
-        <span class="small muted">${esc(p.executor.name)} · этапов принято ${p.stages.filter(s => s.done).length} из ${p.stages.length}</span>
+        <span class="small muted">${execLine(p)} · этапов принято ${p.stages.filter(s => s.done).length} из ${p.stages.length}</span>
       </button>`).join('');
   },
 
@@ -682,14 +743,20 @@ const VIEWS = {
     const items = p.stages.map((s, i) => {
       const state = s.done ? 'done' : i === cur ? 'active' : '';
       let body = `<b>${esc(s.name)}</b><span class="small muted mono">${s.gov ? 'документ от вас' : fmt(s.amount)}${s.done ? ' · принято' : ''}</span>`;
-      if (i === cur && s.gov) body += `<div class="warn"><span>Загрузите решение исполкома о переустройстве. Без него исполнитель не начнёт перенос сетей.</span></div><button class="btn small" data-action="accept" data-i="${i}">Загрузить решение (демо)</button>`;
-      else if (i === cur) body += `<div class="photo">Фото от мастера · ${TODAY}</div><div class="row"><button class="btn small" data-action="accept" data-i="${i}">Принять этап и оплатить</button><button class="btn small ghost" data-action="claim">Есть замечания</button></div>`;
+      if (i === cur && s.gov) {
+        body += `<div class="warn"><span>Загрузите решение исполкома о переустройстве. Без него бригада не начнёт перенос сетей.</span></div><button class="btn small" data-action="accept" data-i="${i}">Загрузить решение (демо)</button>`;
+      } else if (i === cur) {
+        body += `<div class="photo">Фото от мастера · ${TODAY}</div>
+          <details class="checks" open><summary>Как проверить этап</summary><ul>${(CHECKS[s.kind] || []).map(x => `<li>${esc(x)}</li>`).join('')}</ul></details>
+          <div class="row"><button class="btn small" data-action="accept" data-i="${i}">Принять и оплатить</button><button class="btn small ghost" data-action="claim">Есть замечания</button></div>
+          ${s.kind === 'tile' ? `<button class="btn small ghost" data-action="extra">Мастеру не хватило плитки — докупить</button>` : ''}`;
+      }
       return `<div class="st ${state}"><span class="dot">${s.done ? ICON.check : ''}</span><div class="body">${body}</div></div>`;
     }).join('');
     return `
       <div class="card">
         <h3>${esc(p.title)}</h3>
-        <span class="small muted">${esc(p.executor.name)} · УНП <span class="code">${p.executor.unp}</span> (демо) · гарантия ${p.executor.warranty} мес</span>
+        <span class="small muted">${execLine(p)} · гарантия на работы ${p.warranty} мес</span>
       </div>
       <div class="card"><div class="timeline">${items}</div></div>
       ${cur === -1 && !p.done ? `<div class="sticky-cta"><button class="btn block" data-go="review">Завершить проект</button></div>` : ''}
@@ -701,12 +768,12 @@ const VIEWS = {
     return `
       <div class="card">
         <h3>Все этапы приняты</h3>
-        <span class="small muted">Акт приёмки подписан, чеки сохранены. Оцените работу ${esc(p.executor.name)} — отзыв увидят другие клиенты, он привязан к подтверждённому заказу.</span>
+        <span class="small muted">Акт приёмки подтверждён в приложении, чеки сохранены. Оцените работу${p.brigade ? ` бригады ${esc(p.brigade.name)}` : ' мастера'} — отзыв привязан к подтверждённому заказу.</span>
         <div class="stars" role="group" aria-label="Оценка">${[1, 2, 3, 4, 5].map(n => `<button data-star="${n}" class="${S.rating >= n ? 'on' : ''}" aria-label="${n} из 5">★</button>`).join('')}</div>
       </div>
       <div class="card">
         <h3>Что попадёт в Паспорт дома</h3>
-        <span class="small muted">Артикулы материалов (чтобы докупить ту же партию), гарантия исполнителя, акты и календарь ухода за ванной.</span>
+        <span class="small muted">Артикулы и партии материалов, гарантия ОМА на работы, акты, чеки и календарь ухода. Целые упаковки, которые остались, можно вернуть за бонусы «Баланс» в течение 60 дней.</span>
       </div>
       <div class="sticky-cta"><button class="btn block" data-action="finish" ${S.rating ? '' : 'disabled'}>Сохранить в Паспорт дома</button></div>`;
   },
@@ -722,12 +789,13 @@ const VIEWS = {
           <summary><h3>${esc(e.room)} · ${esc(e.title)}</h3><span class="pill">${e.date}</span></summary>
           <span class="group-h">Материалы</span>
           ${e.materials.map(m => `<div class="line-item"><span class="grow">${esc(m[1])}<br><span class="art">арт. <span class="code">${m[0]}</span> · ${m[2]}</span></span><button class="btn small ghost" data-action="rebuy" data-art="${m[0]}" data-name="${esc(m[1])}">Докупить</button></div>`).join('')}
+          ${e.leftovers && !e.leftDone ? `<button class="btn small ghost" data-action="leftovers" data-id="${e.id}">Вернуть остатки за бонусы</button>` : ''}
           <span class="group-h">Работы и гарантия</span>
           <div class="between small"><span>${esc(e.exec)}</span><span class="pill ${e.warrantyState === 'действует' ? 'ok' : ''}">${e.warrantyState}</span></div>
-          ${e.warrantyState === 'действует' ? `<button class="btn small ghost" data-action="claim">Гарантийный случай</button>` : ''}
+          ${e.warrantyState === 'действует' ? `<div class="row"><button class="btn small ghost" data-action="claim">Гарантийный случай</button>${e.brigade ? `<button class="btn small ghost" data-action="same-brigade" data-id="${e.id}">Позвать ту же бригаду</button>` : ''}</div>` : ''}
           <span class="group-h">Документы</span>
           ${e.docs.map(d => `<div class="line-item small"><span class="grow">${esc(d)}</span><span class="muted">PDF</span></div>`).join('')}
-          <span class="group-h">Календарь обслуживания</span>
+          <span class="group-h">Календарь ухода</span>
           ${e.reminders.map(r => `<div class="line-item small"><span class="grow">${esc(r.text)}</span><span class="pill ${r.soon ? 'soon' : ''}">${r.due}</span></div>
             ${r.soon && r.action === 'filter' ? `<button class="btn small" data-action="reminder" data-id="${r.id}">Заказать в ОМА</button>` : ''}`).join('')}
         </details>`).join('')}`;
@@ -737,12 +805,12 @@ const VIEWS = {
     return `
       <div class="card">
         <h3>Анна (демо-профиль)</h3>
-        <span class="small muted">Баллы ОМА: <span class="mono">${(1240 + S.projects.filter(p => p.done).length * 500).toLocaleString('ru-RU')}</span> · за завершённые проекты начисляется +500</span>
+        <span class="small muted">Карта «Баланс»: <span class="mono">${S.bonus.toLocaleString('ru-RU')}</span> бонусов. Начисляются за товары, работы и уход по календарю Паспорта.</span>
       </div>
       <div class="card"><h3>Согласия</h3>
-        <div class="switch"><span class="small"><b>Обработка данных для заказов</b><br><span class="muted">Основание — договор. Нужна для доставки и работ.</span></span><span class="pill ok">действует</span></div>
-        <label class="switch"><span class="small"><b>Реклама и персональные предложения</b><br><span class="muted">Можно отозвать в любой момент. Сервисные уведомления о заказах и гарантии приходят независимо.</span></span><input type="checkbox" id="p-ads" data-action="toggle-ads" ${S.profileAds ? 'checked' : ''}></label>
-        <label class="switch"><span class="small"><b>Аналитические cookies</b><br><span class="muted">Только с вашего согласия</span></span><input type="checkbox" id="p-cookies"></label>
+        <div class="switch"><span class="small"><b>Обработка данных для заказов</b><br><span class="muted">Основание — договор. Нужна для доставки, работ и гарантии.</span></span><span class="pill ok">действует</span></div>
+        <label class="switch"><span class="small"><b>Реклама и персональные предложения</b><br><span class="muted">Отзывается здесь же, одним переключателем. Сервисные уведомления о заказах, гарантии и календаре ухода приходят независимо.</span></span><input type="checkbox" id="p-ads" data-action="toggle-ads" ${S.profileAds ? 'checked' : ''}></label>
+        <label class="switch"><span class="small"><b>Аналитические cookies</b><br><span class="muted">Только с вашего согласия, отзыв — так же просто</span></span><input type="checkbox" id="p-cookies"></label>
       </div>
       <div class="card"><h3>Мои данные</h3>
         <button class="btn ghost small" data-action="doc" data-doc="pd">Политика обработки персональных данных</button>
@@ -754,89 +822,111 @@ const VIEWS = {
 
 const DOCS = {
   offer: `<h3>Публичная оферта (кратко, демо)</h3><ul>
-    <li>Товары продаёт ОМА: обмен и возврат — по Закону «О защите прав потребителей» и правилам торговли по образцам.</li>
-    <li>Работы выполняет исполнитель, указанный в заказе. ОМА — посредник: подбирает и проверяет исполнителя, принимает оплату через банк в его пользу и помогает с претензиями.</li>
-    <li>Работы оплачиваются по этапам после приёмки. Гарантию на работы даёт исполнитель.</li>
+    <li>Товары продаёт ОМА. Обмен и возврат — по Закону «О защите прав потребителей» и Правилам дистанционной торговли.</li>
+    <li>Работы по договору бытового подряда выполняет ОМА силами проверенных бригад-партнёров. За качество работ отвечает ОМА.</li>
+    <li>Цена работ фиксируется до начала. Дополнительные работы — только с вашего согласия в приложении.</li>
+    <li>Работы оплачиваются по этапам после приёмки. Гарантия на работы — 24 месяца, продлевается на время устранения недостатков.</li>
+    <li>Целые упаковки материалов проекта можно вернуть в течение 60 дней за бонусы «Баланс». Это условие ОМА сверх закона.</li>
     <li>Рассрочку и кредит предоставляет банк по своему договору.</li></ul>`,
   pd: `<h3>Обработка персональных данных (кратко, демо)</h3><ul>
     <li>Оператор — ОМА. Ответственное лицо указано в политике.</li>
     <li>Для заказов обрабатываем имя, телефон, адрес объекта и историю заказов — на основании договора.</li>
-    <li>Исполнителю передаём только то, что нужно для работ, по договору поручения обработки.</li>
-    <li>Реклама, аналитика и cookies кроме технических — только с отдельного согласия.</li>
+    <li>Бригаде-партнёру передаём только имя, телефон и адрес, по договору поручения обработки.</li>
+    <li>Реклама, аналитика и cookies, кроме технических, — только с отдельного согласия, которое отзывается так же просто.</li>
     <li>Данные хранятся в Республике Беларусь. Вы можете получить, изменить, удалить данные и отозвать согласие.</li></ul>
-    <span class="law">Основание: Закон РБ «О защите персональных данных»</span>`,
+    ${law('Закон «О защите персональных данных» № 99-З')}`,
   mydata: `<h3>Ваши данные (демо)</h3><ul>
     <li>Контакты: имя, телефон, e-mail.</li><li>Адрес объекта и Паспорт дома: материалы, работы, документы.</li>
-    <li>Передавались: исполнителям по вашим заказам, банку при выборе рассрочки.</li>
+    <li>Передавались: бригадам-партнёрам по вашим заказам, банку при выборе рассрочки.</li>
     <li>Срок хранения: пока действует аккаунт и гарантийные сроки, затем удаление.</li></ul>`
 };
 
 /* ---------- действия ---------- */
+const sumOf = arr => arr.reduce((a, i) => a + i.qty * i.price, 0);
+
 function bathToCart(withServices) {
-  const c = bathCalc();
-  addBundle('bath', 'Ремонт ванной · ' + c.tierName, c.goods.map(g => ({ ...g })), withServices ? c.services.map(s => ({ ...s })) : [], c.ex,
-    { staged: withServices, stages: withServices ? c.stages.map(s => ({ ...s })) : [], gov: withServices && S.bath.tasks.move });
+  const c = bathCalc(), staged = withServices && !c.diy;
+  addBundle('bath', 'Ремонт санузла · ' + c.tierName, c.goods.map(g => ({ ...g })), withServices ? c.services.map(s => ({ ...s })) : [], OMA_EXEC, {
+    staged, rental: c.diy, brigade: staged ? c.brigade : null,
+    stages: staged ? c.stages.map(s => ({ ...s })) : [], gov: staged && S.bath.tasks.move,
+    delivery: staged ? `Доставка к началу работ ${c.brigade.start}, подъём на этаж` : 'Самовывоз из магазина или доставка в удобный день'
+  });
   go('cart');
-  toast(withServices ? 'Материалы и работы в корзине' : 'Материалы в корзине');
+  toast(staged ? 'Материалы и работы в корзине' : 'Материалы в корзине');
 }
 
 function checkout() {
   S.cart.forEach(b => {
     if (b.group === 'bath' && b.staged) {
       const stages = b.stages.map(s => ({ ...s, done: false }));
-      const first = stages.find(s => !s.gov); if (first) first.paid = true;
-      S.projects.unshift({ id: 'p' + Date.now(), title: b.title, executor: b.executor, stages, goods: b.goods, done: false, tasks: { ...S.bath.tasks } });
-    } else if (b.group === 'move' && b.services.length) {
-      S.projects.unshift({ id: 'p' + Date.now() + 'm', title: 'Переезд', executor: { ...MOVER, warranty: 0 }, goods: b.goods, done: false, isMove: true,
-        stages: [{ name: 'Доставка коробок и упаковка', amount: b.services.filter(s => /Упаковка/.test(s.name)).reduce((a, s) => a + s.qty * s.price, 0) }, { name: 'Перевозка и сборка мебели', amount: b.services.filter(s => !/Упаковка/.test(s.name)).reduce((a, s) => a + s.qty * s.price, 0) }].filter(s => s.amount) });
+      S.projects.unshift({ id: 'p' + Date.now(), kind: 'bath', title: b.title, brigade: b.brigade, warranty: 24, stages, goods: b.goods, total: sumOf(b.goods) + sumOf(b.services), done: false, tasks: { ...S.bath.tasks } });
+    } else if (b.group === 'install') {
+      S.projects.unshift({ id: 'p' + Date.now() + 'i', kind: 'install', title: 'Установка с мастером ОМА', brigade: null, warranty: 12, goods: b.goods, total: sumOf(b.goods) + sumOf(b.services), done: false,
+        stages: [{ kind: 'install', name: b.services.map(s => s.name).join(', '), amount: sumOf(b.services) }] });
     } else if (b.group === 'filter') {
       const e = S.passport.find(x => x.id === 'kitchen'); const r = e && e.reminders.find(x => x.id === 'r1');
       if (r) { r.soon = false; r.due = '05.11.2027'; r.text = 'Заменить картридж фильтра «Аква-3» (следующая замена)'; }
-      e && e.docs.push('Замена картриджа · ' + TODAY);
+      e && e.docs.push('Замена картриджа мастером ОМА · ' + TODAY);
     }
   });
   if (S.consents.ads) S.profileAds = true;
-  const hadProject = S.cart.some(b => b.staged || (b.group === 'move' && b.services.length));
+  const hadProject = S.cart.some(b => b.staged || b.group === 'install');
   S.cart = []; S.consents = { pd: false, ads: false, offer: false };
   if (hadProject) { S.projectId = S.projects[0].id; S.history = ['home']; S.screen = 'project'; render(); toast('Заказ оформлен. Оплачены товары и первый этап (демо)'); }
-  else { S.history = []; S.screen = 'passport'; render(); toast('Заказ оформлен. Напоминание перенесено на год'); }
+  else { S.history = []; S.screen = 'passport'; render(); toast('Заказ оформлен (демо)'); }
 }
 
 function finishProject() {
   const p = S.projects.find(x => x.id === S.projectId);
   p.done = true;
-  if (p.isMove) { S.history = []; S.screen = 'home'; render(); toast('Переезд завершён, спасибо за оценку'); return; }
-  const rem = [{ id: 'b1', text: 'Обновить силиконовые швы у душевой зоны и ванны', due: '11.2027' }, { id: 'b2', text: 'Нанести водоотталкивающую пропитку на затирку', due: '11.2027' }];
-  if (p.tasks.mixer) rem.push({ id: 'b3', text: 'Заменить картридж смесителя', due: '11.2029' });
-  S.passport.unshift({
-    id: 'bath' + Date.now(), room: 'Ванная', title: p.title, date: '11.2026',
-    materials: p.goods.map(g => [g.art, g.name, `${String(g.qty).replace('.', ',')} ${g.unit}`]),
-    exec: `${p.executor.name} · гарантия до ${p.executor.warranty === 24 ? '11.2028' : '11.2027'}`, warrantyState: 'действует',
-    docs: ['Акт приёмки работ (подписан ЭЦП)', 'Кассовый чек ОМА на материалы', 'Чеки исполнителя по этапам', 'Договор подряда с исполнителем'],
-    reminders: rem.map(r => ({ ...r, soon: false }))
-  });
+  const earned = Math.round(p.total * 0.01);
+  S.bonus += earned;
+  if (p.kind === 'install') {
+    S.passport.unshift({
+      id: 'inst' + Date.now(), room: 'Ванная', title: 'Установка с мастером', date: '10.2026',
+      materials: p.goods.map(g => [g.art, g.name, `${g.qty} ${g.unit}`]), exec: 'Работы: ОМА · гарантия до 10.2027', warrantyState: 'действует',
+      docs: ['Акт выполненных работ', 'Кассовый чек ОМА'], reminders: [{ id: 'i1', text: 'Проверить соединения под раковиной', due: '10.2027', soon: false }]
+    });
+  } else {
+    const rem = [{ id: 'b1', text: 'Обновить силиконовые швы у душевой зоны и ванны', due: '11.2027' }, { id: 'b2', text: 'Нанести водоотталкивающую пропитку на затирку', due: '11.2027' }];
+    if (p.tasks.mixer) rem.push({ id: 'b3', text: 'Заменить картридж смесителя', due: '11.2029' });
+    const glue = p.goods.find(g => /Клей/.test(g.name)), grout = p.goods.find(g => /Затирка/.test(g.name));
+    S.passport.unshift({
+      id: 'bath' + Date.now(), room: 'Ванная', title: p.title, date: '11.2026', brigade: p.brigade,
+      materials: p.goods.map(g => [g.art, g.name, `${String(g.qty).replace('.', ',')} ${g.unit}`]),
+      leftovers: [glue && { name: glue.name, qty: 1, price: glue.price }, grout && { name: grout.name, qty: 1, price: grout.price }].filter(Boolean),
+      exec: `Работы: ОМА, бригада ${p.brigade.name} · гарантия до 11.2028`, warrantyState: 'действует',
+      docs: ['Акт приёмки работ', 'Кассовый чек ОМА на материалы и работы', 'Договор бытового подряда с ОМА', 'Фотоотчёт по этапам'],
+      reminders: rem.map(r => ({ ...r, soon: false }))
+    });
+  }
   S.rating = 0; S.history = []; S.screen = 'passport'; render();
-  toast('Ванная добавлена в Паспорт дома, +500 баллов');
+  toast(`Сохранено в Паспорт дома · +${earned} бонусов «Баланс» (демо)`);
 }
 
 document.addEventListener('click', e => {
-  const t = e.target.closest('[data-go],[data-action],[data-jump],[data-tier],[data-exec],[data-star]');
+  const t = e.target.closest('[data-go],[data-action],[data-jump],[data-tier],[data-brigade],[data-mode],[data-star]');
   if (!t) return;
   if (t.dataset.jump) return jump(t.dataset.jump);
   if (t.dataset.go) { if (TAB_OF[t.dataset.go] === t.dataset.go && t.closest('.nav')) S.history = []; return go(t.dataset.go, { replace: !!t.closest('.nav') }); }
   if (t.dataset.tier) { S.bath.tier = t.dataset.tier; return render(); }
-  if (t.dataset.exec) { S.bath.exec = t.dataset.exec; return render(); }
+  if (t.dataset.brigade) { S.bath.brigade = t.dataset.brigade; return render(); }
+  if (t.dataset.mode) { S.bath.mode = t.dataset.mode; return render(); }
   if (t.dataset.star) { S.rating = +t.dataset.star; FX.star = t.dataset.star; return render(); }
   const a = t.dataset.action;
   if (a === 'close-sheet') { if (e.target === t) sheet(''); return; }
   if (a === 'back') return back();
   if (a === 'reset') { S = initialState(); sheet(''); render(); return toast('Демо начато заново'); }
+  if (a === 'import3d') {
+    Object.assign(S.bath, { L: 2.2, W: 1.8, H: 2.6, tier: 'std', from3d: 'В-2026-1047', tasks: { tile: true, mixer: true, shower: true, move: false } });
+    go('bath1'); return toast('3D-проект загружен: размеры и сантехника перенесены');
+  }
   if (a === 'goods-only') return bathToCart(false);
   if (a === 'bath-to-cart') return bathToCart(true);
-  if (a === 'move-to-cart') {
-    const c = moveCalc();
-    addBundle('move', 'Переезд · ' + S.move.date.split('-').reverse().join('.'), c.goods, c.svc, MOVER, {});
-    go('cart'); return toast('Переезд в корзине');
+  if (a === 'install-to-cart') {
+    const c = installCalc(), s = S.install;
+    addBundle('install', 'Установка с мастером', c.goods, c.services, OMA_EXEC, { delivery: `Мастер приедет ${s.date.split('-').reverse().join('.')}, ${s.slot}` });
+    go('cart'); return toast('Установка в корзине');
   }
   if (a === 'cart-rm') { S.cart = S.cart.filter(i => i.group !== t.dataset.group); return render(); }
   if (a === 'checkout') return checkout();
@@ -846,21 +936,37 @@ document.addEventListener('click', e => {
     s.done = true; FX.justDone = +t.dataset.i; render();
     return toast(s.gov ? 'Решение исполкома загружено' : `Этап принят, оплачено ${fmt(s.amount)} (демо)`);
   }
-  if (a === 'claim') return sheet(`<h3>Замечание к работе</h3><ul><li>Опишите проблему и приложите фото.</li><li>Обращение уходит исполнителю, копия — в поддержку ОМА.</li><li>Срок ответа и порядок устранения недостатков — по Закону «О защите прав потребителей».</li></ul><button class="btn block" data-action="close-sheet">Отправить (демо)</button>`);
+  if (a === 'extra') return toast('Плитка той же партии заказана: доставка сегодня до 18:00 (демо)');
+  if (a === 'claim') return sheet(`<h3>Одно обращение — в ОМА</h3><ul><li>Опишите проблему и приложите фото. Не нужно выяснять, виноват материал или укладка: ОМА отвечает и за товар, и за работу.</li><li>Технолог ОМА свяжется с вами и согласует выезд.</li><li>Сроки ответа и устранения — по Закону «О защите прав потребителей» и Правилам бытового обслуживания. Гарантия продлевается на время устранения недостатков.</li></ul><button class="btn block" data-action="close-sheet">Отправить (демо)</button>`);
   if (a === 'finish') return finishProject();
   if (a === 'reminder') {
     addBundle('filter', 'Замена картриджа фильтра', [{ art: '402 761', name: 'Картридж для фильтра «Аква-3», комплект', qty: 1, unit: 'шт', price: 39.9 }],
-      [{ name: 'Замена картриджа, выезд мастера', qty: 1, unit: 'усл', price: 25 }], EXECS[2], {});
+      [{ name: 'Замена картриджа, выезд мастера', qty: 1, unit: 'усл', price: 25 }], OMA_EXEC, { delivery: 'Мастер привезёт картридж с собой' });
     go('cart'); return toast('Картридж и замена в корзине');
   }
   if (a === 'rebuy') {
     const name = t.dataset.name;
-    addBundle('rebuy-' + t.dataset.art, 'Докупить: ' + name, [{ art: t.dataset.art, name: name + ' (та же партия, если есть)', qty: 1, unit: 'шт', price: 24.5 }], [], null, {});
+    addBundle('rebuy-' + t.dataset.art, 'Докупить: ' + name, [{ art: t.dataset.art, name: name + ' (та же партия, если есть)', qty: 1, unit: 'шт', price: 24.5 }], [], OMA_EXEC, {});
     render(); return toast('Добавлено в корзину');
+  }
+  if (a === 'leftovers') {
+    const en = S.passport.find(x => x.id === t.dataset.id), total = sumOf(en.leftovers);
+    return sheet(`<h3>Вернуть остатки</h3><ul>${en.leftovers.map(l => `<li>${esc(l.name)} — ${l.qty} уп., ${fmt(l.price)}</li>`).join('')}</ul>
+      <span class="small muted">Принимаем целые упаковки с тем же артикулом в течение 60 дней после завершения проекта. Сдать можно в любом магазине ОМА или отдать курьеру при следующей доставке.</span>
+      <button class="btn block" data-action="return-left" data-id="${en.id}">Вернуть за ${Math.round(total)} бонусов «Баланс» (демо)</button>`);
+  }
+  if (a === 'return-left') {
+    const en = S.passport.find(x => x.id === t.dataset.id), n = Math.round(sumOf(en.leftovers));
+    en.leftDone = true; S.bonus += n; sheet(''); render();
+    return toast(`Возврат оформлен: +${n} бонусов после приёма упаковок (демо)`);
+  }
+  if (a === 'same-brigade') {
+    const en = S.passport.find(x => x.id === t.dataset.id);
+    return toast(`Заявка бригаде ${en.brigade.name} отправлена (демо)`);
   }
   if (a === 'doc') { e.preventDefault(); return sheet(DOCS[t.dataset.doc]); }
   if (a === 'toggle-ads') { S.profileAds = t.checked; return toast(t.checked ? 'Согласие на рекламу дано' : 'Согласие на рекламу отозвано. Сервисные уведомления останутся'); }
-  if (a === 'delete') return sheet(`<h3>Удаление аккаунта</h3><ul><li>Персональные данные удаляются, кроме тех, что мы обязаны хранить по закону (например, бухгалтерские документы).</li><li>Паспорт дома можно сначала выгрузить в PDF.</li></ul><span class="small muted">В прототипе удаление отключено.</span>`);
+  if (a === 'delete') return sheet(`<h3>Удаление аккаунта</h3><ul><li>Персональные данные удаляются, кроме тех, что ОМА обязана хранить по закону (например, бухгалтерские документы).</li><li>Паспорт дома можно сначала выгрузить в PDF.</li></ul><span class="small muted">В прототипе удаление отключено.</span>`);
 });
 
 document.addEventListener('input', e => {
@@ -874,19 +980,19 @@ document.addEventListener('input', e => {
 document.addEventListener('change', e => {
   const t = e.target;
   if (t.dataset.task) { S.bath.tasks[t.dataset.task] = t.checked; FX.warnIn = t.dataset.task === 'move' && t.checked; render(); }
-  if (t.dataset.msvc) { S.move.svc[t.dataset.msvc] = t.checked; render(); }
-  if (t.dataset.mf) { const k = t.dataset.mf; S.move[k] = k.startsWith('lift') ? t.value === '1' : t.value; render(); }
+  if (t.dataset.inst) { S.install.sel[t.dataset.inst] = t.checked; render(); }
+  if (t.dataset.instgood) { S.install.withGood = t.checked; render(); }
+  if (t.dataset.if) { S.install[t.dataset.if] = t.value; }
   if (t.dataset.pay) { S.pay = t.dataset.pay; render(); }
   if (t.dataset.consent) { S.consents[t.dataset.consent] = t.checked; render(); }
 });
 
 function jump(screen) {
   sheet('');
-  if (screen === 'cart' && !S.cart.length) { bathToCart(true); S.consents = { pd: true, ads: false, offer: true }; S.history = ['home']; return render(); }
-  if (screen === 'projects' && !S.projects.length) {
-    if (!S.cart.some(b => b.group === 'bath')) bathToCart(true);
-    S.consents = { pd: true, ads: false, offer: true }; S.cart = S.cart.filter(b => b.group === 'bath'); return checkout();
-  }
+  const prepCart = () => { if (!S.cart.some(b => b.group === 'bath' && b.staged)) { S.bath.mode = 'master'; bathToCart(true); } S.consents = { pd: true, ads: false, offer: true }; };
+  if (screen === 'cart' && !S.cart.length) { prepCart(); S.history = ['home']; return render(); }
+  if (screen === 'projects' && !S.projects.length) { prepCart(); S.cart = S.cart.filter(b => b.group === 'bath'); return checkout(); }
+  if (screen === 'bath1' && !S.bath.from3d) Object.assign(S.bath, { L: 2.2, W: 1.8, H: 2.6, from3d: 'В-2026-1047', tasks: { tile: true, mixer: true, shower: true, move: false } });
   S.history = TAB_OF[screen] === screen ? [] : ['home'];
   go(screen, { replace: true });
 }
