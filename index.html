@@ -108,7 +108,8 @@ button { cursor: pointer; transition: border-color .15s ease, background-color .
 
 /* Шапка как на oma.by: оранжевая полоса, серая инфо-строка и фиолетовая панель.
    При прокрутке вниз полосы и строка профиля сворачиваются, остаётся панель; при прокрутке вверх — разворачиваются. */
-.top { position: relative; z-index: 3; flex: none; background: var(--bar-grad); color: var(--bar-ink); padding-top: env(safe-area-inset-top, 0px); }
+/* шапка лежит поверх экрана: при сворачивании под ней просто открывается контент, высота экрана и прокрутка не меняются */
+.top { position: absolute; top: 0; left: 0; right: 0; z-index: 3; background: var(--bar-grad); color: var(--bar-ink); padding-top: env(safe-area-inset-top, 0px); }
 .fold-y { display: grid; grid-template-rows: 1fr; transition: grid-template-rows .28s cubic-bezier(.22, 1, .36, 1); }
 .fold-y > div { min-height: 0; overflow: hidden; }
 .top.collapsed .fold-y { grid-template-rows: 0fr; }
@@ -156,7 +157,7 @@ button { cursor: pointer; transition: border-color .15s ease, background-color .
 .sheet-bg { z-index: 40; }
 .icon-btn { width: 34px; height: 34px; border-radius: 50%; border: 0; background: rgba(255,255,255,.18); color: inherit; display: grid; place-items: center; flex: none; }
 .icon-btn svg { width: 18px; height: 18px; }
-.screen { flex: 1; overflow-y: auto; padding: 16px 18px 24px; display: flex; flex-direction: column; gap: 14px; user-select: none; -webkit-user-select: none; }
+.screen { flex: 1; overflow-y: auto; padding: calc(16px + var(--top-h, 58px)) 18px 24px; scroll-padding-top: var(--top-h, 58px); display: flex; flex-direction: column; gap: 14px; user-select: none; -webkit-user-select: none; }
 .screen input, .screen textarea { user-select: text; -webkit-user-select: text; }
 
 .nav { display: grid; grid-template-columns: repeat(5, 1fr); position: relative; z-index: 2; touch-action: none; background: var(--surface); border-top: 1px solid var(--line); padding: 6px 4px calc(8px + env(safe-area-inset-bottom, 0px)); }
@@ -639,9 +640,10 @@ function render() {
   const top = document.getElementById('top'), n = cartCount();
   const key = s + ':' + (s === 'project' ? S.projectId : '');
   const changed = key !== FX.lastKey;
-  if (changed) { TOP.collapsed = false; document.getElementById('screen').style.paddingBottom = ''; }
+  if (changed) TOP.collapsed = false;
   top.className = 'top' + (TOP.collapsed ? ' collapsed' : '');
   top.innerHTML = headerHTML(s);
+  measureTop();
   const tab = ([id, label, ic]) => `<button data-go="${id}" ${TAB_OF[s] === id && !CART_OPEN ? 'aria-current="page"' : ''}><span class="ic">${ic}</span>${label}</button>`;
   document.getElementById('nav').innerHTML = tab(TABS[0]) + tab(TABS[1])
     + `<button class="nav-cart" data-action="open-cart" aria-label="Корзина" aria-expanded="${CART_OPEN}"><span class="fab">${ICON.cart}${n ? `<span class="badge">${n}</span>` : ''}</span>Корзина</button>`
@@ -653,7 +655,7 @@ function render() {
 }
 
 /* ---------- шапка: как на oma.by, сворачивается при прокрутке ---------- */
-const TOP = { collapsed: false, lock: 0, lastY: 0 };
+const TOP = { collapsed: false, lastY: 0 };
 let CITY = 'Минск';
 const CITIES = ['Минск', 'Брест', 'Витебск', 'Гомель', 'Гродно', 'Могилёв'];
 function headerHTML(s) {
@@ -671,22 +673,22 @@ function headerHTML(s) {
 }
 function setCollapsed(v) {
   if (TOP.collapsed === v) return;
-  const top = document.getElementById('top'), screen = document.getElementById('screen');
-  // свёрнутая шапка освобождает место; столько же добавляем снизу экрана, чтобы прокрутка не обрезалась и не дёргалась
-  // убираем отступ после того, как шапка развернулась, — иначе прокрутка на миг упирается и скачет к началу
-  if (v) screen.style.paddingBottom = `${24 + top.offsetHeight - top.querySelector('.bar').offsetHeight}px`;
-  else setTimeout(() => { if (!TOP.collapsed) screen.style.paddingBottom = ''; }, 320);
   TOP.collapsed = v;
-  top.classList.toggle('collapsed', v);
-  // пока шапка меняет высоту, браузер сам сдвигает прокрутку — эти события не считаем жестом
-  TOP.lock = performance.now() + 340;
-  // если после сдвига экран оказался в самом верху, шапку снова разворачиваем
-  setTimeout(() => { if (TOP.collapsed && document.getElementById('screen').scrollTop < 12) setCollapsed(false); }, 360);
+  document.getElementById('top').classList.toggle('collapsed', v);
 }
+// отступ экрана сверху — по высоте развёрнутой шапки (свёрнутые части меряем по содержимому)
+function measureTop() {
+  const top = document.getElementById('top'), bar = top.querySelector('.bar');
+  if (!bar) return;
+  const h = parseFloat(getComputedStyle(top).paddingTop) + bar.offsetHeight + [...top.querySelectorAll('.fold-y > div')].reduce((a, d) => a + d.scrollHeight, 0);
+  document.getElementById('app').style.setProperty('--top-h', `${Math.round(h)}px`);
+}
+new ResizeObserver(measureTop).observe(document.getElementById('app'));
+if (document.fonts) document.fonts.ready.then(measureTop);
 document.getElementById('screen').addEventListener('scroll', e => {
   const el = e.currentTarget, y = el.scrollTop, dy = y - TOP.lastY;
   TOP.lastY = y;
-  if (performance.now() < TOP.lock || !ROOTS.includes(S.screen)) return;
+  if (!ROOTS.includes(S.screen)) return;
   if (y < 12) return setCollapsed(false);
   if (dy > 4 && y > 48) setCollapsed(true);
   else if (dy < -6) setCollapsed(false);
