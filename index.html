@@ -40,6 +40,10 @@
   --nav-ink: #1F3270;
   --nav-active: #5B2E9E;
   --nav-active-soft: #EEE7F8;
+  --tone-blue: #005DD6;
+  --tone-orange: #C25E00;
+  --tone-teal: #0E7C8A;
+  --tone-violet: #6A3BB5;
   --f-display: "Unbounded", "Arial Black", system-ui, sans-serif;
   --f-body: "Manrope", "Segoe UI", system-ui, sans-serif;
   --f-mono: "JetBrains Mono", ui-monospace, "Consolas", monospace;
@@ -55,6 +59,7 @@
   --bar: #1A1233; --bar-grad: radial-gradient(120% 160% at 100% 0%, rgba(124, 82, 214, .3), transparent 60%), linear-gradient(90deg, #120C24, #251944);
   --strip: #16121F; --strip-ink: #8AB6FF; --field: #241F31; --field-ink: #EEEAF5;
   --nav-ink: #A9A2C0; --nav-active: #C7A9FF; --nav-active-soft: #2B2245;
+  --tone-blue: #8AB6FF; --tone-orange: #FFAD5C; --tone-teal: #5FD3E2; --tone-violet: #C7A9FF;
   color-scheme: dark;
 }
 @media (prefers-color-scheme: dark) {
@@ -66,6 +71,7 @@
     --bar: #1A1233; --bar-grad: radial-gradient(120% 160% at 100% 0%, rgba(124, 82, 214, .3), transparent 60%), linear-gradient(90deg, #120C24, #251944);
     --strip: #16121F; --strip-ink: #8AB6FF; --field: #241F31; --field-ink: #EEEAF5;
     --nav-ink: #A9A2C0; --nav-active: #C7A9FF; --nav-active-soft: #2B2245;
+  --tone-blue: #8AB6FF; --tone-orange: #FFAD5C; --tone-teal: #5FD3E2; --tone-violet: #C7A9FF;
     color-scheme: dark;
   }
 }
@@ -197,11 +203,17 @@ button { cursor: pointer; transition: border-color .15s ease, background-color .
 .promo.neighbor { background: linear-gradient(135deg, #5B2E9E 0%, #E0457B 100%); }
 .promo.shop { background: linear-gradient(135deg, #005DD6 0%, #1FB5C9 100%); }
 .grid-tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.room { border: 1px solid var(--line); background: var(--surface); border-radius: 16px; padding: 14px; min-height: 118px; display: flex; flex-direction: column; justify-content: space-between; gap: 10px; text-align: left; }
+/* плитка: значок сверху, под ним название и подпись — у всех плиток текст начинается на одной высоте */
+.room { border: 1px solid var(--line); background: var(--surface); border-radius: 16px; padding: 14px; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; text-align: left; }
 .room:hover { border-color: var(--brand); }
-.room b { font-size: 14.5px; }
-.room .mark { width: 38px; height: 38px; border-radius: 11px; background: var(--brand-soft); color: var(--brand-text); display: grid; place-items: center; }
-.room .mark svg { width: 21px; height: 21px; }
+.room .txt { display: flex; flex-direction: column; gap: 3px; }
+.room b { font-size: 15px; line-height: 1.25; }
+.room .txt .small { font-size: 12.5px; line-height: 1.35; }
+.room .mark { --tone: var(--tone-blue); width: 44px; height: 44px; border-radius: 13px; color: var(--tone); background: color-mix(in srgb, var(--tone) 13%, var(--surface)); display: grid; place-items: center; }
+.room .mark svg { width: 24px; height: 24px; }
+.mark.orange { --tone: var(--tone-orange); }
+.mark.teal { --tone: var(--tone-teal); }
+.mark.violet { --tone: var(--tone-violet); }
 .linkrow { width: 100%; background: none; border: 0; border-top: 1px solid var(--line); text-align: left; color: inherit; }
 .linkrow:first-child { border-top: 0; }
 .linkrow svg { width: 16px; height: 16px; color: var(--muted); }
@@ -284,8 +296,20 @@ details.fold[open] > summary { margin-bottom: 8px; }
 .switch:first-of-type { border-top: 0; }
 .switch input { width: 40px; height: 22px; accent-color: var(--brand); flex: none; }
 .empty { text-align: center; padding: 26px 10px; color: var(--muted); display: flex; flex-direction: column; gap: 12px; align-items: center; }
-.balance { background: var(--brand); color: var(--brand-ink); border-radius: var(--r); padding: 16px; display: flex; flex-direction: column; gap: 4px; }
-.balance .big { font: 700 26px/1.1 var(--f-display); font-variant-numeric: tabular-nums; }
+/* карта «Баланс» как пластиковая карта: синий → фиолетовый ОМА, оранжевый блик, знак ОМА водяным знаком */
+.balance { position: relative; overflow: hidden; isolation: isolate; color: #fff; border-radius: 20px; padding: 18px 18px 16px; min-height: 196px; display: flex; flex-direction: column; justify-content: space-between; gap: 14px;
+  background: radial-gradient(90% 80% at 100% 0%, rgba(255, 130, 0, .55), transparent 60%), radial-gradient(80% 70% at 0% 100%, rgba(31, 181, 201, .32), transparent 65%), linear-gradient(135deg, #005DD6 0%, #3A2B8F 58%, #37235E 100%);
+  box-shadow: 0 14px 28px -18px rgba(20, 30, 90, .7); }
+.balance::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(115deg, transparent 38%, rgba(255,255,255,.14) 50%, transparent 62%); }
+.balance .wm { position: absolute; right: -36px; bottom: -22px; width: 230px; opacity: .1; z-index: -1; pointer-events: none; }
+.balance .wm svg { width: 100%; height: auto; display: block; }
+.balance .top-line { display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-weight: 600; opacity: .92; }
+.balance .lvl { background: rgba(255,255,255,.18); border-radius: 999px; padding: 4px 10px; font-size: 12px; font-weight: 700; }
+.balance .big { font: 700 34px/1 var(--f-display); font-variant-numeric: tabular-nums; letter-spacing: -.01em; }
+.balance .unit { font-size: 15px; font-weight: 600; opacity: .9; margin-left: 4px; }
+.balance .hint { font-size: 12.5px; opacity: .85; margin-top: 6px; }
+.balance .bottom-line { display: flex; justify-content: space-between; align-items: flex-end; font-size: 13px; }
+.balance .num { font-family: var(--f-mono); letter-spacing: .08em; opacity: .9; }
 
 .toast { position: absolute; left: 16px; right: 16px; bottom: 84px; background: var(--toast); color: #fff; border-radius: 12px; padding: 11px 14px; font-size: 13.5px; transform: translateY(20px); opacity: 0; transition: .25s; pointer-events: none; }
 .toast.show { transform: none; opacity: 1; }
@@ -358,6 +382,9 @@ const ICON = {
   store: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 21v-5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v5" /> <path d="M17.774 10.31a1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.451 0 1.12 1.12 0 0 0-1.548 0 2.5 2.5 0 0 1-3.452 0 1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.77-3.248l2.889-4.184A2 2 0 0 1 7 2h10a2 2 0 0 1 1.653.873l2.895 4.192a2.5 2.5 0 0 1-3.774 3.244" /> <path d="M4 10.95V19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8.05" /></svg>',
   camera: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13.997 4a2 2 0 0 1 1.76 1.05l.486.9A2 2 0 0 0 18.003 7H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1.997a2 2 0 0 0 1.759-1.048l.489-.904A2 2 0 0 1 10.004 4z" /> <circle cx="12" cy="13" r="3" /></svg>',
   check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg>',
+  roller: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="16" height="6" x="2" y="2" rx="2" /> <path d="M10 16v-2a2 2 0 0 1 2-2h8a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2" /> <rect width="4" height="6" x="8" y="16" rx="1" /></svg>',
+  spray: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3h.01" /> <path d="M7 5h.01" /> <path d="M11 7h.01" /> <path d="M3 7h.01" /> <path d="M7 9h.01" /> <path d="M3 11h.01" /> <rect width="4" height="4" x="15" y="5" /> <path d="m19 9 2 2v10c0 .6-.4 1-1 1h-6c-.6 0-1-.4-1-1V11l2-2" /> <path d="m13 14 8-2" /> <path d="m13 19 8-2" /></svg>',
+  shower: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 4 2.5 2.5" /> <path d="M13.5 6.5a4.95 4.95 0 0 0-7 7" /> <path d="M15 5 5 15" /> <path d="M14 17v.01" /> <path d="M10 16v.01" /> <path d="M13 13v.01" /> <path d="M16 10v.01" /> <path d="M11 20v.01" /> <path d="M17 14v.01" /> <path d="M20 11v.01" /></svg>',
   phone: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384" /></svg>',
   pin: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" /> <circle cx="12" cy="10" r="3" /></svg>',
   down: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>',
@@ -1188,21 +1215,21 @@ const VIEWS = {
     return `
       <p class="hello">Что проектируем?</p>
       <div class="grid-tiles">
-        ${DESIGN_ROOMS.map(r => `<button class="room" data-action="design-room" data-id="${r.id}"><span class="mark">${ICON[r.icon]}</span><span><b>${r.name}</b><br><span class="small muted">${r.free ? '3D-проект бесплатно' : 'Новая услуга'}</span></span></button>`).join('')}
+        ${DESIGN_ROOMS.map(r => `<button class="room" data-action="design-room" data-id="${r.id}"><span class="mark">${ICON[r.icon]}</span><span class="txt"><b>${r.name}</b><span class="small muted">${r.free ? '3D-проект бесплатно' : 'Новая услуга'}</span></span></button>`).join('')}
       </div>`;
   },
 
   build() {
     const tiles = [
-      ['call-brigade', '', ICON.hardhat, 'Вызвать бригаду', 'Отделка, сантехника, электрика'],
-      ['', 'cleaning', ICON.sparkles, 'Клининг', 'После ремонта и генеральный'],
-      ['', 'bath1', ICON.bath, 'Ремонт санузла', 'Под ключ, гарантия ОМА'],
-      ['', 'install', ICON.wrench, 'Установка с мастером', 'Смеситель, унитаз, полки']
+      ['call-brigade', '', ICON.roller, 'orange', 'Вызвать бригаду', 'Отделка, сантехника, электрика'],
+      ['', 'cleaning', ICON.spray, 'teal', 'Клининг', 'После ремонта и генеральный'],
+      ['', 'bath1', ICON.shower, '', 'Ремонт санузла', 'Под ключ, гарантия ОМА'],
+      ['', 'install', ICON.wrench, 'violet', 'Установка с мастером', 'Смеситель, унитаз, полки']
     ];
     return `
       <p class="hello">Что нужно сделать?</p>
       <div class="grid-tiles">
-        ${tiles.map(([a, g, ic, name, hint]) => `<button class="room" ${a ? `data-action="${a}"` : `data-go="${g}"`}><span class="mark">${ic}</span><span><b>${name}</b><br><span class="small muted">${hint}</span></span></button>`).join('')}
+        ${tiles.map(([a, g, ic, tone, name, hint]) => `<button class="room" ${a ? `data-action="${a}"` : `data-go="${g}"`}><span class="mark ${tone}">${ic}</span><span class="txt"><b>${name}</b><span class="small muted">${hint}</span></span></button>`).join('')}
       </div>`;
   },
 
@@ -1234,7 +1261,12 @@ const VIEWS = {
         <label class="f">Имя и фамилия<input id="p-name" value="${esc(S.user.name)}" data-user="name" autocomplete="name"></label>
         <label class="f">Телефон<input id="p-phone" value="${esc(S.user.phone)}" data-user="phone" inputmode="tel" autocomplete="tel"></label>
       </div>
-      <div class="balance"><span class="small">Карта «Баланс»</span><span class="big">${S.bonus.toLocaleString('ru-RU')} бонусов</span><span class="small">За товары, работы и уход по календарю Паспорта</span></div>
+      <div class="balance">
+        <span class="wm" aria-hidden="true">${LOGO}</span>
+        <div class="top-line"><span>Карта «Баланс»</span><span class="lvl">Начисление 2%</span></div>
+        <div><span class="big">${S.bonus.toLocaleString('ru-RU')}</span><span class="unit">бонусов</span><div class="hint">За товары, работы и уход по календарю Паспорта</div></div>
+        <div class="bottom-line"><span class="num">•••• 4821</span><span>${esc(S.user.name)}</span></div>
+      </div>
       <div class="card"><h3>Тема</h3><div class="seg" role="group" aria-label="Тема">${THEMES.map(([id, label, ic]) => `<button data-action="theme" data-val="${id}" aria-pressed="${THEME === id}">${ic}<b>${label}</b></button>`).join('')}</div>
         ${THEME === 'system' ? '<span class="small muted">Светлая или тёмная — как в настройках телефона</span>' : ''}</div>
       <div class="card"><h3>Согласия</h3><div>
