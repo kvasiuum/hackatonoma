@@ -118,10 +118,9 @@ button { cursor: pointer; transition: border-color .15s ease, background-color .
 .info-strip button { background: none; border: 0; padding: 2px 0; color: inherit; display: inline-flex; align-items: center; gap: 4px; font-size: 13px; font-weight: 700; }
 .info-strip svg { width: 15px; height: 15px; }
 .info-strip .end { margin-left: auto; }
-.bar { display: flex; align-items: center; gap: 4px; min-height: 54px; padding: 8px 12px 8px 6px; }
+.bar { display: flex; align-items: center; gap: 4px; min-height: 54px; padding: 8px 12px; }
 .bar h2 { margin: 0 0 0 4px; font: 700 16px/1.2 var(--f-display); flex: 1; min-width: 0; text-wrap: balance; }
-.bar .icon-btn { margin-left: 6px; }
-.bar-logo { display: flex; margin: 0 auto 0 6px; }
+.bar-logo { display: flex; margin: 0 auto 0 4px; }
 .bar-btn { width: 40px; height: 40px; border: 0; border-radius: 10px; background: none; color: inherit; display: grid; place-items: center; flex: none; }
 .bar-btn:hover { background: rgba(255,255,255,.1); }
 .bar-btn svg { width: 24px; height: 24px; }
@@ -133,8 +132,6 @@ button { cursor: pointer; transition: border-color .15s ease, background-color .
 .me b { font-size: 15px; }
 .me .small { opacity: .8; font-size: 12.5px; }
 .me > svg { width: 18px; height: 18px; opacity: .7; flex: none; }
-.option .mark-ic { display: grid; color: var(--brand-text); }
-.option .mark-ic svg { width: 20px; height: 20px; }
 .seg svg { width: 20px; height: 20px; color: var(--brand-text); }
 .avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #FF8200, #E0457B); color: #fff; display: grid; place-items: center; font-weight: 700; font-size: 15px; flex: none; overflow: hidden; }
 .avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -357,7 +354,6 @@ const ICON = {
   store: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 21v-5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v5" /> <path d="M17.774 10.31a1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.451 0 1.12 1.12 0 0 0-1.548 0 2.5 2.5 0 0 1-3.452 0 1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.77-3.248l2.889-4.184A2 2 0 0 1 7 2h10a2 2 0 0 1 1.653.873l2.895 4.192a2.5 2.5 0 0 1-3.774 3.244" /> <path d="M4 10.95V19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8.05" /></svg>',
   camera: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13.997 4a2 2 0 0 1 1.76 1.05l.486.9A2 2 0 0 0 18.003 7H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1.997a2 2 0 0 0 1.759-1.048l.489-.904A2 2 0 0 1 10.004 4z" /> <circle cx="12" cy="13" r="3" /></svg>',
   check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg>',
-  menu: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>',
   phone: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384" /></svg>',
   pin: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" /> <circle cx="12" cy="10" r="3" /></svg>',
   down: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>',
@@ -668,7 +664,6 @@ function headerHTML(s) {
       <div class="info-strip"><button data-action="city" aria-label="Город: ${CITY}">${ICON.pin}${CITY}${ICON.down}</button><button class="end" data-action="call">${ICON.phone}536-45-00</button></div>
     </div></div>
     <div class="bar">
-      <button class="bar-btn" data-action="menu" aria-label="Меню">${ICON.menu}</button>
       ${home ? `<span class="bar-logo">${LOGO_LOCKUP}</span>` : `<h2>${TITLES[s]}</h2>`}
       <button class="bar-btn${home ? ' me-ic' : ''}" data-go="profile" aria-label="Профиль"><span class="avatar">${avatarInner()}</span></button>
     </div>
@@ -1377,12 +1372,6 @@ document.addEventListener('click', e => {
     openCart(); return toast('Добавлено в корзину');
   }
   if (a === 'theme') { applyTheme(t.dataset.val); return render(); }
-  if (a === 'menu') return sheet(`<h3>Меню</h3>
-    ${[['home', 'Главная', ICON.home], ['projects', 'Мои проекты', ICON.proj], ['passport', 'Паспорт дома', ICON.pass], ['profile', 'Профиль и тема', ICON.user]]
-      .map(([id, label, ic]) => `<button class="option" data-go="${id}"><span class="mark-ic">${ic}</span><span class="grow"><b>${label}</b></span>${ICON.chevron}</button>`).join('')}
-    <button class="option" data-action="cart-from-menu"><span class="mark-ic">${ICON.cart}</span><span class="grow"><b>Корзина</b><span class="small muted">Или свайп вверх с нижней панели</span></span>${ICON.chevron}</button>
-    <button class="option" data-action="call"><span class="mark-ic">${ICON.phone}</span><span class="grow"><b>Контакт-центр ОМА</b><span class="small muted">536-45-00</span></span></button>`);
-  if (a === 'cart-from-menu') return openCart();
   if (a === 'city') return sheet(`<h3>Ваш город</h3><span class="small muted">От города зависят магазины, прокат и выезд бригад</span>
     ${CITIES.map(c => `<button class="option" data-action="set-city" data-city="${c}" aria-pressed="${c === CITY}"><span class="radio-dot"></span><span class="grow"><b>${c}</b></span></button>`).join('')}`);
   if (a === 'set-city') { CITY = t.dataset.city; sheet(''); render(); return toast(`Город: ${CITY}`); }
