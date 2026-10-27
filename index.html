@@ -48,13 +48,14 @@ button { cursor: pointer; transition: border-color .15s ease, background-color .
 :focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
 
-.logo { display: inline-flex; align-items: center; gap: 10px; color: var(--brand); }
-.logo svg { height: 1em; width: auto; display: block; }
-.logo span { font: 600 .5em/1 var(--f-body); letter-spacing: .01em; white-space: nowrap; }
+.logo { display: inline-flex; align-items: flex-end; gap: .3em; color: var(--brand); }
+.logo svg { height: 1em; width: auto; display: block; flex: none; }
+/* «для дома» той же высоты, что и знак: строчные Manrope 700 занимают 0,68 кегля, поэтому кегль 1,47em */
+.logo span { font: 700 1.47em/1 var(--f-body); letter-spacing: -.01em; white-space: nowrap; }
 
 .stage { min-height: 100%; display: grid; grid-template-columns: minmax(0, 340px) auto; justify-content: center; align-items: center; gap: 48px; padding-block: 32px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
 .map { display: flex; flex-direction: column; gap: 16px; }
-.map .logo { font-size: 44px; }
+.map .logo { font-size: 34px; }
 .map p { margin: 0; color: var(--muted); }
 .map ol { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; counter-reset: step; }
 .map li button { width: 100%; text-align: left; border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 8px 12px; display: flex; gap: 10px; align-items: baseline; }
