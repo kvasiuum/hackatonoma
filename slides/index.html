@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ОМА Дом — презентация</title>
+<link rel="stylesheet" href="fonts.css">
+<style>
+/* Layout: слайды 1280×720, масштабируются под окно; печать — один слайд на страницу.
+   Один светлый вид осознанно: презентация показывается на проекторе. */
+:root {
+  --paper: #F3F5F1;
+  --card: #FFFFFF;
+  --ink: #17201B;
+  --muted: #5B665F;
+  --line: #D8DDD5;
+  --accent: #136F55;
+  --accent-soft: #DCEEE6;
+  --warn: #8A5200;
+  --warn-soft: #FFF0D2;
+  --neg: #9AA59F;
+  --f-display: "Unbounded", "Arial Black", system-ui, sans-serif;
+  --f-body: "Manrope", "Segoe UI", system-ui, sans-serif;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: #0E1411; }
+body { font: 18px/1.45 var(--f-body); color: var(--ink); -webkit-font-smoothing: antialiased; overflow: hidden; }
+.deck { position: fixed; inset: 0; display: grid; place-items: center; }
+.slide {
+  position: absolute; width: 1280px; height: 720px; background: var(--paper);
+  padding: 56px 64px 48px; display: none; flex-direction: column; gap: 22px;
+  transform-origin: center center; overflow: hidden;
+}
+.slide.on { display: flex; }
+.num { position: absolute; right: 64px; bottom: 26px; font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.foot { position: absolute; left: 64px; bottom: 26px; font-size: 13px; color: var(--muted); }
+h1 { font: 700 64px/1.05 var(--f-display); margin: 0; letter-spacing: -0.01em; }
+h2 { font: 700 34px/1.15 var(--f-display); margin: 0; text-wrap: balance; max-width: 1050px; }
+.lead { font-size: 22px; color: var(--muted); margin: 0; max-width: 900px; }
+p { margin: 0; }
+.muted { color: var(--muted); }
+.small { font-size: 15px; }
+.accent { color: var(--accent); }
+.grid { display: grid; gap: 16px; }
+.g2 { grid-template-columns: 1fr 1fr; }
+.g3 { grid-template-columns: repeat(3, 1fr); }
+.g4 { grid-template-columns: repeat(4, 1fr); }
+.box { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.box b { font-size: 18px; }
+.box.hl { background: var(--accent); border-color: var(--accent); color: #fff; }
+.box.hl .muted { color: #DCEEE6; }
+.big { font: 700 40px/1 var(--f-display); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.box .tag { align-self: flex-start; }
+td.v { text-align: right; white-space: nowrap; }
+table { border-collapse: collapse; width: 100%; font-size: 15.5px; }
+th { text-align: left; font-size: 13px; color: var(--muted); font-weight: 600; padding: 6px 10px; border-bottom: 2px solid var(--ink); }
+td { padding: 7px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+td.c, th.c { text-align: center; }
+.yes { color: var(--accent); font-weight: 700; }
+.no { color: var(--muted); }
+.quote { border-left: 0; background: var(--card); border-radius: 12px; padding: 12px 16px; font-size: 16px; }
+.quote span { display: block; font-size: 13px; color: var(--muted); margin-top: 4px; }
+.phones { display: flex; gap: 18px; align-items: flex-start; }
+.phones figure { margin: 0; display: flex; flex-direction: column; gap: 8px; width: 214px; }
+.phones img { width: 214px; height: 463px; object-fit: cover; object-position: top; border-radius: 22px; border: 6px solid #1B221E; display: block; }
+.phones figcaption { font-size: 14px; color: var(--muted); }
+.flow { display: flex; align-items: stretch; gap: 10px; }
+.flow .box { flex: 1; }
+.arrow { align-self: center; color: var(--muted); font-size: 22px; }
+.tag { display: inline-block; font-size: 13px; font-weight: 700; padding: 3px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+.tag.warn { background: var(--warn-soft); color: var(--warn); }
+ul.clean { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
+.cover { background: var(--accent); color: #fff; justify-content: center; }
+.cover .lead { color: #DCEEE6; }
+.cover .num, .cover .foot { color: #BFE0D3; }
+.chart text { font-family: var(--f-body); fill: var(--ink); }
+.chart .lbl { font-size: 13px; fill: var(--muted); }
+.chart .val { font-size: 15px; font-weight: 700; }
+.hint { position: fixed; bottom: 12px; left: 50%; transform: translateX(-50%); color: #9AA59F; font: 13px var(--f-body); }
+.nav-btn { position: fixed; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,.08); color: #fff; border: 0; width: 44px; height: 64px; border-radius: 10px; font-size: 24px; cursor: pointer; }
+.nav-btn:focus-visible { outline: 2px solid #4CC39A; }
+.prev { left: 12px; } .next { right: 12px; }
+@media print {
+  @page { size: 1280px 720px; margin: 0; }
+  html, body { background: none; overflow: visible; height: auto; }
+  .deck { position: static; display: block; }
+  .slide { display: flex !important; position: relative; transform: none !important; page-break-after: always; break-after: page; }
+  .hint, .nav-btn { display: none; }
+}
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+<section class="slide cover">
+  <span class="tag" style="align-self:flex-start;background:#0F5A45;color:#DCEEE6">Space Hackathon with OMA</span>
+  <h1>ОМА Дом</h1>
+  <p class="lead" style="font-size:28px;max-width:980px">ОМА ведёт ремонт санузла от 3D-проекта до гарантии: материалы, мастер, контроль и обслуживание в одном окне и под одной ответственностью.</p>
+  <p class="lead">Паспорт дома возвращает клиента в ОМА на каждом следующем поводе.</p>
+  <span class="foot">Прототип: kvasiuum.github.io/hackatonoma</span><span class="num"></span>
+</section>
+
+<section class="slide">
+  <h2>Магазин помогает купить, но не помогает сделать</h2>
+  <p class="lead">Из 7 этапов пути клиента ОМА сопровождает только покупку. На остальных клиент остаётся один — и именно там он уходит.</p>
+  <div class="grid g3">
+    <div class="quote">«Почему один просит 1000, а другой 3000? Мастер даёт свой список материалов, и я не понимаю, зачем там эти позиции»<span>Этап 2 · смета и подрядчик</span></div>
+    <div class="quote">«Мастер снова просит докупить. Как я проверю, правильно ли он кладёт плитку?»<span>Этап 5 · работы</span></div>
+    <div class="quote">«Кто виноват — мастер, который плохо положил, или магазин, который продал плохой клей?»<span>Этап 6 · приёмка</span></div>
+  </div>
+  <div class="box" style="margin-top:6px">
+    <b>Корневая причина («5 почему» из методологии ОМА)</b>
+    <p>Магазин ориентирован на продажу, а не на помощь в планировании и выполнении. Клиенту нужен проводник, а не продавец.</p>
+  </div>
+  <span class="foot">Цитаты — из материалов ОМА «Исследование пользователя и подтверждение проблемы»</span><span class="num"></span>
+</section>
+
+<section class="slide">
+  <h2>Для кого: сегменты по матрице ОМА</h2>
+  <div class="grid g2">
+    <div class="box hl"><span class="tag" style="align-self:flex-start;background:#0F5A45;color:#DCEEE6">Основной</span><b>A. «Первый серьёзный ремонт»</b><p class="small muted">капитальный ремонт санузла · комфорт · новичок · омниканальность</p><p>Боится ошибиться в расчёте, нанять не того мастера и сорвать сроки. Покупает проект «материалы + работы».</p></div>
+    <div class="box"><b>B. «Сделаю сам, но правильно»</b><p class="small muted">косметический ремонт · эконом · опытный · онлайн и самовывоз</p><p>Нужны точный расчёт, одна партия плитки, инструмент и способ довезти.</p></div>
+    <div class="box"><b>C. «Точечная задача»</b><p class="small muted">обустройство · комфорт · любой опыт · онлайн</p><p>Поставить смеситель, повесить полку, собрать шкаф — без поиска мастера на час работы.</p></div>
+    <div class="box"><b>D. Мастер и бригада</b><p class="small muted">профессионал · уже покупает в OMA PRO</p><p>Теряет дни из-за материалов, ищет заказы, ждёт оплату. Получает поток заказов и поставку к сроку.</p></div>
+  </div>
+  <span class="num"></span>
+</section>
+
+<section class="slide">
+  <h2>Почему санузел и почему ОМА может это сделать уже сейчас</h2>
+  <div class="grid g2" style="align-items:start">
+    <div class="box">
+      <b>Санузел — самая нервная часть ремонта</b>
+      <ul class="clean">
+        <li>Расчёт плитки с подрезкой, клей, затирка, гидроизоляция</li>
+        <li>Оттенок плитки должен быть из одной партии</li>
+        <li>Ошибка видна годами и стоит переделки</li>
+        <li>У ОМА уже есть вход: бесплатный 3D-проект ванной и Центр дизайна плитки</li>
+      </ul>
+    </div>
+    <div class="grid g2">
+      <div class="box"><span class="big">70 000+</span><span class="muted small">SKU в наличии</span></div>
+      <div class="box"><span class="big">4 000+</span><span class="muted small">юрлиц в месяц в OMA PRO — будущие бригады-партнёры</span></div>
+      <div class="box"><span class="big">800 тыс.+</span><span class="muted small">участников «Баланс»</span></div>
+      <div class="box"><span class="big">28 + 8</span><span class="muted small">магазинов ОМА и «ОМА КСТАТИ»</span></div>
+    </div>
+  </div>
+  <p class="muted small">Плюс сервисы, которые сейчас не связаны в один сценарий: персональный менеджер, 3D-конструктор кухни, аренда инструмента и прицепа, сервисный центр.</p>
+  <span class="foot">Цифры — корпоративная презентация ОМА 2027</span><span class="num"></span>
+</section>
+
+<section class="slide">
+  <h2>Решение: шесть модулей вокруг одного проекта</h2>
+  <div class="grid g3">
+    <div class="box"><b>1. Проект и смета</b><p class="small">Импорт 3D-проекта, три уровня, пояснение к каждой позиции, предупреждение о переустройстве</p></div>
+    <div class="box"><b>2. Резерв и логистика</b><p class="small">Одна партия плитки на 7 дней, доставка к дате этапа, аренда инструмента и прицепа</p></div>
+    <div class="box"><b>3. Мастер ОМА</b><p class="small">Фиксированная цена работ, бригады OMA PRO, исполнитель и гарантия — ОМА</p></div>
+    <div class="box"><b>4. Контроль и приёмка</b><p class="small">Фото по этапам, чек-лист проверки, оплата этапа после приёмки, докупка в 2 клика</p></div>
+    <div class="box"><b>5. Паспорт дома</b><p class="small">Чеки, артикулы, партии, гарантии, бригада, возврат остатков, календарь ухода</p></div>
+    <div class="box"><b>6. «Баланс» за проект</b><p class="small">Бонусы за товары, работы и своевременное обслуживание</p></div>
+  </div>
+  <div class="box hl"><b>Результат для клиента</b><p>От сметы до старта работ — до 10 дней, цена известна до начала, один ответственный за товар и работу, вся история в приложении.</p></div>
+  <span class="num"></span>
+</section>
+
+<section class="slide">
+  <h2>Как это выглядит: прототип</h2>
+  <div class="phones">
+    <figure><img src="img/01-home.png" alt="Главная: напоминание из Паспорта и вход из 3D-проекта"><figcaption>Вход из 3D-проекта и напоминание из Паспорта</figcaption></figure>
+    <figure><img src="img/02-estimate.png" alt="Смета с пояснениями и резервом партии"><figcaption>Смета: зачем каждая позиция, одна партия</figcaption></figure>
+    <figure><img src="img/03-brigade.png" alt="Выбор бригады при фиксированной цене"><figcaption>Цена одна, исполнитель — ОМА</figcaption></figure>
+    <figure><img src="img/04-stage.png" alt="Этап с чек-листом проверки"><figcaption>Этап: фото, чек-лист, оплата после приёмки</figcaption></figure>
+    <figure><img src="img/05-passport.png" alt="Паспорт дома"><figcaption>Паспорт дома и возврат остатков</figcaption></figure>
+  </div>
+  <span class="foot">kvasiuum.github.io/hackatonoma — кликабельно, данные условные</span><span class="num"></span>
+</section>
+
+<section class="slide">
+  <h2>Путь клиента: от потребности до регулярного использования</h2>
+  <table>
+    <thead><tr><th>Этап</th><th>Было</th><th>Касание «ОМА Дом»</th><th>Метрика</th></tr></thead>
+    <tbody>
+      <tr><td><b>1. Идея</b></td><td>Страх объёма, ремонт откладывается</td><td>3D-проект ванной → план из 5 шагов</td><td>Начатые проекты</td></tr>
+      <tr><td><b>2. Смета</b></td><td>«Куплю мало или лишнего»</td><td>Смета из каталога с пояснениями</td><td>3D → смета</td></tr>
+      <tr><td><b>3. Мастер</b></td><td>«1000 или 3000?», страх мошенников</td><td>Фиксированная цена, бригада OMA PRO, исполнитель ОМА</td><td>Смета → заказ</td></tr>
+      <tr><td><b>4. Логистика</b></td><td>«Как довезти и успеть к выходным?»</td><td>Резерв партии, доставка к дате этапа</td><td>Старт в срок</td></tr>
+      <tr><td><b>5. Работы</b></td><td>«Не понимаю, правильно ли кладёт»</td><td>Фото, чек-лист, докупка в 2 клика</td><td>Дни простоя</td></tr>
+      <tr><td><b>6. Приёмка</b></td><td>«Кто виноват?», остатки</td><td>Оплата после приёмки, возврат остатков</td><td>Без претензий, NPS</td></tr>
+      <tr><td><b>7. Постсервис</b></td><td>«Где гарантийный талон?»</td><td>Паспорт дома, гарантия ОМА</td><td>Решено за 5 дней</td></tr>
+      <tr><td><b>8. Регулярно</b></td><td>Идёт в первый попавшийся магазин</td><td>Календарь ухода, та же бригада, следующий проект</td><td>Повтор за 90 / 365 дней</td></tr>
+    </tbody>
+  </table>
+  <span class="foot">Второй вход — от покупки товара: «С установкой» в карточке смесителя → мастер → Паспорт</span><span class="num"></span>
+</section>
+
+<section class="slide">
+  <h2>Модули связаны: каждый передаёт данные следующему</h2>
+  <div class="flow">
+    <div class="box"><b>3D-проект</b><p class="small muted">размеры, товары</p></div><span class="arrow">→</span>
+    <div class="box"><b>Смета</b><p class="small muted">артикулы, количество</p></div><span class="arrow">→</span>
+    <div class="box"><b>Резерв и доставка</b><p class="small muted">партия, дата этапа</p></div><span class="arrow">→</span>
+    <div class="box"><b>Работы и приёмка</b><p class="small muted">фото, акт</p></div><span class="arrow">→</span>
+    <div class="box hl"><b>Паспорт дома</b><p class="small muted">гарантии, уход</p></div>
+  </div>
+  <div class="grid g3">
+    <div class="box"><b>Повторная покупка</b><p class="small">Календарь ухода: швы, пропитка, картридж смесителя — с кнопкой «Заказать в ОМА»</p></div>
+    <div class="box"><b>Гарантия в одном окне</b><p class="small">Одно обращение по товару и работе, гарантия продлевается на время устранения</p></div>
+    <div class="box"><b>Следующий проект</b><p class="small">Размеры, материалы и бригада уже известны: кухня или полы запускаются быстрее</p></div>
+  </div>
+  <p class="muted">Клиент возвращается в ОМА не по рекламе, а потому что вся история его дома — здесь.</p>
+  <span class="num"></span>
+</section>
+
+<section class="slide">
+  <h2>Конкуренты и альтернативы</h2>
+  <table>
+    <thead><tr><th>Что важно клиенту</th><th class="c">Бригада «по знакомству»</th><th class="c">Услуги Onliner, Kufar</th><th class="c">Wildberries, Ozon</th><th class="c">ОМА Дом</th></tr></thead>
+    <tbody>
+      <tr><td>Расчёт материалов с пояснением</td><td class="c no">частично</td><td class="c no">нет</td><td class="c no">нет</td><td class="c yes">да</td></tr>
+      <tr><td>Материалы в наличии и одной партии</td><td class="c no">нет</td><td class="c no">нет</td><td class="c no">частично</td><td class="c yes">резерв</td></tr>
+      <tr><td>Доставка к дате работ</td><td class="c no">нет</td><td class="c no">нет</td><td class="c no">частично</td><td class="c yes">да</td></tr>
+      <tr><td>Фиксированная цена работ</td><td class="c no">нет</td><td class="c no">нет</td><td class="c no">—</td><td class="c yes">да</td></tr>
+      <tr><td>Оплата после приёмки этапа</td><td class="c no">договорённость</td><td class="c no">договорённость</td><td class="c no">—</td><td class="c yes">да</td></tr>
+      <tr><td>Один ответственный за товар и работу</td><td class="c no">нет</td><td class="c no">нет</td><td class="c no">нет</td><td class="c yes">ОМА</td></tr>
+      <tr><td>История ремонта и гарантии</td><td class="c no">нет</td><td class="c no">нет</td><td class="c no">частично</td><td class="c yes">Паспорт</td></tr>
+    </tbody>
+  </table>
+  <p class="small muted">Ориентиры: IKEA встроила сборку TaskRabbit в оформление заказа — на 50% больше клиентов добавляют услугу, возвраты сложной мебели −40% (Retail TouchPoints, 2025). У «Лемана ПРО» 28% покупок — с услугами (retail.ru, 2025).</p>
+  <span class="num"></span>
+</section>
+
+<section class="slide">
+  <h2>Почему клиент выберет ОМА</h2>
+  <div class="grid g2">
+    <div class="box hl"><b>1. Один ответственный</b><p>Исполнитель работ перед клиентом — сама ОМА. Вопрос «мастер или клей» исчезает.</p></div>
+    <div class="box"><b>2. Люди уже есть</b><p>Бригады покупают в OMA PRO. Сторону предложения не нужно строить с нуля, как у досок объявлений.</p></div>
+    <div class="box"><b>3. Вход, которого нет у других</b><p>Бесплатный 3D-проект ванной превращается в смету и заказ одним действием.</p></div>
+    <div class="box"><b>4. Склад и сроки</b><p>70 000+ SKU в наличии, резерв одной партии, доставка к этапу, аренда инструмента и прицепа.</p></div>
+    <div class="box"><b>5. «Баланс» за весь проект</b><p>800 тыс.+ участников уже в программе; бонусы и за работы, и за уход.</p></div>
+    <div class="box"><b>6. Паспорт дома</b><p>Вся история квартиры в приложении ОМА — повод вернуться через месяц, год и пять лет.</p></div>
+  </div>
+  <span class="num"></span>
+</section>
+
+<section class="slide">
+  <h2>Монетизация: вклад одного проекта санузла</h2>
+  <div class="grid" style="grid-template-columns: 1.35fr 1fr; align-items:start">
+    <svg class="chart" viewBox="0 0 700 390" role="img" aria-labelledby="ue-title ue-desc">
+      <title id="ue-title">Вклад проекта санузла, BYN</title>
+      <desc id="ue-desc">Дополнительная маржа товаров 338, маржа работ 333, эквайринг минус 75, координация минус 60, гарантийный резерв минус 50, продвижение минус 40, итого 446.</desc>
+      <line x1="40" y1="330" x2="690" y2="330" stroke="#D8DDD5" stroke-width="1"/>
+      <!-- шкала: 0..700 BYN → 330..30 px, 1 BYN = 0.4286 px -->
+      <g id="bars"></g>
+    </svg>
+    <div class="grid">
+      <table>
+        <tbody>
+          <tr><td>Товары / работы, с НДС</td><td class="v">3 000 / 2 000</td></tr>
+          <tr><td>Маржа товаров 27%, из неё дополнительная 50%</td><td class="v">338</td></tr>
+          <tr><td>Маржа работ (бригаде 80%)</td><td class="v">333</td></tr>
+          <tr><td>Переменные затраты</td><td class="v">−225</td></tr>
+          <tr><td><b>Вклад проекта</b></td><td class="v"><b>≈ 446 BYN</b></td></tr>
+          <tr><td>С повторными покупками и следующим проектом</td><td class="v">≈ 500 BYN</td></tr>
+        </tbody>
+      </table>
+      <p class="small muted">Источники дохода: маржа товаров и работ (пилот), агентское вознаграждение банков (год 1), комиссия подрядчиков и подписка «Сервис-план» (год 2). Места в выдаче мастеров не продаются.</p>
+    </div>
+  </div>
+  <span class="foot">Все цифры — допущения команды, проверяются в пилоте на данных ОМА</span><span class="num"></span>
+</section>
+
+<section class="slide">
+  <h2>Безубыточность пилота — около 90 проектов в месяц</h2>
+  <div class="grid g3">
+    <div class="box"><span class="muted small">Постоянные затраты пилота</span><span class="big">46 000</span><span class="small muted">BYN в месяц: продукт и разработка, 3 координатора, технолог, юрист</span></div>
+    <div class="box"><span class="muted small">Ниша: ремонты санузла с мастером, Минск (оценка)</span><span class="big">≈ 1 800</span><span class="small muted">в месяц: 800 тыс. домохозяйств, цикл 15 лет, ≈ 40% с мастером</span></div>
+    <div class="box hl"><span class="small" style="color:#DCEEE6">Цель базового сценария</span><span class="big">100</span><span class="small" style="color:#DCEEE6">проектов в месяц — 5–6% ниши</span></div>
+  </div>
+  <table>
+    <thead><tr><th>Сценарий, 6-й месяц</th><th>Проектов</th><th>Типовых услуг</th><th>Вклад, BYN</th><th>Результат в месяц, BYN</th></tr></thead>
+    <tbody>
+      <tr><td>Осторожный</td><td>40</td><td>150</td><td>20 465</td><td>−25 535</td></tr>
+      <tr><td><b>Базовый</b></td><td><b>100</b></td><td><b>300</b></td><td><b>49 850</b></td><td><b>+3 850</b></td></tr>
+      <tr><td>Оптимистичный</td><td>180</td><td>600</td><td>90 780</td><td>+44 780</td></tr>
+    </tbody>
+  </table>
+  <p class="small muted">Масштабируем, если на 6-й месяц: ≥ 70 проектов, ≥ 90% без претензий, NPS ≥ 50, повторная покупка через Паспорт за 90 дней ≥ 15%.</p>
+  <span class="num"></span>
+</section>
+
+<section class="slide">
+  <h2>Масштабирование: новая категория — это шаблон, а не новая разработка</h2>
+  <div class="grid g3">
+    <div class="box"><b>Шаблон категории</b><ul class="clean small"><li>вход</li><li>калькулятор</li><li>комплекты товаров</li><li>типовые работы с ценой</li><li>чек-лист приёмки</li><li>календарь ухода</li></ul><p class="small muted">Запуск категории — 6–8 недель</p></div>
+    <div class="box" style="grid-column: span 2">
+      <b>Очерёдность</b>
+      <table>
+        <tbody>
+          <tr><td>1</td><td><b>Санузел + 10 типовых услуг</b></td><td class="muted">3D-дизайн ванной уже есть</td></tr>
+          <tr><td>2</td><td><b>Кухня</b></td><td class="muted">3D-конструктор кухни на сайте</td></tr>
+          <tr><td>3</td><td><b>Полы и двери</b></td><td class="muted">простая цена за м² и за штуку</td></tr>
+          <tr><td>4</td><td><b>Дача и сад</b></td><td class="muted">15 садовых центров, Sato Garden</td></tr>
+          <tr><td>5</td><td><b>Отопление и утепление</b></td><td class="muted">больше половины ввода жилья — индивидуальные дома</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="grid g4">
+    <div class="box"><b>28 магазинов</b><p class="small muted">точка продажи проекта, возврат остатков</p></div>
+    <div class="box"><b>«ОМА КСТАТИ»</b><p class="small muted">быстрые услуги «мастер на час»</p></div>
+    <div class="box"><b>Франчайзинг</b><p class="small muted">регионы с бригадами из местного OMA PRO</p></div>
+    <div class="box"><b>OMA PRO</b><p class="small muted">арендодатели и управляющие организации</p></div>
+  </div>
+  <span class="num"></span>
+</section>
+
+<section class="slide">
+  <h2>Законодательство РБ: продукт можно запускать</h2>
+  <div class="grid g2" style="align-items:start">
+    <div class="box hl">
+      <b>Пилот: ОМА — исполнитель работ</b>
+      <p class="small">Купля-продажа и бытовой подряд с ОМА, бригады — субподрядчики ОМА. Деньги принимает сама ОМА: нет вопросов о приёме платежей в пользу третьих лиц, клиенту понятно, кто отвечает.</p>
+      <p class="small" style="color:#DCEEE6">ГК · Закон № 90-З «О защите прав потребителей» · Указ № 371, Реестр бытовых услуг · Закон № 164-З о платёжных системах</p>
+    </div>
+    <div class="box">
+      <b>Площадка подрядчиков — вторая фаза</b>
+      <p class="small">Только после принятия закона о платформенной экономике: проект на рассмотрении в Совмине (2026).</p>
+    </div>
+  </div>
+  <table>
+    <thead><tr><th>Новое в 2024–2026</th><th>Как учтено</th></tr></thead>
+    <tbody>
+      <tr><td>Правила дистанционной торговли, пост. № 489 (с 11.07.2025: проверка заказа, подтверждение договора, электронные обращения)</td><td>Экран проверки заказа, подтверждение, обращение из Паспорта</td></tr>
+      <tr><td>Правила бытового обслуживания, пост. № 134 (с 25.04.2026)</td><td>Информация об исполнителе и гарантии в смете, бейджи бригад, продление гарантии</td></tr>
+      <tr><td>Переустройство и перепланировка, пост. № 164 (с июля 2026): гидроизоляция без проекта</td><td>Гидроизоляция — без согласований; перенос сетей — этап «решение исполкома»</td></tr>
+      <tr><td>Закон № 99-З о персональных данных, практика НЦЗПД по cookies</td><td>Отдельное согласие на рекламу, отзыв в один переключатель, хранение в РБ</td></tr>
+    </tbody>
+  </table>
+  <span class="foot">Подробно: docs/legal-compliance.md · перед запуском юрист ОМА сверяет редакции актов</span><span class="num"></span>
+</section>
+
+<section class="slide">
+  <h2>План запуска</h2>
+  <div class="flow">
+    <div class="box"><span class="tag">Недели 1–4</span><b>Подтверждение</b><p class="small">Интервью 5–7 на сегмент, выгрузка данных ОМА, отбор 15 бригад</p></div>
+    <div class="box"><span class="tag">Месяцы 1–3</span><b>Право и операции</b><p class="small">Реестр бытовых услуг, оферта, субподряд, прайс, чек-листы</p></div>
+    <div class="box"><span class="tag">Месяцы 2–4</span><b>MVP</b><p class="small">Раздел в приложении и на oma.by, интеграция с «Баланс» и 3D</p></div>
+    <div class="box hl"><span class="tag" style="background:#0F5A45;color:#DCEEE6">Месяцы 4–9</span><b>Пилот, Минск</b><p class="small">3 гипермаркета, санузел + 10 услуг</p></div>
+    <div class="box"><span class="tag">Месяцы 10–24</span><b>Масштаб</b><p class="small">Кухня, регионы, площадка подрядчиков, «Сервис-план»</p></div>
+  </div>
+  <div class="grid g2">
+    <div class="box">
+      <b>Что проверяем в первые 4 недели</b>
+      <ul class="clean small">
+        <li>H-A: новичок откладывает ремонт из-за мастера и расчёта — ≥ 60% интервью</li>
+        <li>H-B: докупка той же плитки в течение 30 дней — ≥ 15% проектов (данные ОМА)</li>
+        <li>H-C: кнопка «с установкой» поднимает конверсию карточки — ≥ 10%</li>
+        <li>H-D: бригады теряют дни из-за материалов — 3 из 5 интервью</li>
+      </ul>
+    </div>
+    <div class="box">
+      <b>Главные риски</b>
+      <ul class="clean small">
+        <li>Брак работ → пробный объект, технолог, оплата после приёмки, резерв 3%</li>
+        <li>Нехватка бригад в сезон → пул ×1,5, честный срок старта в смете</li>
+        <li>Регулирование платформ → пилот на модели, которая от него не зависит</li>
+      </ul>
+    </div>
+  </div>
+  <span class="num"></span>
+</section>
+
+<section class="slide cover">
+  <h1 style="font-size:52px">Что нужно от ОМА для пилота</h1>
+  <div class="grid g3" style="margin-top:12px">
+    <div class="box" style="background:#0F5A45;border-color:#0F5A45;color:#fff"><b>Данные</b><p class="small" style="color:#DCEEE6">3D-проекты ванных, докупки и возвраты плитки, поиск на сайте — для подтверждения гипотез</p></div>
+    <div class="box" style="background:#0F5A45;border-color:#0F5A45;color:#fff"><b>3 гипермаркета Минска</b><p class="small" style="color:#DCEEE6">Центр дизайна плитки и персональные менеджеры как точка продажи проектов</p></div>
+    <div class="box" style="background:#0F5A45;border-color:#0F5A45;color:#fff"><b>15 бригад OMA PRO</b><p class="small" style="color:#DCEEE6">Первый пул партнёров с историей закупок от 6 месяцев</p></div>
+  </div>
+  <p class="lead" style="margin-top:12px">ОМА Дом превращает покупку в проект, проект — в Паспорт дома, а Паспорт — в следующую покупку.</p>
+  <span class="foot">Прототип: kvasiuum.github.io/hackatonoma · Концепция и правовой разбор — в репозитории</span><span class="num"></span>
+</section>
+
+</div>
+<button class="nav-btn prev" id="prev" aria-label="Предыдущий слайд">‹</button>
+<button class="nav-btn next" id="next" aria-label="Следующий слайд">›</button>
+<div class="hint">← → или клик по краям · F — полный экран</div>
+
+<script>
+// водопад юнит-экономики: позитивные шаги акцентом, затраты нейтральным, итог — тёмным
+(function () {
+  const steps = [[['Маржа', 'товаров'], 338], [['Маржа', 'работ'], 333], [['Эквай-', 'ринг'], -75], [['Коорди-', 'нация'], -60], [['Гарантия', '3%'], -50], [['Продви-', 'жение'], -40]];
+  const y = v => 330 - v * 300 / 700, h = v => v * 300 / 700;
+  const g = document.getElementById('bars'), NS = 'http://www.w3.org/2000/svg';
+  const add = (tag, attrs, text) => { const el = document.createElementNS(NS, tag); for (const k in attrs) el.setAttribute(k, attrs[k]); if (text != null) el.textContent = text; g.appendChild(el); return el; };
+  let run = 0, x = 50; const w = 70, gap = 22;
+  const bar = (label, from, to, color, valueText) => {
+    const top = Math.max(from, to), bot = Math.min(from, to);
+    const r = add('rect', { x, y: y(top), width: w, height: Math.max(2, h(top - bot)), rx: 4, fill: color });
+    const tip = document.createElementNS(NS, 'title'); tip.textContent = `${label.join(' ').replace('- ', '')}: ${valueText} BYN`; r.appendChild(tip);
+    add('text', { x: x + w / 2, y: y(top) - 8, 'text-anchor': 'middle', class: 'val' }, valueText);
+    label.forEach((wd, i) => add('text', { x: x + w / 2, y: 350 + i * 16, 'text-anchor': 'middle', class: 'lbl' }, wd));
+    x += w + gap;
+  };
+  steps.forEach(([label, v]) => { const from = run; run += v; bar(label, from, run, v > 0 ? '#136F55' : '#9AA59F', (v > 0 ? '+' : '−') + Math.abs(v)); });
+  bar(['Вклад', 'проекта'], 0, run, '#17201B', '≈ ' + run);
+})();
+
+const slides = [...document.querySelectorAll('.slide')];
+slides.forEach((s, i) => { const n = s.querySelector('.num'); if (n) n.textContent = `${i + 1} / ${slides.length}`; });
+let cur = 0;
+const fromHash = () => { const m = /^#(\d+)$/.exec(location.hash); return m ? Math.min(Math.max(+m[1] - 1, 0), slides.length - 1) : 0; };
+function fit() {
+  const k = Math.min(innerWidth / 1280, innerHeight / 720);
+  slides.forEach(s => { s.style.transform = `scale(${k})`; });
+}
+function show(i) {
+  cur = Math.min(Math.max(i, 0), slides.length - 1);
+  slides.forEach((s, j) => s.classList.toggle('on', j === cur));
+  try { history.replaceState(null, '', '#' + (cur + 1)); } catch (e) {}
+}
+addEventListener('resize', fit);
+addEventListener('keydown', e => {
+  if (['ArrowRight', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); show(cur + 1); }
+  if (['ArrowLeft', 'PageUp'].includes(e.key)) { e.preventDefault(); show(cur - 1); }
+  if (e.key === 'Home') show(0);
+  if (e.key === 'End') show(slides.length - 1);
+  if (e.key === 'f' || e.key === 'F') { document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen?.().catch(() => {}); }
+});
+document.getElementById('prev').onclick = () => show(cur - 1);
+document.getElementById('next').onclick = () => show(cur + 1);
+fit(); show(fromHash());
+</script>
+</body>
+</html>
