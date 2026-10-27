@@ -106,10 +106,9 @@ button { cursor: pointer; transition: border-color .15s ease, background-color .
   .app { border-radius: 0; }
 }
 
-.banner-demo { background: var(--frame); color: #C9D6EA; font-size: 11px; text-align: center; padding: 5px 12px; padding-top: calc(5px + env(safe-area-inset-top, 0px)); }
-/* Шапка как на oma.by: оранжевая полоса, серая инфо-строка, фиолетовая панель и поиск.
-   При прокрутке вниз полосы и поиск сворачиваются, остаётся панель; при прокрутке вверх — разворачиваются. */
-.top { position: relative; z-index: 3; flex: none; background: var(--bar-grad); color: var(--bar-ink); }
+/* Шапка как на oma.by: оранжевая полоса, серая инфо-строка и фиолетовая панель.
+   При прокрутке вниз полосы и строка профиля сворачиваются, остаётся панель; при прокрутке вверх — разворачиваются. */
+.top { position: relative; z-index: 3; flex: none; background: var(--bar-grad); color: var(--bar-ink); padding-top: env(safe-area-inset-top, 0px); }
 .fold-y { display: grid; grid-template-rows: 1fr; transition: grid-template-rows .28s cubic-bezier(.22, 1, .36, 1); }
 .fold-y > div { min-height: 0; overflow: hidden; }
 .top.collapsed .fold-y { grid-template-rows: 0fr; }
@@ -127,15 +126,7 @@ button { cursor: pointer; transition: border-color .15s ease, background-color .
 .bar-btn:hover { background: rgba(255,255,255,.1); }
 .bar-btn svg { width: 24px; height: 24px; }
 .bar-btn .avatar { width: 30px; height: 30px; font-size: 12px; box-shadow: 0 0 0 2px rgba(255,255,255,.85); }
-.bar .search-ic, .top:not(.collapsed) .me-ic { display: none; }
-.top.collapsed .search-ic { display: grid; }
-.search { display: flex; margin: 0 12px 12px; border-radius: 10px; overflow: hidden; background: var(--field); }
-.search:focus-within { box-shadow: 0 0 0 2px var(--cta); }
-.search input { flex: 1; min-width: 0; border: 0; background: none; padding: 11px 12px; color: var(--field-ink); font-size: 15px; outline: none; }
-.search input::placeholder { color: var(--muted); }
-.search input::-webkit-search-cancel-button { display: none; }
-.search button { border: 0; width: 50px; flex: none; background: var(--cta); color: var(--cta-ink); display: grid; place-items: center; }
-.search button svg { width: 22px; height: 22px; }
+.top:not(.collapsed) .me-ic { display: none; }
 .me { display: flex; align-items: center; gap: 12px; width: calc(100% - 24px); margin: 0 12px 12px; background: rgba(255,255,255,.1); border: 0; border-radius: 14px; padding: 8px 12px 8px 8px; color: inherit; text-align: left; }
 .me:hover { background: rgba(255,255,255,.16); }
 .me .grow { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
@@ -327,7 +318,6 @@ details.fold[open] > summary { margin-bottom: 8px; }
   </aside>
   <div class="phone">
     <div class="app" id="app">
-      <div class="banner-demo">Прототип · данные условные · оплата не проводится</div>
       <header class="top" id="top"></header>
       <main class="screen" id="screen"></main>
       <nav class="nav" id="nav" aria-label="Разделы"></nav>
@@ -368,7 +358,6 @@ const ICON = {
   camera: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13.997 4a2 2 0 0 1 1.76 1.05l.486.9A2 2 0 0 0 18.003 7H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1.997a2 2 0 0 0 1.759-1.048l.489-.904A2 2 0 0 1 10.004 4z" /> <circle cx="12" cy="13" r="3" /></svg>',
   check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg>',
   menu: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></svg>',
-  search: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21 21-4.34-4.34" /> <circle cx="11" cy="11" r="8" /></svg>',
   phone: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384" /></svg>',
   pin: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" /> <circle cx="12" cy="10" r="3" /></svg>',
   down: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>',
@@ -671,10 +660,6 @@ function render() {
 const TOP = { collapsed: false, lock: 0, lastY: 0 };
 let CITY = 'Минск';
 const CITIES = ['Минск', 'Брест', 'Витебск', 'Гомель', 'Гродно', 'Могилёв'];
-const SEARCH_HINT = { home: 'Плитка, клининг, дрель…', rent: 'Перфоратор, лестница…', design: 'Кухня, детская…', build: 'Санузел, бригада, уборка…' };
-// поиск в демо ведёт в разделы сервиса; товары ищет каталог oma.by
-const SEARCH_ROUTES = [[/плит|ванн|санузл|душ|смесит/i, 'bath1'], [/дрел|перфорат|прокат|лестниц|пылесос|болгарк/i, 'rentShop'], [/убор|клининг|мыть|мойк/i, 'cleaning'],
-  [/дизайн|кухн|интерьер|детск|спальн|коридор|гостин/i, 'design'], [/бригад|мастер|установ|монтаж|ремонт/i, 'build'], [/паспорт|гарант/i, 'passport'], [/проект|этап/i, 'projects']];
 function headerHTML(s) {
   if (!ROOTS.includes(s)) return `<div class="bar"><button class="icon-btn" data-action="back" aria-label="Назад">${ICON.back}</button><h2>${TITLES[s]}</h2></div>`;
   const home = s === 'home';
@@ -685,13 +670,9 @@ function headerHTML(s) {
     <div class="bar">
       <button class="bar-btn" data-action="menu" aria-label="Меню">${ICON.menu}</button>
       ${home ? `<span class="bar-logo">${LOGO_LOCKUP}</span>` : `<h2>${TITLES[s]}</h2>`}
-      <button class="bar-btn search-ic" data-action="search-open" aria-label="Поиск">${ICON.search}</button>
       <button class="bar-btn${home ? ' me-ic' : ''}" data-go="profile" aria-label="Профиль"><span class="avatar">${avatarInner()}</span></button>
     </div>
-    <div class="fold-y"><div>
-      <form class="search" role="search"><input name="q" type="search" placeholder="${SEARCH_HINT[s]}" aria-label="Поиск" enterkeyhint="search" autocomplete="off"><button aria-label="Найти">${ICON.search}</button></form>
-      ${home ? `<button class="me" data-go="profile"><span class="avatar">${avatarInner()}</span><span class="grow"><b>${esc(S.user.name)}</b><span class="small">Профиль и настройки</span></span>${ICON.chevron}</button>` : ''}
-    </div></div>`;
+    ${home ? `<div class="fold-y"><div><button class="me" data-go="profile"><span class="avatar">${avatarInner()}</span><span class="grow"><b>${esc(S.user.name)}</b><span class="small">Профиль и настройки</span></span>${ICON.chevron}</button></div></div>` : ''}`;
 }
 function setCollapsed(v) {
   if (TOP.collapsed === v) return;
@@ -717,16 +698,6 @@ document.getElementById('screen').addEventListener('scroll', e => {
 }, { passive: true });
 // у самого верха жест вниз (колесо или палец) тоже разворачивает шапку
 document.getElementById('screen').addEventListener('wheel', e => { if (e.deltaY < 0 && e.currentTarget.scrollTop <= 0) setCollapsed(false); }, { passive: true });
-document.addEventListener('submit', e => {
-  const f = e.target.closest('.search');
-  if (!f) return;
-  e.preventDefault();
-  const q = f.q.value.trim();
-  if (!q) return f.q.focus();
-  const hit = SEARCH_ROUTES.find(([re]) => re.test(q));
-  if (hit) return go(hit[1]);
-  toast(`«${q}» ищем в каталоге oma.by — в демо открыты разделы сервиса`);
-});
 
 /* ---------- свайп вверх открывает корзину ----------
    С нижней панели — пальцем или мышью; на экране — пальцем, когда он долистан до конца
@@ -1416,7 +1387,6 @@ document.addEventListener('click', e => {
     ${CITIES.map(c => `<button class="option" data-action="set-city" data-city="${c}" aria-pressed="${c === CITY}"><span class="radio-dot"></span><span class="grow"><b>${c}</b></span></button>`).join('')}`);
   if (a === 'set-city') { CITY = t.dataset.city; sheet(''); render(); return toast(`Город: ${CITY}`); }
   if (a === 'call') { sheet(''); return toast('Контакт-центр ОМА: 536-45-00 (в демо звонок не совершается)'); }
-  if (a === 'search-open') { setCollapsed(false); const q = document.querySelector('.search input'); if (q) setTimeout(() => q.focus(), 120); return; }
   if (a === 'toggle-ads') { S.profileAds = t.checked; return toast(t.checked ? 'Согласие дано' : 'Согласие отозвано. Уведомления о заказах останутся'); }
   if (a === 'delete') return sheet(`<h3>Удаление аккаунта</h3><ul><li>Данные удаляются, кроме тех, что ОМА обязана хранить по закону (например, бухгалтерские документы).</li><li>Паспорт дома можно сначала выгрузить в PDF.</li></ul><span class="small muted">В прототипе удаление отключено.</span>`);
 });
