@@ -27,8 +27,11 @@
   --warn: #9A4D00;
   --warn-soft: #FFF1E2;
   --frame: #14213A;
-  --bar: #005DD6;
+  --bar: #37235E;
   --bar-ink: #FFFFFF;
+  --nav-ink: #1F3270;
+  --nav-active: #5B2E9E;
+  --nav-active-soft: #EEE7F8;
   --f-display: "Unbounded", "Arial Black", system-ui, sans-serif;
   --f-body: "Manrope", "Segoe UI", system-ui, sans-serif;
   --f-mono: "JetBrains Mono", ui-monospace, "Consolas", monospace;
@@ -38,7 +41,7 @@
 :root[data-theme="dark"] {
   --bg: #0A111D; --surface: #121B2B; --surface-2: #18233A; --ink: #E7EDF7; --muted: #9AA8BD; --line: #263247;
   --brand: #4D8FF0; --brand-ink: #071226; --brand-soft: #16294A; --cta: #FF9533; --cta-ink: #1D1300; --cta-soft: #3A250F;
-  --warn: #FFB26B; --warn-soft: #3A250F; --frame: #000000; --bar: #0F2F66; --bar-ink: #FFFFFF; color-scheme: dark;
+  --warn: #FFB26B; --warn-soft: #3A250F; --frame: #000000; --bar: #241640; --bar-ink: #FFFFFF; --nav-ink: #8FA6D9; --nav-active: #C2A6F5; --nav-active-soft: #2B2145; color-scheme: dark;
 }
 * { box-sizing: border-box; }
 html, body { height: 100%; }
@@ -79,14 +82,29 @@ button { cursor: pointer; transition: border-color .15s ease, background-color .
 .top { display: flex; align-items: center; gap: 10px; padding: 12px 18px; background: var(--bar); color: var(--bar-ink); min-height: 58px; }
 .top .logo { color: var(--bar-ink); font-size: 21px; }
 .top h2 { margin: 0; font: 700 16px/1.2 var(--f-display); flex: 1; min-width: 0; text-wrap: balance; }
+.top.home { flex-direction: column; align-items: stretch; gap: 12px; padding-bottom: 14px; }
+.top-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.me { display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,.1); border: 0; border-radius: 14px; padding: 8px 12px 8px 8px; color: inherit; text-align: left; }
+.me:hover { background: rgba(255,255,255,.16); }
+.me .grow { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+.me b { font-size: 15px; }
+.me .small { opacity: .8; font-size: 12.5px; }
+.me > svg { width: 18px; height: 18px; opacity: .7; flex: none; }
+.avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #FF8200, #E0457B); color: #fff; display: grid; place-items: center; font-weight: 700; font-size: 15px; flex: none; overflow: hidden; }
+.avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.avatar.big { width: 88px; height: 88px; font-size: 30px; cursor: pointer; }
+.cart-btn { position: relative; }
+.cart-btn .badge { top: -4px; left: auto; right: -4px; }
 .icon-btn { width: 34px; height: 34px; border-radius: 50%; border: 0; background: rgba(255,255,255,.18); color: inherit; display: grid; place-items: center; flex: none; }
 .icon-btn svg { width: 18px; height: 18px; }
 .screen { flex: 1; overflow-y: auto; padding: 16px 18px 24px; display: flex; flex-direction: column; gap: 14px; }
 
-.nav { display: grid; grid-template-columns: repeat(5, 1fr); background: var(--surface); border-top: 1px solid var(--line); padding: 6px 4px calc(8px + env(safe-area-inset-bottom, 0px)); }
-.nav button { background: none; border: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 10.5px; color: var(--muted); padding: 4px 0; position: relative; }
+.nav { display: grid; grid-template-columns: repeat(4, 1fr); background: var(--surface); border-top: 1px solid var(--line); padding: 6px 4px calc(8px + env(safe-area-inset-bottom, 0px)); }
+.nav button { background: none; border: 0; display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 11px; color: var(--nav-ink); padding: 4px 0; position: relative; }
 .nav button svg { width: 22px; height: 22px; }
-.nav button[aria-current="page"] { color: var(--brand); font-weight: 700; }
+.nav button .ic { width: 54px; height: 30px; border-radius: 15px; display: grid; place-items: center; transition: background-color .15s ease; }
+.nav button[aria-current="page"] { color: var(--nav-active); font-weight: 700; }
+.nav button[aria-current="page"] .ic { background: var(--nav-active-soft); }
 .badge { position: absolute; top: 0; left: calc(50% + 6px); background: var(--cta); color: var(--cta-ink); font-size: 10px; font-weight: 700; line-height: 16px; min-width: 16px; height: 16px; border-radius: 8px; padding: 0 4px; }
 
 .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 14px; display: flex; flex-direction: column; gap: 10px; }
@@ -108,6 +126,21 @@ button { cursor: pointer; transition: border-color .15s ease, background-color .
 .tile .muted { font-size: 12.5px; }
 .tile .mark { width: 36px; height: 36px; border-radius: 10px; background: var(--brand-soft); color: var(--brand); display: grid; place-items: center; }
 .tile .mark svg { width: 20px; height: 20px; }
+.promo { position: relative; overflow: hidden; border: 0; border-radius: 18px; padding: 20px; min-height: 150px; color: #fff; text-align: left; display: flex; flex-direction: column; justify-content: flex-end; gap: 6px; }
+.promo b { font: 700 19px/1.2 var(--f-display); }
+.promo span { font-size: 13.5px; opacity: .92; max-width: 82%; }
+.promo svg { position: absolute; right: 18px; top: 18px; width: 40px; height: 40px; opacity: .9; }
+.promo.neighbor { background: linear-gradient(135deg, #5B2E9E 0%, #E0457B 100%); }
+.promo.shop { background: linear-gradient(135deg, #005DD6 0%, #1FB5C9 100%); }
+.grid-tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.room { border: 1px solid var(--line); background: var(--surface); border-radius: 16px; padding: 14px; min-height: 118px; display: flex; flex-direction: column; justify-content: space-between; gap: 10px; text-align: left; }
+.room:hover { border-color: var(--brand); }
+.room b { font-size: 14.5px; }
+.room .mark { width: 38px; height: 38px; border-radius: 11px; background: var(--brand-soft); color: var(--brand); display: grid; place-items: center; }
+.room .mark svg { width: 21px; height: 21px; }
+.linkrow { width: 100%; background: none; border: 0; border-top: 1px solid var(--line); text-align: left; color: inherit; }
+.linkrow:first-child { border-top: 0; }
+.linkrow svg { width: 16px; height: 16px; color: var(--muted); }
 .soon-line { font-size: 13px; color: var(--muted); text-align: center; }
 
 .remind { display: flex; gap: 12px; align-items: center; background: var(--cta-soft); border-radius: var(--r); padding: 12px 14px; }
@@ -149,6 +182,7 @@ label.f input, label.f select { border: 1px solid var(--line); background: var(-
 .option { border: 1px solid var(--line); background: var(--surface); border-radius: var(--r); padding: 12px 14px; display: flex; gap: 12px; align-items: center; text-align: left; width: 100%; }
 .option[aria-pressed="true"] { border-color: var(--brand); box-shadow: inset 0 0 0 1px var(--brand); }
 .option .grow { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.option > svg { width: 18px; height: 18px; flex: none; color: var(--muted); }
 .option .radio-dot { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--line); flex: none; }
 .option[aria-pressed="true"] .radio-dot { border-color: var(--brand); box-shadow: inset 0 0 0 4px var(--surface), inset 0 0 0 10px var(--brand); }
 .star { color: var(--cta); }
@@ -204,17 +238,16 @@ details.fold[open] > summary { margin-bottom: 8px; }
     <span class="logo"><svg viewBox="0 0 451 184" role="img" aria-label="ОМА"><path fill="currentColor" fill-rule="evenodd" d="M 85 4 C 84.2 4.1 83 4.2 82.2 4.3 C 81.5 4.4 80.1 4.6 79 4.7 C 76.9 5 70.6 6.3 70.2 6.5 C 70.1 6.6 69.4 6.8 68.6 7 C 63.8 8.3 56.6 11 52.8 13 C 51.8 13.6 51 14 50.9 14 C 50.8 14 47.5 15.9 45.4 17.2 C 44.1 18 41.4 19.8 40.5 20.5 C 40.3 20.7 39.6 21.2 39.1 21.6 C 35.8 23.9 32.8 26.6 29.4 30 C 25.3 34.2 23.5 36.3 19.2 42.2 C 18.2 43.6 16.3 46.6 14.8 49.4 C 14.4 50 13.9 51 13.6 51.5 C 13.1 52.5 12.8 53 11.4 56 C 10.6 57.8 9.5 60.4 8.9 62.1 C 8.7 62.8 8.2 64.1 7.9 65.1 C 7.2 67.1 6.1 71 5.9 72.2 C 5.8 72.7 5.6 73.5 5.4 74.1 C 5.3 74.7 5.1 75.6 5 76.2 C 4.9 76.7 4.7 77.9 4.6 78.9 C 4.4 79.8 4.2 81.3 4.1 82.1 C 4.1 83 3.9 84.7 3.8 86 C 3.1 93.7 3.9 104.9 5.5 112.2 C 6.8 117.8 7.8 121.2 10 126.9 C 14.9 139.4 24.5 152.1 35.4 160.5 C 38.7 163 42.2 165.4 45.6 167.3 C 48.3 168.9 53.5 171.5 56.1 172.5 C 57.1 172.9 58.2 173.4 58.5 173.5 C 59 173.7 59.4 173.9 61.4 174.6 C 62.6 175 68.3 176.8 69 176.9 C 69.2 177 70 177.2 70.7 177.4 C 73.8 178.3 82.3 179.7 86.5 180 C 93.4 180.5 99.1 180.5 99.8 180 C 100.4 179.6 104.8 171.2 107.5 165.3 C 107.8 164.6 109.7 160.7 111.8 156.7 C 113.8 152.7 117.1 146.1 119.1 141.9 C 121.2 137.8 123 134.1 123.3 133.7 C 123.9 132.5 129.9 120.4 140.1 100 C 145.2 89.8 150.9 78.5 152.7 74.9 C 154.5 71.3 156.5 67.3 157.2 65.9 C 157.9 64.5 160.4 59.5 162.7 54.9 C 167.3 45.8 167.2 45.9 167 45.2 C 166.6 43.8 161.4 36.9 157.6 32.7 C 153.6 28.3 147.5 22.9 143.3 20.1 C 142.8 19.7 142 19.2 141.5 18.8 C 137.8 16.3 131.7 12.8 129.3 11.9 C 129 11.7 128.1 11.4 127.3 11.1 C 126.6 10.7 125.6 10.3 125.2 10.2 C 124.8 10 124.1 9.7 123.6 9.5 C 122.8 9.1 117.5 7.4 115.4 6.8 C 112.9 6.1 108.3 5.1 106.2 4.9 C 105.7 4.8 104.2 4.6 103 4.4 C 99.2 3.9 89.6 3.7 85 4 M 275.9 11.5 C 275.6 11.8 268.5 26 267.4 28.5 C 267 29.3 266 31.3 265.2 33 C 263.2 37 260.1 43.1 254.3 54.8 C 251.7 60 248.5 66.3 247.3 68.8 C 246.1 71.2 244.6 74.1 244.1 75.3 C 243.3 76.9 239 85.5 238.3 86.8 C 238.2 87 237.5 88.4 236.8 89.9 C 235.3 93 234.8 93.5 234.2 92.8 C 234.1 92.6 226 76.5 215.2 54.8 C 212.3 49.1 209.9 44.3 209.8 44.1 C 209.4 43.3 203 30.5 201 26.4 C 195.5 15.3 194 12.3 193.7 12.1 C 193.1 11.8 193.3 11.3 180.2 37.6 C 177.8 42.4 175.8 46.5 175.7 46.7 C 175.1 47.7 164.8 68.4 164 70.1 C 163.5 71.2 157.8 82.5 151.4 95.3 C 145 108.1 138 122.2 135.8 126.6 C 131.9 134.5 123.9 150.6 123.4 151.6 C 123.2 151.8 121.2 155.9 118.8 160.7 C 116.5 165.4 113.4 171.5 112.1 174.2 C 109.3 179.7 109.3 179.6 109.8 180.1 L 110.1 180.4 146.4 180.4 C 185.7 180.4 183.2 180.4 183.7 179.7 C 183.8 179.5 185.1 177.1 186.5 174.2 C 191.9 163.4 197.8 151.5 198 151 C 198.3 150.3 198.5 149.9 204.5 137.9 C 207.3 132.3 210 127 210.4 126 C 213 120.5 213.5 119.7 214.3 119.7 C 214.9 119.7 219.5 122 219.8 122.4 C 220.2 123 219.8 123.9 213.8 135.9 C 212.5 138.5 211.1 141.2 210.8 142 C 210.4 142.8 209 145.5 207.7 148.1 C 204.8 153.9 197.2 169.1 195.6 172.2 C 195 173.5 194 175.5 193.4 176.8 C 192.1 179.2 192 179.7 192.5 180.1 C 192.8 180.4 193.6 180.4 230.7 180.4 C 269.9 180.4 269.2 180.4 269.7 179.8 C 270 179.6 274.4 170.8 278.2 163.1 C 279.2 161.2 281.2 157.2 282.7 154.3 C 286.7 146.3 292.1 135.5 293.7 132.2 C 294.4 130.7 299.5 120.4 305 109.4 C 314.8 89.8 315.1 89.3 315.1 88.6 C 315.1 87.9 314.9 87.6 309.5 76.9 C 306.5 70.8 304 65.6 303.9 65.4 C 303.8 65.2 302.5 62.7 301.1 59.8 C 298.1 53.8 296.6 50.8 290.3 38.2 C 287.7 33 285 27.7 284.4 26.4 C 283.8 25.2 282.9 23.5 282.5 22.6 C 278.8 14.7 276.9 11.2 276.4 11.2 C 276.3 11.2 276.1 11.4 275.9 11.5 M 362.6 12.3 C 362.4 12.4 348.4 40.2 348 41.2 C 347.9 41.5 347.3 42.7 346.7 44 C 345.4 46.5 337 63.3 334.9 67.5 C 332.7 72 329.2 79 323.7 89.9 C 320.8 95.8 317.9 101.6 317.3 102.8 C 315.9 105.6 312 113.4 305.8 125.9 C 303.1 131.1 300.6 136.1 300.2 137 C 299.7 137.9 297.7 141.9 295.7 145.9 C 292.1 153.2 285.9 165.6 282.1 173.1 C 278.8 179.8 278.8 179.6 279.4 180.1 C 279.6 180.4 279.8 180.4 311.7 180.4 C 346.4 180.4 344.2 180.4 344.9 179.7 C 345.1 179.4 352.5 164.8 353 163.6 C 353.2 163 355.1 159.3 360.5 148.5 C 361.9 145.7 363.8 142 364.6 140.2 C 366.3 136.7 366.6 136.3 367.3 136.4 C 368 136.5 372.4 138.8 372.7 139.2 C 373.2 139.7 373 140.2 369.1 147.8 C 368.7 148.6 368.2 149.5 368.1 149.8 C 368 150.1 358.1 170.1 354.7 176.8 C 353.4 179.5 353.3 179.7 353.8 180.1 L 354.2 180.4 400.2 180.4 L 446.2 180.4 446.5 180.1 C 447 179.8 447 179.3 446.5 178.5 C 446.2 177.8 444.9 175.4 441.8 169.1 C 440.5 166.5 438.7 162.9 437.8 161.1 C 435.3 156.1 433.5 152.5 433.1 151.8 C 433 151.4 430.9 147.3 428.6 142.6 C 426.3 138 423.3 132.2 422.1 129.7 C 417.5 120.4 415.3 116 412.8 111 C 411.3 108.1 409.7 104.8 409.1 103.6 C 405.8 96.7 400.6 86.6 400.3 86.4 C 399.8 86.3 399.4 86.5 399 87.5 C 398.7 87.9 397.6 90.1 396.5 92.2 C 395.4 94.4 393.2 98.9 391.5 102.1 C 389.9 105.4 387.5 110.1 386.2 112.6 C 384.9 115.1 383.2 118.5 382.4 120 C 380.8 123.1 380.6 123.4 380 123.4 C 379.4 123.4 374.9 121.1 374.5 120.7 C 374 120.1 374.1 119.9 378 112.5 C 379.9 108.6 383.7 101.1 386.3 95.9 C 389 90.7 391.2 86.3 391.2 86.2 C 391.3 86.1 391.8 85.1 392.4 83.9 C 393 82.8 393.8 81.3 394.2 80.6 C 395 79.1 395.8 77.5 395.8 77.1 C 395.8 76.8 392.5 70.1 391.7 68.7 C 391.3 67.9 386.3 57.9 386.1 57.4 C 385.9 56.8 384.8 54.8 376.3 37.6 C 370.9 26.9 370.1 25.2 366.7 18.5 C 365.2 15.6 364 13.1 363.9 12.9 C 363.8 12.3 363 12 362.6 12.3"/></svg><span>для дома</span></span>
     <p>Кликабельный прототип для частных клиентов ОМА: ремонт санузла и установка под ответственностью ОМА, а Паспорт дома возвращает клиента за следующей покупкой.</p>
     <ol>
-      <li><button data-jump="home">Главная: вход из 3D-проекта</button></li>
-      <li><button data-jump="bath1">Санузел: что делаем</button></li>
-      <li><button data-jump="bath2">Смета и кто делает работы</button></li>
-      <li><button data-jump="bath3">Дата и бригада</button></li>
-      <li><button data-jump="cart">Корзина</button></li>
-      <li><button data-jump="confirm">Проверка заказа и согласия</button></li>
-      <li><button data-jump="pay">Способ оплаты</button></li>
+      <li><button data-jump="home">Главная: профиль, «Мой дом»</button></li>
+      <li><button data-jump="rent">Прокат: у соседа и у магазина</button></li>
+      <li><button data-jump="rentShop">Прокат у магазина</button></li>
+      <li><button data-jump="design">Дизайн помещений</button></li>
+      <li><button data-jump="build">Стройка: бригада, клининг</button></li>
+      <li><button data-jump="bath2">Ремонт санузла: смета</button></li>
+      <li><button data-jump="cart">Корзина → согласия → оплата</button></li>
       <li><button data-jump="projects">Этап: фото, чек-лист, приёмка</button></li>
       <li><button data-jump="passport">Паспорт дома</button></li>
-      <li><button data-jump="install">Установка с мастером</button></li>
-      <li><button data-jump="profile">Профиль: «Баланс», тема, согласия</button></li>
+      <li><button data-jump="profile">Профиль: фото и имя</button></li>
     </ol>
     <p class="links"><a href="slides/">Презентация</a> · <a href="README.html">Концепция</a> · <a href="docs/legal-compliance.html">Правовой разбор</a></p>
     <button class="reset" data-action="reset">Начать демо заново</button>
@@ -248,6 +281,18 @@ const ICON = {
   pot: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12h20" /> <path d="M20 12v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8" /> <path d="m4 8 16-4" /> <path d="m8.86 6.78-.45-1.81a2 2 0 0 1 1.45-2.43l1.94-.48a2 2 0 0 1 2.43 1.46l.45 1.8" /></svg>',
   wrench: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.106-3.105c.32-.322.863-.22.983.218a6 6 0 0 1-8.259 7.057l-7.91 7.91a1 1 0 0 1-2.999-3l7.91-7.91a6 6 0 0 1 7.057-8.259c.438.12.54.662.219.984z" /></svg>',
   bell: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.268 21a2 2 0 0 0 3.464 0" /> <path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326" /></svg>',
+  drill: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 18a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H5a3 3 0 0 1-3-3 1 1 0 0 1 1-1z" /> <path d="M13 10H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1l-.81 3.242a1 1 0 0 1-.97.758H8" /> <path d="M14 4h3a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-3" /> <path d="M18 6h4" /> <path d="m5 10-2 8" /> <path d="m7 18 2-8" /></svg>',
+  ruler: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 7 8.7 2.7a2.41 2.41 0 0 0-3.4 0L2.7 5.3a2.41 2.41 0 0 0 0 3.4L7 13" /> <path d="m8 6 2-2" /> <path d="m18 16 2-2" /> <path d="m17 11 4.3 4.3c.94.94.94 2.46 0 3.4l-2.6 2.6c-.94.94-2.46.94-3.4 0L11 17" /> <path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" /> <path d="m15 5 4 4" /></svg>',
+  hardhat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 10V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5" /> <path d="M14 6a6 6 0 0 1 6 6v3" /> <path d="M4 15v-3a6 6 0 0 1 6-6" /> <rect x="2" y="15" width="20" height="4" rx="1" /></svg>',
+  chevron: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6" /></svg>',
+  sofa: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 9V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v3" /> <path d="M2 16a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-5a2 2 0 0 0-4 0v1.5a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5V11a2 2 0 0 0-4 0z" /> <path d="M4 18v2" /> <path d="M20 18v2" /> <path d="M12 4v9" /></svg>',
+  door: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 21H2" /> <path d="M10 3H7a2 2 0 00-2 2v16" /> <path d="M14 12h.01" /> <path d="M19 21V5a2 2 0 00-1.675-1.974l-6.163-1.013A1 1 0 0010 3v18a1 1 0 001.124.992z" /> <path d="M22 21h-3" /></svg>',
+  bed: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8" /> <path d="M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4" /> <path d="M12 4v6" /> <path d="M2 18h20" /></svg>',
+  baby: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 16c.5.3 1.2.5 2 .5s1.5-.2 2-.5" /> <path d="M15 12h.01" /> <path d="M19.38 6.813A9 9 0 0 1 20.8 10.2a2 2 0 0 1 0 3.6 9 9 0 0 1-17.6 0 2 2 0 0 1 0-3.6A9 9 0 0 1 12 3c2 0 3.5 1.1 3.5 2.5s-.9 2.5-2 2.5c-.8 0-1.5-.4-1.5-1" /> <path d="M9 12h.01" /></svg>',
+  sparkles: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z" /> <path d="M20 2v4" /> <path d="M22 4h-4" /> <circle cx="4" cy="20" r="2" /></svg>',
+  users: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /> <path d="M16 3.128a4 4 0 0 1 0 7.744" /> <path d="M22 21v-2a4 4 0 0 0-3-3.87" /> <circle cx="9" cy="7" r="4" /></svg>',
+  store: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 21v-5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v5" /> <path d="M17.774 10.31a1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.451 0 1.12 1.12 0 0 0-1.548 0 2.5 2.5 0 0 1-3.452 0 1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.77-3.248l2.889-4.184A2 2 0 0 1 7 2h10a2 2 0 0 1 1.653.873l2.895 4.192a2.5 2.5 0 0 1-3.774 3.244" /> <path d="M4 10.95V19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8.05" /></svg>',
+  camera: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13.997 4a2 2 0 0 1 1.76 1.05l.486.9A2 2 0 0 0 18.003 7H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1.997a2 2 0 0 0 1.759-1.048l.489-.904A2 2 0 0 1 10.004 4z" /> <circle cx="12" cy="13" r="3" /></svg>',
   check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg>'
 };
 
@@ -319,6 +364,8 @@ function initialState() {
     cart: [],
     pay: 'card',
     consents: { pd: false, ads: false, offer: false },
+    user: { name: 'Анна Ковальчук', phone: '+375 29 000-00-00', avatar: '' },
+    cleaning: { type: 'after', area: 45, date: '2026-11-12' },
     profileAds: false,
     bonus: 1240,
     projects: [],
@@ -332,6 +379,28 @@ function initialState() {
   };
 }
 let S = initialState();
+
+// прокат и клининг — условные цены для прототипа
+const RENT_SHOP = [
+  { id: 'perf', name: 'Перфоратор', price: 15 }, { id: 'tilecut', name: 'Плиткорез электрический', price: 15 },
+  { id: 'mixer', name: 'Миксер строительный', price: 8 }, { id: 'level', name: 'Лазерный уровень', price: 10 },
+  { id: 'mower', name: 'Газонокосилка', price: 20 }, { id: 'trailer', name: 'Прицеп одноосный', price: 30 }
+];
+const NEIGHBOR = [
+  { id: 'n1', name: 'Стремянка, 6 ступеней', who: 'Сергей', dist: '250 м', price: 4 },
+  { id: 'n2', name: 'Пароочиститель', who: 'Ольга', dist: '600 м', price: 7 },
+  { id: 'n3', name: 'Шуруповёрт Werker', who: 'Дмитрий', dist: '900 м', price: 5 }
+];
+const DESIGN_ROOMS = [
+  { id: 'kitchen', name: 'Дизайн кухни', icon: 'pot', free: true }, { id: 'interior', name: 'Дизайн интерьера', icon: 'sofa' },
+  { id: 'bath', name: 'Дизайн санузла', icon: 'bath', free: true }, { id: 'hall', name: 'Дизайн коридора', icon: 'door' },
+  { id: 'adult', name: 'Взрослая комната', icon: 'bed' }, { id: 'kids', name: 'Детская комната', icon: 'baby' }
+];
+const CLEAN = [
+  { id: 'after', name: 'После ремонта', hint: 'Строительная пыль, следы затирки и краски', price: 4.5 },
+  { id: 'general', name: 'Генеральная', hint: 'Вся квартира, включая кухню и санузел', price: 3.2 },
+  { id: 'windows', name: 'Мытьё окон', hint: 'Окна и подоконники, за м² остекления', price: 2 }
+];
 
 /* ---------- расчёты ---------- */
 function bathCalc(modeOverride) {
@@ -429,7 +498,7 @@ function afterRender(screenChanged) {
     }
   });
   const count = cartCount();
-  if (count > FX.lastCart) anim(document.querySelector('.nav .badge'), { scale: [1, 1.45, 1] }, { duration: 0.35, ease: 'easeOut' });
+  if (count > FX.lastCart) anim(document.querySelector('.cart-btn .badge'), { scale: [1, 1.45, 1] }, { duration: 0.35, ease: 'easeOut' });
   FX.lastCart = count;
   if (FX.justDone != null) {
     anim(screen.querySelector('[data-stagecard]'), { opacity: [0, 1], y: [14, 0] }, { y: { type: 'spring', visualDuration: 0.35, bounce: 0.1 }, opacity: { duration: 0.2 } });
@@ -486,18 +555,27 @@ function sheet(html) {
 }
 
 
-const TABS = [['home', 'Главная', ICON.home], ['projects', 'Проекты', ICON.proj], ['cart', 'Корзина', ICON.cart], ['passport', 'Паспорт', ICON.pass], ['profile', 'Профиль', ICON.user]];
-const TAB_OF = { home: 'home', bath1: 'home', bath2: 'home', bath3: 'home', install: 'home', cart: 'cart', confirm: 'cart', pay: 'cart', projects: 'projects', project: 'projects', review: 'projects', passport: 'passport', profile: 'profile' };
-const TITLES = { bath1: 'Ремонт санузла', bath2: 'Ремонт санузла', bath3: 'Ремонт санузла', install: 'Установка с мастером', cart: 'Корзина', confirm: 'Оформление', pay: 'Оплата', projects: 'Мои проекты', project: 'Проект', review: 'Завершение', passport: 'Паспорт дома', profile: 'Профиль' };
+const TABS = [['home', 'Главная', ICON.home], ['rent', 'Прокат', ICON.drill], ['design', 'Дизайн', ICON.ruler], ['build', 'Стройка', ICON.hardhat]];
+const ROOTS = ['home', 'rent', 'design', 'build'];
+const TAB_OF = { home: 'home', cart: 'home', confirm: 'home', pay: 'home', projects: 'home', project: 'home', review: 'home', passport: 'home', profile: 'home',
+  rent: 'rent', rentShop: 'rent', rentNeighbor: 'rent', design: 'design',
+  build: 'build', bath1: 'build', bath2: 'build', bath3: 'build', install: 'build', cleaning: 'build' };
+const TITLES = { rent: 'Прокат', rentShop: 'Прокат у магазина', rentNeighbor: 'Прокат у соседа', design: 'Дизайн', build: 'Стройка', cleaning: 'Клининг',
+  bath1: 'Ремонт санузла', bath2: 'Ремонт санузла', bath3: 'Ремонт санузла', install: 'Установка с мастером', cart: 'Корзина', confirm: 'Оформление', pay: 'Оплата', projects: 'Мои проекты', project: 'Проект', review: 'Завершение', passport: 'Паспорт дома', profile: 'Профиль' };
+const initials = name => name.trim().split(/\s+/).slice(0, 2).map(w => w[0] || '').join('').toUpperCase() || '?';
+const avatarInner = () => S.user.avatar ? `<img src="${S.user.avatar}" alt="">` : esc(initials(S.user.name));
 
 function render() {
   const s = S.screen;
-  const isRoot = ['home', 'projects', 'cart', 'passport', 'profile'].includes(s);
-  document.getElementById('top').innerHTML = s === 'home'
-    ? LOGO_LOCKUP
-    : (isRoot ? '' : `<button class="icon-btn" data-action="back" aria-label="Назад">${ICON.back}</button>`) + `<h2>${TITLES[s]}</h2>`;
+  const top = document.getElementById('top'), n = cartCount();
+  const cartBtn = ['cart', 'confirm', 'pay'].includes(s) ? '' : `<button class="icon-btn cart-btn" data-go="cart" aria-label="Корзина">${ICON.cart}${n ? `<span class="badge">${n}</span>` : ''}</button>`;
+  top.className = 'top' + (s === 'home' ? ' home' : '');
+  top.innerHTML = s === 'home'
+    ? `<div class="top-row">${LOGO_LOCKUP}${cartBtn}</div>
+       <button class="me" data-go="profile"><span class="avatar">${avatarInner()}</span><span class="grow"><b>${esc(S.user.name)}</b><span class="small">Профиль · ${S.bonus.toLocaleString('ru-RU')} бонусов «Баланс»</span></span>${ICON.chevron}</button>`
+    : (ROOTS.includes(s) ? '' : `<button class="icon-btn" data-action="back" aria-label="Назад">${ICON.back}</button>`) + `<h2>${TITLES[s]}</h2>` + cartBtn;
   document.getElementById('nav').innerHTML = TABS.map(([id, label, ic]) =>
-    `<button data-go="${id}" ${TAB_OF[s] === id ? 'aria-current="page"' : ''}>${ic}${label}${id === 'cart' && cartCount() ? `<span class="badge">${cartCount()}</span>` : ''}</button>`).join('');
+    `<button data-go="${id}" ${TAB_OF[s] === id ? 'aria-current="page"' : ''}><span class="ic">${ic}</span>${label}</button>`).join('');
   document.getElementById('screen').innerHTML = (VIEWS[s] || VIEWS.home)();
   const key = s + ':' + (s === 'project' ? S.projectId : '');
   const changed = key !== FX.lastKey;
@@ -538,7 +616,10 @@ const VIEWS = {
         <button class="tile" data-go="bath1"><span class="mark">${ICON.bath}</span><b>Ремонт санузла</b><span class="muted">Материалы и работы под ответственностью ОМА</span></button>
         <button class="tile" data-go="install"><span class="mark">${ICON.wrench}</span><b>Установка с мастером</b><span class="muted">Смеситель, унитаз, полки, шкаф</span></button>
       </div>
-      <p class="soon-line">Скоро: кухня, полы и двери, дача</p>`;
+      <div class="card"><h3>Мой дом</h3><div>
+        <button class="line-item linkrow" data-go="passport"><span class="grow">Паспорт дома</span><span class="muted small">записей: ${S.passport.length}</span>${ICON.chevron}</button>
+        <button class="line-item linkrow" data-go="projects"><span class="grow">Мои проекты</span><span class="muted small">${S.projects.length || 'пока нет'}</span>${ICON.chevron}</button>
+      </div></div>`;
   },
 
   bath1() {
@@ -780,9 +861,80 @@ const VIEWS = {
         </details>`; }).join('')}`;
   },
 
+  rent() {
+    return `
+      <button class="promo neighbor" data-go="rentNeighbor">${ICON.users}<b>Прокат у соседа</b><span>Инструмент и вещи у людей рядом с вами</span></button>
+      <button class="promo shop" data-go="rentShop">${ICON.store}<b>Прокат у магазина</b><span>Инструмент, оборудование и прицеп ОМА посуточно</span></button>`;
+  },
+
+  rentShop() {
+    return `
+      <div class="card"><div>
+        ${RENT_SHOP.map(r => `<div class="line-item"><span class="grow">${esc(r.name)}<br><span class="small muted">${fmt(r.price)} в сутки</span></span><button class="btn small" data-action="rent-shop" data-id="${r.id}">Взять</button></div>`).join('')}
+      </div></div>
+      <span class="small muted">Договор проката с ОМА, нужен паспорт или вид на жительство. Выдача в магазине или доставка. Цены в прототипе условные.</span>`;
+  },
+
+  rentNeighbor() {
+    return `
+      <div class="card"><h3>Рядом с вами</h3><div>
+        ${NEIGHBOR.map(r => `<div class="line-item"><span class="grow">${esc(r.name)}<br><span class="small muted">${esc(r.who)} · ${r.dist} · ${fmt(r.price)} в сутки</span></span><button class="btn small ghost" data-action="ask" data-id="${r.id}">Попросить</button></div>`).join('')}
+      </div></div>
+      <button class="btn blue block" data-action="lend">Сдать свой инструмент</button>
+      <span class="small muted">Концепт: соседи договариваются между собой, ОМА — площадка с проверенными профилями. Правила площадки, ответственность за вещь и налоги для частных лиц нужно согласовать с юристом до запуска.</span>`;
+  },
+
+  design() {
+    return `
+      <p class="hello">Что проектируем?</p>
+      <div class="grid-tiles">
+        ${DESIGN_ROOMS.map(r => `<button class="room" data-action="design-room" data-id="${r.id}"><span class="mark">${ICON[r.icon]}</span><span><b>${r.name}</b><br><span class="small muted">${r.free ? '3D-проект бесплатно' : 'Новая услуга'}</span></span></button>`).join('')}
+      </div>`;
+  },
+
+  build() {
+    const tiles = [
+      ['call-brigade', '', ICON.hardhat, 'Вызвать бригаду', 'Отделка, сантехника, электрика'],
+      ['', 'cleaning', ICON.sparkles, 'Клининг', 'После ремонта и генеральный'],
+      ['', 'bath1', ICON.bath, 'Ремонт санузла', 'Под ключ, гарантия ОМА'],
+      ['', 'install', ICON.wrench, 'Установка с мастером', 'Смеситель, унитаз, полки']
+    ];
+    return `
+      <p class="hello">Что нужно сделать?</p>
+      <div class="grid-tiles">
+        ${tiles.map(([a, g, ic, name, hint]) => `<button class="room" ${a ? `data-action="${a}"` : `data-go="${g}"`}><span class="mark">${ic}</span><span><b>${name}</b><br><span class="small muted">${hint}</span></span></button>`).join('')}
+      </div>`;
+  },
+
+  cleaning() {
+    const c = S.cleaning, t = CLEAN.find(x => x.id === c.type), sum = (+c.area || 0) * t.price;
+    return `
+      <p class="step-title">Какая уборка</p>
+      ${CLEAN.map(x => option('clean', x.id, c.type === x.id, x.name, x.hint, `${fmt(x.price)}/м²`)).join('')}
+      <div class="card"><div class="fields two">
+        <label class="f">Площадь, м²<input id="clArea" type="number" min="10" max="500" value="${c.area}" data-cl="area"></label>
+        <label class="f">Дата<input id="clDate" type="date" value="${c.date}" data-cl="date"></label>
+      </div></div>
+      <div class="sticky-cta">
+        <div class="sum"><span>Итого</span><span data-count="clean-total" data-value="${sum}">${fmt(sum)}</span></div>
+        <span class="small muted">Исполнитель ОМА · средства и инвентарь привезут с собой</span>
+        <button class="btn block" data-action="clean-to-cart">В корзину</button>
+      </div>`;
+  },
+
   profile() {
     return `
-      <div class="balance"><span class="small">Карта «Баланс» · Анна (демо)</span><span class="big">${S.bonus.toLocaleString('ru-RU')} бонусов</span><span class="small">За товары, работы и уход по календарю Паспорта</span></div>
+      <div class="card" style="align-items:center;text-align:center">
+        <label class="avatar big" for="p-photo" title="Сменить фото">${avatarInner()}</label>
+        <input type="file" id="p-photo" accept="image/*" hidden>
+        <label class="link" for="p-photo">Сменить фото</label>
+        <span class="small muted">Фото хранится только на этом устройстве (демо)</span>
+      </div>
+      <div class="card">
+        <label class="f">Имя и фамилия<input id="p-name" value="${esc(S.user.name)}" data-user="name" autocomplete="name"></label>
+        <label class="f">Телефон<input id="p-phone" value="${esc(S.user.phone)}" data-user="phone" inputmode="tel" autocomplete="tel"></label>
+      </div>
+      <div class="balance"><span class="small">Карта «Баланс»</span><span class="big">${S.bonus.toLocaleString('ru-RU')} бонусов</span><span class="small">За товары, работы и уход по календарю Паспорта</span></div>
       <div class="card"><label class="switch"><span><b>Тёмная тема</b></span><input type="checkbox" id="p-theme" data-action="toggle-theme" ${THEME === 'dark' ? 'checked' : ''}></label></div>
       <div class="card"><h3>Согласия</h3><div>
         <label class="switch"><span class="small"><b>Акции и подборки</b><br><span class="muted">Отзываются здесь же одним переключателем</span></span><input type="checkbox" id="p-ads" data-action="toggle-ads" ${S.profileAds ? 'checked' : ''}></label>
@@ -878,14 +1030,15 @@ function finishProject() {
 }
 
 document.addEventListener('click', e => {
-  const t = e.target.closest('[data-go],[data-action],[data-jump],[data-tier],[data-brigade],[data-mode],[data-pay],[data-star]');
+  const t = e.target.closest('[data-go],[data-action],[data-jump],[data-tier],[data-brigade],[data-mode],[data-pay],[data-clean],[data-star]');
   if (!t) return;
   if (t.dataset.jump) return jump(t.dataset.jump);
-  if (t.dataset.go) { if (TAB_OF[t.dataset.go] === t.dataset.go && t.closest('.nav')) S.history = []; return go(t.dataset.go, { replace: !!t.closest('.nav') }); }
+  if (t.dataset.go) { if (t.closest('.sheet')) sheet(''); if (TAB_OF[t.dataset.go] === t.dataset.go && t.closest('.nav')) S.history = []; return go(t.dataset.go, { replace: !!t.closest('.nav') }); }
   if (t.dataset.tier) { S.bath.tier = t.dataset.tier; return render(); }
   if (t.dataset.brigade) { S.bath.brigade = t.dataset.brigade; return render(); }
   if (t.dataset.mode) { S.bath.mode = t.dataset.mode; return render(); }
   if (t.dataset.pay) { S.pay = t.dataset.pay; return render(); }
+  if (t.dataset.clean) { S.cleaning.type = t.dataset.clean; return render(); }
   if (t.dataset.star) { S.rating = +t.dataset.star; FX.star = t.dataset.star; return render(); }
   const a = t.dataset.action;
   if (a === 'close-sheet') { if (e.target === t) sheet(''); return; }
@@ -954,6 +1107,33 @@ document.addEventListener('click', e => {
     return toast(`Заявка бригаде ${en.brigade.name} отправлена (демо)`);
   }
   if (a === 'doc') { e.preventDefault(); return sheet(DOCS[t.dataset.doc]); }
+  if (a === 'rent-shop') {
+    const r = RENT_SHOP.find(x => x.id === t.dataset.id);
+    addBundle('rent-' + r.id, 'Прокат: ' + r.name, [], [{ name: r.name + ', 1 сутки', qty: 1, unit: 'сут', price: r.price }], OMA_EXEC, { rental: true, delivery: 'выдача в магазине' });
+    render(); return toast('Добавлено в корзину');
+  }
+  if (a === 'ask') { const r = NEIGHBOR.find(x => x.id === t.dataset.id); return toast(`Запрос отправлен: ${r.who} (демо)`); }
+  if (a === 'lend') return sheet(`<h3>Сдать инструмент соседям</h3><ul><li>Фото и описание вещи</li><li>Цена в сутки и залог</li><li>Где и когда удобно передать</li></ul><span class="small muted">Объявление увидят люди рядом с вами. Концепт, правила площадки — на проверке у юриста.</span><button class="btn block" data-action="close-sheet">Разместить (демо)</button>`);
+  if (a === 'design-room') {
+    const r = DESIGN_ROOMS.find(x => x.id === t.dataset.id);
+    return sheet(`<h3>${r.name}</h3>
+      <span class="small">${r.free ? 'Дизайнер ОМА сделает 3D-проект с подбором товаров из ассортимента ОМА. Бесплатно при покупке в ОМА.' : 'Новая услуга: дизайнер подберёт отделку, мебель и свет из ассортимента ОМА и посчитает материалы.'}</span>
+      <label class="f">Удобная дата<input id="dsDate" type="date" value="2026-11-05"></label>
+      <button class="btn block" data-action="design-book" data-name="${r.name}">Записаться к дизайнеру</button>
+      ${r.id === 'bath' ? '<button class="btn ghost block" data-action="import3d">У меня уже есть проект — посчитать ремонт</button>' : ''}`);
+  }
+  if (a === 'design-book') { sheet(''); return toast(`Вы записаны: ${t.dataset.name.toLowerCase()} (демо)`); }
+  if (a === 'call-brigade') return sheet(`<h3>Какая работа?</h3>
+    <button class="option" data-go="bath1"><span class="grow"><b>Ремонт санузла под ключ</b><span class="small muted">Материалы, бригада, гарантия ОМА</span></span>${ICON.chevron}</button>
+    <button class="option" data-go="install"><span class="grow"><b>Установка с мастером</b><span class="small muted">Смеситель, унитаз, полки, шкаф</span></span>${ICON.chevron}</button>
+    <button class="option" data-action="brigade-request"><span class="grow"><b>Другая работа</b><span class="small muted">Опишите задачу — технолог ОМА перезвонит</span></span>${ICON.chevron}</button>`);
+  if (a === 'brigade-request') return sheet(`<h3>Заявка на работы</h3><label class="f">Что нужно сделать<textarea id="brReq" rows="4" style="border:1px solid var(--line);border-radius:10px;padding:9px 10px;background:var(--surface-2);color:var(--ink)">Покрасить стены в двух комнатах, около 60 м²</textarea></label><button class="btn block" data-action="brigade-sent">Отправить заявку</button>`);
+  if (a === 'brigade-sent') { sheet(''); return toast('Заявка принята: технолог ОМА перезвонит (демо)'); }
+  if (a === 'clean-to-cart') {
+    const c = S.cleaning, x = CLEAN.find(y => y.id === c.type);
+    addBundle('clean', 'Клининг: ' + x.name.toLowerCase(), [], [{ name: `${x.name}, ${c.area} м²`, qty: +c.area || 0, unit: 'м²', price: x.price }], OMA_EXEC, { delivery: `уборка ${c.date.split('-').reverse().join('.')}` });
+    go('cart'); return toast('Добавлено в корзину');
+  }
   if (a === 'toggle-theme') { applyTheme(t.checked ? 'dark' : 'light'); return; }
   if (a === 'toggle-ads') { S.profileAds = t.checked; return toast(t.checked ? 'Согласие дано' : 'Согласие отозвано. Уведомления о заказах останутся'); }
   if (a === 'delete') return sheet(`<h3>Удаление аккаунта</h3><ul><li>Данные удаляются, кроме тех, что ОМА обязана хранить по закону (например, бухгалтерские документы).</li><li>Паспорт дома можно сначала выгрузить в PDF.</li></ul><span class="small muted">В прототипе удаление отключено.</span>`);
@@ -974,6 +1154,13 @@ document.addEventListener('change', e => {
   if (t.dataset.instgood) { S.install.withGood = t.checked; render(); }
   if (t.dataset.if) { S.install[t.dataset.if] = t.value; }
   if (t.dataset.consent) { S.consents[t.dataset.consent] = t.checked; render(); }
+  if (t.dataset.cl) { S.cleaning[t.dataset.cl] = t.value; render(); }
+  if (t.dataset.user) { S.user[t.dataset.user] = t.value.trim() || S.user[t.dataset.user]; render(); toast('Профиль сохранён'); }
+  if (t.id === 'p-photo' && t.files && t.files[0]) {
+    const reader = new FileReader();
+    reader.onload = () => { S.user.avatar = reader.result; render(); toast('Фото обновлено'); };
+    reader.readAsDataURL(t.files[0]);
+  }
 });
 
 function jump(screen) {
@@ -987,7 +1174,7 @@ function jump(screen) {
   }
   if (screen === 'projects' && !S.projects.length) { prepCart(); S.cart = S.cart.filter(b => b.group === 'bath'); S.consents = { pd: true, ads: false, offer: true }; return checkout(); }
   if (screen === 'bath1' && !S.bath.from3d) Object.assign(S.bath, { L: 2.2, W: 1.8, H: 2.6, from3d: 'В-2026-1047', tasks: { tile: true, mixer: true, shower: true, move: false } });
-  S.history = TAB_OF[screen] === screen ? [] : ['home'];
+  S.history = TAB_OF[screen] === screen ? [] : [TAB_OF[screen]];
   go(screen, { replace: true });
 }
 
