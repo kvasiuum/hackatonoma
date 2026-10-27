@@ -110,9 +110,11 @@ button { cursor: pointer; transition: border-color .15s ease, background-color .
    При прокрутке вниз полосы и строка профиля сворачиваются, остаётся панель; при прокрутке вверх — разворачиваются. */
 /* шапка лежит поверх экрана: при сворачивании под ней просто открывается контент, высота экрана и прокрутка не меняются */
 .top { position: absolute; top: 0; left: 0; right: 0; z-index: 3; background: var(--bar-grad); color: var(--bar-ink); padding-top: env(safe-area-inset-top, 0px); }
-.fold-y { display: grid; grid-template-rows: 1fr; transition: grid-template-rows .28s cubic-bezier(.22, 1, .36, 1); }
-.fold-y > div { min-height: 0; overflow: hidden; }
-.top.collapsed .fold-y { grid-template-rows: 0fr; }
+/* шапка уезжает вместе с пальцем: верхние полосы — сдвигом вверх, строка профиля — подрезкой снизу; после жеста доводится до ближайшего состояния */
+.top { will-change: transform; }
+/* flow-root: отступ строки профиля входит в высоту блока, иначе после подрезки остаётся полоска */
+.fold-y { display: flow-root; }
+.top.snap { transition: transform .24s cubic-bezier(.22, 1, .36, 1), clip-path .24s cubic-bezier(.22, 1, .36, 1); }
 .promo-strip { display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; border: 0; background: var(--cta); color: var(--cta-ink); font: 700 12px/1.2 var(--f-body); letter-spacing: .06em; text-transform: uppercase; padding: 9px 12px; }
 .promo-strip svg { width: 15px; height: 15px; }
 .info-strip { display: flex; align-items: center; gap: 14px; background: var(--strip); color: var(--strip-ink); padding: 6px 16px; }
@@ -126,7 +128,8 @@ button { cursor: pointer; transition: border-color .15s ease, background-color .
 .bar-btn:hover { background: rgba(255,255,255,.1); }
 .bar-btn svg { width: 24px; height: 24px; }
 .bar-btn .avatar { width: 30px; height: 30px; font-size: 12px; box-shadow: 0 0 0 2px rgba(255,255,255,.85); }
-.top:not(.collapsed) .me-ic { display: none; }
+.me-ic { opacity: 0; pointer-events: none; transition: opacity .15s ease; }
+.top.collapsed .me-ic { opacity: 1; pointer-events: auto; }
 .me { display: flex; align-items: center; gap: 12px; width: calc(100% - 24px); margin: 0 12px 12px; background: rgba(255,255,255,.1); border: 0; border-radius: 14px; padding: 8px 12px 8px 8px; color: inherit; text-align: left; }
 .me:hover { background: rgba(255,255,255,.16); }
 .me .grow { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
@@ -157,7 +160,7 @@ button { cursor: pointer; transition: border-color .15s ease, background-color .
 .sheet-bg { z-index: 40; }
 .icon-btn { width: 34px; height: 34px; border-radius: 50%; border: 0; background: rgba(255,255,255,.18); color: inherit; display: grid; place-items: center; flex: none; }
 .icon-btn svg { width: 18px; height: 18px; }
-.screen { flex: 1; overflow-y: auto; padding: calc(16px + var(--top-h, 58px)) 18px 24px; scroll-padding-top: var(--top-h, 58px); display: flex; flex-direction: column; gap: 14px; user-select: none; -webkit-user-select: none; }
+.screen { flex: 1; overflow-y: auto; overscroll-behavior: contain; padding: calc(16px + var(--top-h, 58px)) 18px 24px; scroll-padding-top: var(--top-h, 58px); display: flex; flex-direction: column; gap: 14px; user-select: none; -webkit-user-select: none; }
 .screen input, .screen textarea { user-select: text; -webkit-user-select: text; }
 
 .nav { display: grid; grid-template-columns: repeat(5, 1fr); position: relative; z-index: 2; touch-action: none; background: var(--surface); border-top: 1px solid var(--line); padding: 6px 4px calc(8px + env(safe-area-inset-bottom, 0px)); }
@@ -640,10 +643,11 @@ function render() {
   const top = document.getElementById('top'), n = cartCount();
   const key = s + ':' + (s === 'project' ? S.projectId : '');
   const changed = key !== FX.lastKey;
-  if (changed) TOP.collapsed = false;
-  top.className = 'top' + (TOP.collapsed ? ' collapsed' : '');
+  if (changed) { TOP.d = 0; TOP.lastY = 0; }
+  top.className = 'top';
   top.innerHTML = headerHTML(s);
   measureTop();
+  applyTop(false);
   const tab = ([id, label, ic]) => `<button data-go="${id}" ${TAB_OF[s] === id && !CART_OPEN ? 'aria-current="page"' : ''}><span class="ic">${ic}</span>${label}</button>`;
   document.getElementById('nav').innerHTML = tab(TABS[0]) + tab(TABS[1])
     + `<button class="nav-cart" data-action="open-cart" aria-label="Корзина" aria-expanded="${CART_OPEN}"><span class="fab">${ICON.cart}${n ? `<span class="badge">${n}</span>` : ''}</span>Корзина</button>`
@@ -655,46 +659,74 @@ function render() {
 }
 
 /* ---------- шапка: как на oma.by, сворачивается при прокрутке ---------- */
-const TOP = { collapsed: false, lastY: 0 };
+const TOP = { d: 0, U: 0, L: 0, lastY: 0, touching: false, snapT: 0 };
 let CITY = 'Минск';
 const CITIES = ['Минск', 'Брест', 'Витебск', 'Гомель', 'Гродно', 'Могилёв'];
 function headerHTML(s) {
   if (!ROOTS.includes(s)) return `<div class="bar"><button class="icon-btn" data-action="back" aria-label="Назад">${ICON.back}</button><h2>${TITLES[s]}</h2></div>`;
   const home = s === 'home';
-  return `<div class="fold-y"><div>
+  return `<div class="fold-y up">
       <button class="promo-strip" data-go="profile">Карта «Баланс» · ${S.bonus.toLocaleString('ru-RU')} бонусов ${ICON.chevron}</button>
       <div class="info-strip"><button data-action="city" aria-label="Город: ${CITY}">${ICON.pin}${CITY}${ICON.down}</button><button class="end" data-action="call">${ICON.phone}536-45-00</button></div>
-    </div></div>
+    </div>
     <div class="bar">
       ${home ? `<span class="bar-logo">${LOGO_LOCKUP}</span>` : `<h2>${TITLES[s]}</h2>`}
       <button class="bar-btn${home ? ' me-ic' : ''}" data-go="profile" aria-label="Профиль"><span class="avatar">${avatarInner()}</span></button>
     </div>
-    ${home ? `<div class="fold-y"><div><button class="me" data-go="profile"><span class="avatar">${avatarInner()}</span><span class="grow"><b>${esc(S.user.name)}</b><span class="small">Профиль и настройки</span></span>${ICON.chevron}</button></div></div>` : ''}`;
+    ${home ? `<div class="fold-y down"><button class="me" data-go="profile"><span class="avatar">${avatarInner()}</span><span class="grow"><b>${esc(S.user.name)}</b><span class="small">Профиль и настройки</span></span>${ICON.chevron}</button></div>` : ''}`;
 }
-function setCollapsed(v) {
-  if (TOP.collapsed === v) return;
-  TOP.collapsed = v;
-  document.getElementById('top').classList.toggle('collapsed', v);
+// d — на сколько пикселей шапка свёрнута: сначала уезжают верхние полосы (U), затем строка профиля (L)
+function applyTop(snap) {
+  const top = document.getElementById('top'), u = Math.min(TOP.d, TOP.U), l = Math.max(0, TOP.d - TOP.U);
+  top.classList.toggle('snap', snap);
+  top.style.transform = u ? `translateY(${-u}px)` : '';
+  top.style.clipPath = l ? `inset(0 0 ${l}px 0)` : '';
+  top.classList.toggle('collapsed', TOP.U + TOP.L > 0 && TOP.d >= TOP.U + TOP.L / 2);
 }
-// отступ экрана сверху — по высоте развёрнутой шапки (свёрнутые части меряем по содержимому)
+// отступ экрана сверху — по высоте развёрнутой шапки
 function measureTop() {
-  const top = document.getElementById('top'), bar = top.querySelector('.bar');
-  if (!bar) return;
-  const h = parseFloat(getComputedStyle(top).paddingTop) + bar.offsetHeight + [...top.querySelectorAll('.fold-y > div')].reduce((a, d) => a + d.scrollHeight, 0);
-  document.getElementById('app').style.setProperty('--top-h', `${Math.round(h)}px`);
+  const top = document.getElementById('top'), up = top.querySelector('.fold-y.up'), down = top.querySelector('.fold-y.down');
+  TOP.U = up ? up.offsetHeight : 0;
+  TOP.L = down ? down.offsetHeight : 0;
+  TOP.d = Math.min(TOP.d, TOP.U + TOP.L);
+  document.getElementById('app').style.setProperty('--top-h', `${top.offsetHeight}px`);
 }
-new ResizeObserver(measureTop).observe(document.getElementById('app'));
-if (document.fonts) document.fonts.ready.then(measureTop);
-document.getElementById('screen').addEventListener('scroll', e => {
-  const el = e.currentTarget, y = el.scrollTop, dy = y - TOP.lastY;
-  TOP.lastY = y;
-  if (!ROOTS.includes(S.screen)) return;
-  if (y < 12) return setCollapsed(false);
-  if (dy > 4 && y > 48) setCollapsed(true);
-  else if (dy < -6) setCollapsed(false);
-}, { passive: true });
-// у самого верха жест вниз (колесо или палец) тоже разворачивает шапку
-document.getElementById('screen').addEventListener('wheel', e => { if (e.deltaY < 0 && e.currentTarget.scrollTop <= 0) setCollapsed(false); }, { passive: true });
+new ResizeObserver(() => { measureTop(); applyTop(false); }).observe(document.getElementById('app'));
+if (document.fonts) document.fonts.ready.then(() => { measureTop(); applyTop(false); });
+// после жеста: больше половины свёрнуто — сворачиваем до конца, иначе разворачиваем
+// сколько шапки можно спрятать: всю, только верхние полосы или ничего — строку профиля не режем пополам
+function maxFold() {
+  const el = document.getElementById('screen'), room = el.scrollHeight - el.clientHeight, F = TOP.U + TOP.L;
+  return room >= F ? F : room >= TOP.U ? TOP.U : 0;
+}
+function snapTop() {
+  const M = maxFold(), el = document.getElementById('screen');
+  if (TOP.touching || TOP.d === 0 || TOP.d === M) return;
+  if (TOP.d > M / 2) {
+    if (el.scrollTop < M) el.scrollTo({ top: M, behavior: canAnimate ? 'smooth' : 'auto' });
+    TOP.d = M;
+  } else TOP.d = 0;
+  applyTop(true);
+}
+(function () {
+  const el = document.getElementById('screen');
+  el.addEventListener('scroll', () => {
+    // упругий отскок на iOS даёт scrollTop за пределами — его не считаем
+    const y = Math.max(0, Math.min(el.scrollTop, el.scrollHeight - el.clientHeight)), dy = y - TOP.lastY;
+    TOP.lastY = y;
+    const M = maxFold();
+    if (!M) return;
+    // шапка едет вместе с прокруткой; у самого верха она всегда раскрыта
+    const d = Math.min(Math.max(0, Math.min(M, TOP.d + dy)), y);
+    if (d !== TOP.d) { TOP.d = d; applyTop(false); }
+    clearTimeout(TOP.snapT);
+    TOP.snapT = setTimeout(snapTop, 160);
+  }, { passive: true });
+  el.addEventListener('touchstart', () => { TOP.touching = true; }, { passive: true });
+  const release = () => { TOP.touching = false; clearTimeout(TOP.snapT); TOP.snapT = setTimeout(snapTop, 160); };
+  el.addEventListener('touchend', release, { passive: true });
+  el.addEventListener('touchcancel', release, { passive: true });
+})();
 
 /* ---------- свайп вверх открывает корзину ----------
    С нижней панели — пальцем или мышью; на экране — пальцем, когда он долистан до конца
@@ -702,33 +734,60 @@ document.getElementById('screen').addEventListener('wheel', e => { if (e.deltaY 
 (function swipeUpToCart() {
   const nav = document.getElementById('nav'), screen = document.getElementById('screen');
   let drag = null, swallowClick = false;
-  const begin = (e, dist) => { swallowClick = false; drag = { x: e.clientX, y: e.clientY, dist }; };
-  nav.addEventListener('pointerdown', e => begin(e, 36));
+  // шторка тянется за пальцем: отпустили выше четверти или смахнули — открывается, иначе уезжает обратно
+  const pull = {
+    start() {
+      openCart({ drag: true });
+      this.panel = document.querySelector('#drawer .drawer'); this.bg = document.querySelector('#drawer .drawer-bg');
+      this.h = this.panel.offsetHeight;
+    },
+    move(p) {
+      p = Math.max(0, Math.min(this.h, p));
+      this.p = p;
+      this.panel.style.transform = `translateY(${this.h - p}px)`;
+      this.bg.style.opacity = String(p / this.h);
+    },
+    end(speed) {
+      if (this.p > this.h / 4 || speed > 0.3) settleCart(this.panel, this.bg, this.h - this.p);
+      else closeCart();
+    }
+  };
+  const begin = (e, slop) => { swallowClick = false; drag = { x: e.clientX, y: e.clientY, slop, on: false, vy: 0, lt: performance.now(), ly: e.clientY }; };
+  nav.addEventListener('pointerdown', e => begin(e, 10));
   screen.addEventListener('pointerdown', e => {
-    if (e.pointerType === 'mouse' && e.button === 0 && !e.target.closest('input, textarea, select, label, summary')) begin(e, 90);
+    if (e.pointerType === 'mouse' && e.button === 0 && !e.target.closest('input, textarea, select, label, summary')) begin(e, 40);
   });
   window.addEventListener('pointermove', e => {
-    if (!drag || CART_OPEN) return;
-    const up = drag.y - e.clientY;
-    if (Math.abs(e.clientX - drag.x) > Math.max(60, up)) { drag = null; return; }
-    if (up > drag.dist) { drag = null; swallowClick = true; openCart(); }
+    if (!drag) return;
+    const up = drag.y - e.clientY, now = performance.now();
+    drag.vy = 0.6 * drag.vy + 0.4 * (drag.ly - e.clientY) / Math.max(1, now - drag.lt); drag.ly = e.clientY; drag.lt = now;
+    if (!drag.on) {
+      if (CART_OPEN || Math.abs(e.clientX - drag.x) > Math.max(24, up)) { if (Math.abs(e.clientX - drag.x) > 24) drag = null; return; }
+      if (up < drag.slop) return;
+      drag.on = true; swallowClick = true; pull.start();
+    }
+    pull.move(up - drag.slop);
   });
-  window.addEventListener('pointerup', () => { drag = null; });
-  window.addEventListener('pointercancel', () => { drag = null; });
+  const finish = () => { if (drag && drag.on) pull.end(drag.vy); drag = null; };
+  window.addEventListener('pointerup', finish);
+  window.addEventListener('pointercancel', finish);
   // после жеста не срабатывает нажатие на вкладку или карточку, с которой он начался
   document.getElementById('app').addEventListener('click', e => { if (swallowClick) { swallowClick = false; e.stopPropagation(); e.preventDefault(); } }, true);
 
-  let anchor = null, touching = false;
+  // на экране пальцем: только если жест начат у самого низа — так обычная прокрутка до конца корзину не откроет
+  let t = null;
   const atBottom = () => screen.scrollTop + screen.clientHeight >= screen.scrollHeight - 2;
-  screen.addEventListener('touchstart', e => { touching = true; anchor = atBottom() ? e.touches[0].clientY : null; }, { passive: true });
+  screen.addEventListener('touchstart', e => { t = !CART_OPEN && atBottom() ? { y: e.touches[0].clientY, on: false, vy: 0, lt: performance.now(), ly: e.touches[0].clientY } : null; }, { passive: true });
   screen.addEventListener('touchmove', e => {
-    if (!touching || CART_OPEN) return;
-    const y = e.touches[0].clientY;
-    if (anchor == null) { if (atBottom()) anchor = y; return; }
-    if (y > anchor) anchor = y;
-    if (anchor - y > 80) { touching = false; openCart(); }
+    if (!t) return;
+    const y = e.touches[0].clientY, up = t.y - y, now = performance.now();
+    t.vy = 0.6 * t.vy + 0.4 * (t.ly - y) / Math.max(1, now - t.lt); t.ly = y; t.lt = now;
+    if (!t.on) { if (up < -8) { t = null; return; } if (up < 40) return; t.on = true; pull.start(); }
+    pull.move(up - 40);
   }, { passive: true });
-  screen.addEventListener('touchend', () => { touching = false; }, { passive: true });
+  const tEnd = () => { if (t && t.on) pull.end(t.vy); t = null; };
+  screen.addEventListener('touchend', tEnd, { passive: true });
+  screen.addEventListener('touchcancel', tEnd, { passive: true });
 })();
 
 /* ---------- корзина: шторка снизу, закрывается свайпом вниз ---------- */
@@ -760,7 +819,7 @@ function fillCart() {
   if (body) body.innerHTML = cartBodyHTML();
   if (foot) foot.innerHTML = cartFootHTML();
 }
-function openCart() {
+function openCart(opts = {}) {
   sheet('');
   const root = document.getElementById('drawer');
   if (!CART_OPEN) {
@@ -773,13 +832,19 @@ function openCart() {
       </section>`;
     fillCart();
     const bg = root.querySelector('.drawer-bg'), panel = root.querySelector('.drawer');
-    if (canAnimate) {
+    if (opts.drag) { panel.style.transform = 'translateY(100%)'; bg.style.opacity = '0'; }
+    else if (canAnimate) {
       MOTION.animate(bg, { opacity: [0, 1] }, { duration: 0.2, ease: 'easeOut' });
       MOTION.animate(panel, { y: ['100%', '0%'] }, { type: 'spring', visualDuration: 0.42, bounce: 0.14 });
     }
     bindDrag(panel, bg);
     render();
   } else fillCart();
+}
+// доводит открытую наполовину шторку до конца
+function settleCart(panel, bg, from) {
+  if (canAnimate) { MOTION.animate(panel, { y: [from, 0] }, { type: 'spring', visualDuration: 0.32, bounce: 0.12 }); MOTION.animate(bg, { opacity: 1 }, { duration: 0.15 }); panel.style.transform = ''; }
+  else { panel.style.transform = ''; bg.style.opacity = ''; }
 }
 function closeCart(then) {
   const root = document.getElementById('drawer');
