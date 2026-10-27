@@ -3,72 +3,70 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>ОМА Дом — прототип</title>
+<title>ОМА для дома — прототип</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
 <style>
-/* Layout: на десктопе — карта прототипа слева и «телефон» справа; на телефоне — приложение во весь экран */
+/* Layout: на десктопе — карта прототипа слева и «телефон» справа; на телефоне — приложение во весь экран.
+   Палитра — фирменные цвета ОМА: синий для навигации и выбора, оранжевый для главного действия.
+   Светлая тема по умолчанию, тёмная включается в профиле. */
 :root {
-  --bg: #E9ECE7;
+  --bg: #EDF1F7;
   --surface: #FFFFFF;
-  --surface-2: #F4F6F2;
-  --ink: #17201B;
-  --muted: #5B665F;
-  --line: #D8DDD5;
-  --accent: #136F55;
-  --accent-ink: #FFFFFF;
-  --accent-soft: #DCEEE6;
-  --warn: #8A5200;
-  --warn-soft: #FFF0D2;
-  --danger: #B3261E;
-  --frame: #1B221E;
+  --surface-2: #F3F6FB;
+  --ink: #0F1B2D;
+  --muted: #5A6678;
+  --line: #DCE3EE;
+  --brand: #005DD6;
+  --brand-ink: #FFFFFF;
+  --brand-soft: #E3EEFC;
+  --cta: #FF8200;
+  --cta-ink: #1D1300;
+  --cta-soft: #FFF1E2;
+  --warn: #9A4D00;
+  --warn-soft: #FFF1E2;
+  --frame: #14213A;
+  --bar: #005DD6;
+  --bar-ink: #FFFFFF;
   --f-display: "Unbounded", "Arial Black", system-ui, sans-serif;
   --f-body: "Manrope", "Segoe UI", system-ui, sans-serif;
   --f-mono: "JetBrains Mono", ui-monospace, "Consolas", monospace;
   --r: 14px;
   color-scheme: light;
 }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #0D1210; --surface: #161D19; --surface-2: #1D2521; --ink: #E6ECE8; --muted: #9AA59F;
-    --line: #2B3530; --accent: #4CC39A; --accent-ink: #07130E; --accent-soft: #15352A;
-    --warn: #F1B65A; --warn-soft: #3A2B12; --danger: #FF8A80; --frame: #000000; color-scheme: dark;
-  }
-}
 :root[data-theme="dark"] {
-  --bg: #0D1210; --surface: #161D19; --surface-2: #1D2521; --ink: #E6ECE8; --muted: #9AA59F;
-  --line: #2B3530; --accent: #4CC39A; --accent-ink: #07130E; --accent-soft: #15352A;
-  --warn: #F1B65A; --warn-soft: #3A2B12; --danger: #FF8A80; --frame: #000000; color-scheme: dark;
+  --bg: #0A111D; --surface: #121B2B; --surface-2: #18233A; --ink: #E7EDF7; --muted: #9AA8BD; --line: #263247;
+  --brand: #4D8FF0; --brand-ink: #071226; --brand-soft: #16294A; --cta: #FF9533; --cta-ink: #1D1300; --cta-soft: #3A250F;
+  --warn: #FFB26B; --warn-soft: #3A250F; --frame: #000000; --bar: #0F2F66; --bar-ink: #FFFFFF; color-scheme: dark;
 }
 * { box-sizing: border-box; }
 html, body { height: 100%; }
-body {
-  margin: 0; background: var(--bg); color: var(--ink);
-  font: 15px/1.45 var(--f-body);
-  -webkit-font-smoothing: antialiased;
-}
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.45 var(--f-body); -webkit-font-smoothing: antialiased; }
 button, input, select { font: inherit; color: inherit; }
 button { cursor: pointer; transition: border-color .15s ease, background-color .15s ease, color .15s ease; }
-:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
 
+.logo { display: inline-flex; align-items: center; gap: 10px; color: var(--brand); }
+.logo svg { height: 1em; width: auto; display: block; }
+.logo span { font: 600 .5em/1 var(--f-body); letter-spacing: .01em; white-space: nowrap; }
+
 .stage { min-height: 100%; display: grid; grid-template-columns: minmax(0, 340px) auto; justify-content: center; align-items: center; gap: 48px; padding-block: 32px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
-.map { display: flex; flex-direction: column; gap: 18px; }
-.map h1 { font: 700 26px/1.15 var(--f-display); margin: 0; text-wrap: balance; }
+.map { display: flex; flex-direction: column; gap: 16px; }
+.map .logo { font-size: 44px; }
 .map p { margin: 0; color: var(--muted); }
 .map ol { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; counter-reset: step; }
-.map li button { width: 100%; text-align: left; border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 9px 12px; display: flex; gap: 10px; align-items: baseline; }
-.map li button::before { counter-increment: step; content: counter(step); font-weight: 700; font-size: 12px; font-variant-numeric: tabular-nums; color: var(--accent); min-width: 1.2em; }
-.map li button:hover { border-color: var(--accent); }
-.map .reset { align-self: flex-start; background: none; border: 0; color: var(--muted); text-decoration: underline; padding: 0; }
+.map li button { width: 100%; text-align: left; border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 8px 12px; display: flex; gap: 10px; align-items: baseline; }
+.map li button::before { counter-increment: step; content: counter(step); font-weight: 700; font-size: 12px; font-variant-numeric: tabular-nums; color: var(--brand); min-width: 1.2em; }
+.map li button:hover { border-color: var(--brand); }
 .map .links { margin: 0; font-size: 14px; }
-.map .links a { color: var(--accent); }
+.map .links a { color: var(--brand); }
+.map .reset { align-self: flex-start; background: none; border: 0; color: var(--muted); text-decoration: underline; padding: 0; }
 .demo-note { font-size: 13px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 12px; }
 
 .phone { width: 390px; height: min(820px, calc(100vh - 64px)); border-radius: 46px; background: var(--frame); padding: 12px; box-shadow: 0 1px 2px rgba(0,0,0,.12), 0 8px 20px -10px rgba(0,0,0,.3); }
 .app { position: relative; height: 100%; border-radius: 36px; overflow: hidden; background: var(--surface-2); display: flex; flex-direction: column; }
-
 @media (max-width: 860px) {
   .stage { display: block; padding: 0; min-height: 0; height: 100%; }
   .map { display: none; }
@@ -76,21 +74,22 @@ button { cursor: pointer; transition: border-color .15s ease, background-color .
   .app { border-radius: 0; }
 }
 
-.banner-demo { background: var(--ink); color: var(--surface); font-size: 11.5px; text-align: center; padding: 6px 12px; padding-top: calc(6px + env(safe-area-inset-top, 0px)); letter-spacing: .01em; }
-.top { display: flex; align-items: center; gap: 8px; padding: 14px 18px 10px; background: var(--surface-2); }
-.top h2 { margin: 0; font: 700 17px/1.2 var(--f-display); flex: 1; min-width: 0; text-wrap: balance; }
-.icon-btn { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); display: grid; place-items: center; flex: none; }
+.banner-demo { background: var(--frame); color: #C9D6EA; font-size: 11px; text-align: center; padding: 5px 12px; padding-top: calc(5px + env(safe-area-inset-top, 0px)); }
+.top { display: flex; align-items: center; gap: 10px; padding: 12px 18px; background: var(--bar); color: var(--bar-ink); min-height: 58px; }
+.top .logo { color: var(--bar-ink); font-size: 26px; }
+.top h2 { margin: 0; font: 700 16px/1.2 var(--f-display); flex: 1; min-width: 0; text-wrap: balance; }
+.icon-btn { width: 34px; height: 34px; border-radius: 50%; border: 0; background: rgba(255,255,255,.18); color: inherit; display: grid; place-items: center; flex: none; }
 .icon-btn svg { width: 18px; height: 18px; }
-.screen { flex: 1; overflow-y: auto; padding: 4px 18px 24px; display: flex; flex-direction: column; gap: 14px; }
+.screen { flex: 1; overflow-y: auto; padding: 16px 18px 24px; display: flex; flex-direction: column; gap: 14px; }
 
 .nav { display: grid; grid-template-columns: repeat(5, 1fr); background: var(--surface); border-top: 1px solid var(--line); padding: 6px 4px calc(8px + env(safe-area-inset-bottom, 0px)); }
 .nav button { background: none; border: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 10.5px; color: var(--muted); padding: 4px 0; position: relative; }
 .nav button svg { width: 22px; height: 22px; }
-.nav button[aria-current="page"] { color: var(--accent); font-weight: 700; }
-.badge { position: absolute; top: 0; left: calc(50% + 6px); background: var(--accent); color: var(--accent-ink); font-size: 10px; font-weight: 700; line-height: 16px; min-width: 16px; height: 16px; border-radius: 8px; padding: 0 4px; }
+.nav button[aria-current="page"] { color: var(--brand); font-weight: 700; }
+.badge { position: absolute; top: 0; left: calc(50% + 6px); background: var(--cta); color: var(--cta-ink); font-size: 10px; font-weight: 700; line-height: 16px; min-width: 16px; height: 16px; border-radius: 8px; padding: 0 4px; }
 
 .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 14px; display: flex; flex-direction: column; gap: 10px; }
-.card h3 { margin: 0; font: 600 15.5px/1.3 var(--f-body); }
+.card h3 { margin: 0; font: 700 15.5px/1.3 var(--f-body); }
 .muted { color: var(--muted); }
 .small { font-size: 13px; }
 .mono { font-variant-numeric: tabular-nums; }
@@ -98,111 +97,102 @@ button { cursor: pointer; transition: border-color .15s ease, background-color .
 .row { display: flex; gap: 10px; align-items: center; }
 .row > .grow { flex: 1; min-width: 0; }
 .between { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
+.hello { font: 700 21px/1.2 var(--f-display); margin: 2px 0 0; text-wrap: balance; }
+.link { background: none; border: 0; padding: 0; color: var(--brand); font-weight: 600; text-align: left; }
 
-.hello { font: 700 22px/1.2 var(--f-display); margin: 6px 0 0; text-wrap: balance; }
 .tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.tile { text-align: left; border: 1px solid var(--line); background: var(--surface); border-radius: var(--r); padding: 12px; display: flex; flex-direction: column; gap: 8px; min-height: 118px; }
-.tile:hover:not([disabled]) { border-color: var(--accent); }
-.tile[disabled] { cursor: default; opacity: .62; }
-.tile b { font-size: 14.5px; }
+.tile { text-align: left; border: 1px solid var(--line); background: var(--surface); border-radius: var(--r); padding: 14px 12px; display: flex; flex-direction: column; gap: 8px; }
+.tile:hover { border-color: var(--brand); }
+.tile b { font-size: 15px; }
 .tile .muted { font-size: 12.5px; }
-.tile .mark { width: 34px; height: 34px; border-radius: 10px; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; }
+.tile .mark { width: 36px; height: 36px; border-radius: 10px; background: var(--brand-soft); color: var(--brand); display: grid; place-items: center; }
 .tile .mark svg { width: 20px; height: 20px; }
-.soon { font-size: 12.5px; color: var(--muted); }
+.soon-line { font-size: 13px; color: var(--muted); text-align: center; }
 
-.remind { background: var(--accent); color: var(--accent-ink); border-radius: var(--r); padding: 14px; display: flex; flex-direction: column; gap: 10px; }
-.remind .lbl { font-size: 13px; opacity: .85; }
-.remind b { font-size: 15.5px; }
-.remind .btn { background: var(--accent-ink); color: var(--accent); }
+.remind { display: flex; gap: 12px; align-items: center; background: var(--cta-soft); border-radius: var(--r); padding: 12px 14px; }
+.remind .grow { flex: 1; min-width: 0; font-size: 13.5px; }
+.remind svg { width: 22px; height: 22px; color: var(--warn); flex: none; }
 
-.btn { border: 0; border-radius: 12px; padding: 12px 16px; font-weight: 700; background: var(--accent); color: var(--accent-ink); text-align: center; }
+.btn { border: 0; border-radius: 12px; padding: 13px 16px; font-weight: 700; background: var(--cta); color: var(--cta-ink); text-align: center; }
+.btn.blue { background: var(--brand); color: var(--brand-ink); }
 .btn.ghost { background: var(--surface); color: var(--ink); border: 1px solid var(--line); }
 .btn.small { padding: 8px 12px; font-size: 13px; border-radius: 10px; }
 .btn[disabled] { opacity: .45; cursor: not-allowed; }
 .btn.block { width: 100%; }
-.sticky-cta { position: sticky; bottom: -24px; margin: 0 -18px -24px; padding: 12px 18px 16px; background: var(--surface-2); border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 6px; }
+.sticky-cta { position: sticky; bottom: -24px; margin: auto -18px -24px; padding: 12px 18px 16px; background: var(--surface-2); border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 6px; }
+.sticky-cta .sum { display: flex; justify-content: space-between; font-weight: 700; }
 
 .steps { display: flex; gap: 4px; }
 .steps span { flex: 1; height: 4px; border-radius: 2px; background: var(--line); }
-.steps span.on { background: var(--accent); }
+.steps span.on { background: var(--brand); }
+.step-title { font: 700 18px/1.25 var(--f-display); margin: 0; }
 
 .fields { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.fields.two { grid-template-columns: 1fr 1fr; }
 label.f { display: flex; flex-direction: column; gap: 4px; font-size: 12.5px; color: var(--muted); }
 label.f input, label.f select { border: 1px solid var(--line); background: var(--surface-2); border-radius: 10px; padding: 9px 10px; font-variant-numeric: tabular-nums; color: var(--ink); width: 100%; min-width: 0; }
-.check { display: flex; gap: 10px; align-items: flex-start; padding: 10px 0; border-top: 1px solid var(--line); }
-.check:first-of-type { border-top: 0; }
-.check input { margin-top: 3px; width: 18px; height: 18px; accent-color: var(--accent); flex: none; }
+.check { display: flex; gap: 12px; align-items: center; padding: 11px 0; border-top: 1px solid var(--line); }
+.check:first-child { border-top: 0; padding-top: 2px; }
+.check input { width: 20px; height: 20px; accent-color: var(--brand); flex: none; }
 .check span { flex: 1; min-width: 0; }
 
-.warn { background: var(--warn-soft); color: var(--ink); border-radius: var(--r); padding: 12px 14px; font-size: 13.5px; display: flex; flex-direction: column; gap: 6px; }
+.warn { background: var(--warn-soft); border-radius: var(--r); padding: 12px 14px; font-size: 13.5px; display: flex; flex-direction: column; gap: 6px; }
 .warn b { color: var(--warn); }
-.law { font-size: 12.5px; color: var(--muted); }
+.law { font-size: 12px; color: var(--muted); }
 
 .seg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
 .seg button { border: 1px solid var(--line); background: var(--surface); border-radius: 12px; padding: 10px 6px; display: flex; flex-direction: column; gap: 2px; align-items: center; }
-.seg button[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); }
+.seg button[aria-pressed="true"] { border-color: var(--brand); background: var(--brand-soft); }
 .seg b { font-size: 13.5px; }
-.seg.two { grid-template-columns: 1fr 1fr; }
-.fields.two { grid-template-columns: 1fr 1fr; }
-.why { font-size: 12px; color: var(--accent); }
-.checks { font-size: 13px; background: var(--surface-2); border-radius: 10px; padding: 8px 12px; }
-.checks summary { cursor: pointer; font-weight: 600; }
-.checks ul { margin: 6px 0 0; padding-left: 18px; display: grid; gap: 4px; }
 
-table.est { width: 100%; border-collapse: collapse; font-size: 13px; }
-table.est td { padding: 8px 0; border-top: 1px solid var(--line); vertical-align: top; }
-table.est tr:first-child td { border-top: 0; }
-table.est td:last-child { text-align: right; white-space: nowrap; padding-left: 8px; }
-.art { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
-.total { display: flex; justify-content: space-between; align-items: baseline; border-top: 2px solid var(--ink); padding-top: 10px; font-weight: 700; }
-.total .mono { font-size: 17px; }
+.option { border: 1px solid var(--line); background: var(--surface); border-radius: var(--r); padding: 12px 14px; display: flex; gap: 12px; align-items: center; text-align: left; width: 100%; }
+.option[aria-pressed="true"] { border-color: var(--brand); box-shadow: inset 0 0 0 1px var(--brand); }
+.option .grow { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.option .radio-dot { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--line); flex: none; }
+.option[aria-pressed="true"] .radio-dot { border-color: var(--brand); box-shadow: inset 0 0 0 4px var(--surface), inset 0 0 0 10px var(--brand); }
+.star { color: var(--cta); }
 
-.exec { border: 1px solid var(--line); background: var(--surface); border-radius: var(--r); padding: 12px; display: flex; flex-direction: column; gap: 6px; text-align: left; width: 100%; }
-.exec[aria-pressed="true"] { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
-.star { color: var(--warn); }
-
-.group-h { font-size: 13px; font-weight: 700; color: var(--muted); margin-top: 4px; }
-.line-item { display: flex; gap: 10px; align-items: center; justify-content: space-between; padding: 7px 0; border-top: 1px dashed var(--line); font-size: 13.5px; }
-.line-item:first-of-type { border-top: 0; }
+.sumcard .big { font: 700 22px/1.1 var(--f-display); font-variant-numeric: tabular-nums; }
+.line-item { display: flex; gap: 10px; align-items: center; justify-content: space-between; padding: 8px 0; border-top: 1px solid var(--line); font-size: 13.5px; }
+.line-item:first-child { border-top: 0; }
 .line-item .grow { flex: 1; min-width: 0; }
+.art { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.why { font-size: 12px; color: var(--brand); }
 .rm { background: none; border: 0; color: var(--muted); font-size: 12px; text-decoration: underline; padding: 0; }
 
-.radio { display: flex; gap: 10px; align-items: flex-start; padding: 10px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
-.radio input { accent-color: var(--accent); margin-top: 3px; }
-.radio.on { border-color: var(--accent); }
+details.fold > summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 10px; font-weight: 600; font-size: 14px; }
+details.fold > summary::-webkit-details-marker { display: none; }
+details.fold > summary::after { content: ""; width: 8px; height: 8px; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: rotate(45deg); margin-right: 4px; transition: transform .15s; }
+details.fold[open] > summary::after { transform: rotate(-135deg); }
+details.fold[open] > summary { margin-bottom: 8px; }
+.entry-body { display: flex; flex-direction: column; gap: 4px; }
+.entry-body > details.fold { border-top: 1px solid var(--line); padding-top: 10px; margin-top: 6px; }
+.pill { font-size: 12px; font-weight: 600; padding: 3px 9px; border-radius: 999px; background: var(--surface-2); color: var(--muted); white-space: nowrap; }
+.pill.ok { background: var(--brand-soft); color: var(--brand); }
+.pill.soon { background: var(--cta-soft); color: var(--warn); }
 
-.timeline { display: flex; flex-direction: column; }
-.st { display: grid; grid-template-columns: 22px 1fr; gap: 12px; position: relative; padding-bottom: 16px; }
-.st:not(:last-child)::before { content: ""; position: absolute; left: 10px; top: 22px; bottom: 0; width: 2px; background: var(--line); }
-.st.done:not(:last-child)::before { background: var(--accent); }
-.dot { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--line); background: var(--surface); display: grid; place-items: center; }
-.st.done .dot { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
-.st.active .dot { border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
-.dot svg { width: 12px; height: 12px; stroke-width: 3; }
-.st .body { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
-.photo { height: 92px; border-radius: 10px; background: repeating-linear-gradient(45deg, var(--surface-2) 0 10px, var(--line) 10px 11px); display: grid; place-items: center; font-size: 12px; color: var(--muted); }
-
-.entry summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
-.entry summary::-webkit-details-marker { display: none; }
-.entry[open] summary { margin-bottom: 8px; }
-.entry .group-h { display: block; margin-top: 12px; }
-.entry > .btn { display: block; margin-top: 8px; }
-.pill { font-size: 12px; font-weight: 600; padding: 3px 8px; border-radius: 999px; background: var(--surface-2); color: var(--muted); white-space: nowrap; }
-.pill.soon { background: var(--warn-soft); color: var(--warn); }
-.pill.ok { background: var(--accent-soft); color: var(--accent); }
+.progress { height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; }
+.progress i { transform-origin: left; display: block; height: 100%; background: var(--brand); border-radius: 3px; }
+.photo { height: 110px; border-radius: 10px; background: repeating-linear-gradient(45deg, var(--surface-2) 0 10px, var(--line) 10px 11px); display: grid; place-items: center; font-size: 12px; color: var(--muted); }
+.checks { font-size: 13.5px; background: var(--surface-2); border-radius: 10px; padding: 10px 12px; }
+.checks ul { margin: 0; padding-left: 18px; display: grid; gap: 4px; }
+.done-list { font-size: 13.5px; display: grid; gap: 6px; }
+.done-list div { display: flex; justify-content: space-between; gap: 10px; }
 .stars { display: flex; gap: 6px; }
-.stars button { background: none; border: 0; font-size: 30px; line-height: 1; color: var(--line); padding: 0; }
-.stars button.on { color: var(--warn); }
-.switch { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; padding: 10px 0; border-top: 1px solid var(--line); }
+.stars button { background: none; border: 0; font-size: 32px; line-height: 1; color: var(--line); padding: 0; }
+.stars button.on { color: var(--cta); }
+.switch { display: flex; justify-content: space-between; gap: 12px; align-items: center; padding: 10px 0; border-top: 1px solid var(--line); }
 .switch:first-of-type { border-top: 0; }
-.switch input { width: 40px; height: 22px; accent-color: var(--accent); flex: none; }
+.switch input { width: 40px; height: 22px; accent-color: var(--brand); flex: none; }
 .empty { text-align: center; padding: 26px 10px; color: var(--muted); display: flex; flex-direction: column; gap: 12px; align-items: center; }
+.balance { background: var(--brand); color: var(--brand-ink); border-radius: var(--r); padding: 16px; display: flex; flex-direction: column; gap: 4px; }
+.balance .big { font: 700 26px/1.1 var(--f-display); font-variant-numeric: tabular-nums; }
 
-.toast { position: absolute; left: 16px; right: 16px; bottom: 84px; background: var(--ink); color: var(--surface); border-radius: 12px; padding: 11px 14px; font-size: 13.5px; transform: translateY(20px); opacity: 0; transition: .25s; pointer-events: none; }
+.toast { position: absolute; left: 16px; right: 16px; bottom: 84px; background: var(--frame); color: #fff; border-radius: 12px; padding: 11px 14px; font-size: 13.5px; transform: translateY(20px); opacity: 0; transition: .25s; pointer-events: none; }
 .toast.show { transform: none; opacity: 1; }
 .has-motion .toast { transition: none; transform: none; }
-.sheet-bg { position: absolute; inset: 0; background: rgba(0,0,0,.4); display: flex; align-items: flex-end; }
-.sheet { background: var(--surface); width: 100%; border-radius: 22px 22px 0 0; padding: 18px 18px calc(18px + env(safe-area-inset-bottom, 0px)); display: flex; flex-direction: column; gap: 10px; max-height: 80%; overflow-y: auto; }
+.sheet-bg { position: absolute; inset: 0; background: rgba(5,12,24,.45); display: flex; align-items: flex-end; }
+.sheet { background: var(--surface); width: 100%; border-radius: 22px 22px 0 0; padding: 18px 18px calc(18px + env(safe-area-inset-bottom, 0px)); display: flex; flex-direction: column; gap: 10px; max-height: 85%; overflow-y: auto; }
 .sheet h3 { margin: 0; font: 700 16px var(--f-display); }
 .sheet ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; font-size: 13.5px; }
 </style>
@@ -210,22 +200,24 @@ table.est td:last-child { text-align: right; white-space: nowrap; padding-left: 
 <body>
 <div class="stage">
   <aside class="map" aria-label="Карта прототипа">
-    <h1>ОМА Дом</h1>
-    <p>Кликабельный прототип MVP: задача клиента превращается в проект, проект — в Паспорт дома, а Паспорт возвращает клиента в ОМА.</p>
+    <span class="logo"><svg viewBox="0 0 451 184" role="img" aria-label="ОМА"><path fill="currentColor" fill-rule="evenodd" d="M 85 4 C 84.2 4.1 83 4.2 82.2 4.3 C 81.5 4.4 80.1 4.6 79 4.7 C 76.9 5 70.6 6.3 70.2 6.5 C 70.1 6.6 69.4 6.8 68.6 7 C 63.8 8.3 56.6 11 52.8 13 C 51.8 13.6 51 14 50.9 14 C 50.8 14 47.5 15.9 45.4 17.2 C 44.1 18 41.4 19.8 40.5 20.5 C 40.3 20.7 39.6 21.2 39.1 21.6 C 35.8 23.9 32.8 26.6 29.4 30 C 25.3 34.2 23.5 36.3 19.2 42.2 C 18.2 43.6 16.3 46.6 14.8 49.4 C 14.4 50 13.9 51 13.6 51.5 C 13.1 52.5 12.8 53 11.4 56 C 10.6 57.8 9.5 60.4 8.9 62.1 C 8.7 62.8 8.2 64.1 7.9 65.1 C 7.2 67.1 6.1 71 5.9 72.2 C 5.8 72.7 5.6 73.5 5.4 74.1 C 5.3 74.7 5.1 75.6 5 76.2 C 4.9 76.7 4.7 77.9 4.6 78.9 C 4.4 79.8 4.2 81.3 4.1 82.1 C 4.1 83 3.9 84.7 3.8 86 C 3.1 93.7 3.9 104.9 5.5 112.2 C 6.8 117.8 7.8 121.2 10 126.9 C 14.9 139.4 24.5 152.1 35.4 160.5 C 38.7 163 42.2 165.4 45.6 167.3 C 48.3 168.9 53.5 171.5 56.1 172.5 C 57.1 172.9 58.2 173.4 58.5 173.5 C 59 173.7 59.4 173.9 61.4 174.6 C 62.6 175 68.3 176.8 69 176.9 C 69.2 177 70 177.2 70.7 177.4 C 73.8 178.3 82.3 179.7 86.5 180 C 93.4 180.5 99.1 180.5 99.8 180 C 100.4 179.6 104.8 171.2 107.5 165.3 C 107.8 164.6 109.7 160.7 111.8 156.7 C 113.8 152.7 117.1 146.1 119.1 141.9 C 121.2 137.8 123 134.1 123.3 133.7 C 123.9 132.5 129.9 120.4 140.1 100 C 145.2 89.8 150.9 78.5 152.7 74.9 C 154.5 71.3 156.5 67.3 157.2 65.9 C 157.9 64.5 160.4 59.5 162.7 54.9 C 167.3 45.8 167.2 45.9 167 45.2 C 166.6 43.8 161.4 36.9 157.6 32.7 C 153.6 28.3 147.5 22.9 143.3 20.1 C 142.8 19.7 142 19.2 141.5 18.8 C 137.8 16.3 131.7 12.8 129.3 11.9 C 129 11.7 128.1 11.4 127.3 11.1 C 126.6 10.7 125.6 10.3 125.2 10.2 C 124.8 10 124.1 9.7 123.6 9.5 C 122.8 9.1 117.5 7.4 115.4 6.8 C 112.9 6.1 108.3 5.1 106.2 4.9 C 105.7 4.8 104.2 4.6 103 4.4 C 99.2 3.9 89.6 3.7 85 4 M 275.9 11.5 C 275.6 11.8 268.5 26 267.4 28.5 C 267 29.3 266 31.3 265.2 33 C 263.2 37 260.1 43.1 254.3 54.8 C 251.7 60 248.5 66.3 247.3 68.8 C 246.1 71.2 244.6 74.1 244.1 75.3 C 243.3 76.9 239 85.5 238.3 86.8 C 238.2 87 237.5 88.4 236.8 89.9 C 235.3 93 234.8 93.5 234.2 92.8 C 234.1 92.6 226 76.5 215.2 54.8 C 212.3 49.1 209.9 44.3 209.8 44.1 C 209.4 43.3 203 30.5 201 26.4 C 195.5 15.3 194 12.3 193.7 12.1 C 193.1 11.8 193.3 11.3 180.2 37.6 C 177.8 42.4 175.8 46.5 175.7 46.7 C 175.1 47.7 164.8 68.4 164 70.1 C 163.5 71.2 157.8 82.5 151.4 95.3 C 145 108.1 138 122.2 135.8 126.6 C 131.9 134.5 123.9 150.6 123.4 151.6 C 123.2 151.8 121.2 155.9 118.8 160.7 C 116.5 165.4 113.4 171.5 112.1 174.2 C 109.3 179.7 109.3 179.6 109.8 180.1 L 110.1 180.4 146.4 180.4 C 185.7 180.4 183.2 180.4 183.7 179.7 C 183.8 179.5 185.1 177.1 186.5 174.2 C 191.9 163.4 197.8 151.5 198 151 C 198.3 150.3 198.5 149.9 204.5 137.9 C 207.3 132.3 210 127 210.4 126 C 213 120.5 213.5 119.7 214.3 119.7 C 214.9 119.7 219.5 122 219.8 122.4 C 220.2 123 219.8 123.9 213.8 135.9 C 212.5 138.5 211.1 141.2 210.8 142 C 210.4 142.8 209 145.5 207.7 148.1 C 204.8 153.9 197.2 169.1 195.6 172.2 C 195 173.5 194 175.5 193.4 176.8 C 192.1 179.2 192 179.7 192.5 180.1 C 192.8 180.4 193.6 180.4 230.7 180.4 C 269.9 180.4 269.2 180.4 269.7 179.8 C 270 179.6 274.4 170.8 278.2 163.1 C 279.2 161.2 281.2 157.2 282.7 154.3 C 286.7 146.3 292.1 135.5 293.7 132.2 C 294.4 130.7 299.5 120.4 305 109.4 C 314.8 89.8 315.1 89.3 315.1 88.6 C 315.1 87.9 314.9 87.6 309.5 76.9 C 306.5 70.8 304 65.6 303.9 65.4 C 303.8 65.2 302.5 62.7 301.1 59.8 C 298.1 53.8 296.6 50.8 290.3 38.2 C 287.7 33 285 27.7 284.4 26.4 C 283.8 25.2 282.9 23.5 282.5 22.6 C 278.8 14.7 276.9 11.2 276.4 11.2 C 276.3 11.2 276.1 11.4 275.9 11.5 M 362.6 12.3 C 362.4 12.4 348.4 40.2 348 41.2 C 347.9 41.5 347.3 42.7 346.7 44 C 345.4 46.5 337 63.3 334.9 67.5 C 332.7 72 329.2 79 323.7 89.9 C 320.8 95.8 317.9 101.6 317.3 102.8 C 315.9 105.6 312 113.4 305.8 125.9 C 303.1 131.1 300.6 136.1 300.2 137 C 299.7 137.9 297.7 141.9 295.7 145.9 C 292.1 153.2 285.9 165.6 282.1 173.1 C 278.8 179.8 278.8 179.6 279.4 180.1 C 279.6 180.4 279.8 180.4 311.7 180.4 C 346.4 180.4 344.2 180.4 344.9 179.7 C 345.1 179.4 352.5 164.8 353 163.6 C 353.2 163 355.1 159.3 360.5 148.5 C 361.9 145.7 363.8 142 364.6 140.2 C 366.3 136.7 366.6 136.3 367.3 136.4 C 368 136.5 372.4 138.8 372.7 139.2 C 373.2 139.7 373 140.2 369.1 147.8 C 368.7 148.6 368.2 149.5 368.1 149.8 C 368 150.1 358.1 170.1 354.7 176.8 C 353.4 179.5 353.3 179.7 353.8 180.1 L 354.2 180.4 400.2 180.4 L 446.2 180.4 446.5 180.1 C 447 179.8 447 179.3 446.5 178.5 C 446.2 177.8 444.9 175.4 441.8 169.1 C 440.5 166.5 438.7 162.9 437.8 161.1 C 435.3 156.1 433.5 152.5 433.1 151.8 C 433 151.4 430.9 147.3 428.6 142.6 C 426.3 138 423.3 132.2 422.1 129.7 C 417.5 120.4 415.3 116 412.8 111 C 411.3 108.1 409.7 104.8 409.1 103.6 C 405.8 96.7 400.6 86.6 400.3 86.4 C 399.8 86.3 399.4 86.5 399 87.5 C 398.7 87.9 397.6 90.1 396.5 92.2 C 395.4 94.4 393.2 98.9 391.5 102.1 C 389.9 105.4 387.5 110.1 386.2 112.6 C 384.9 115.1 383.2 118.5 382.4 120 C 380.8 123.1 380.6 123.4 380 123.4 C 379.4 123.4 374.9 121.1 374.5 120.7 C 374 120.1 374.1 119.9 378 112.5 C 379.9 108.6 383.7 101.1 386.3 95.9 C 389 90.7 391.2 86.3 391.2 86.2 C 391.3 86.1 391.8 85.1 392.4 83.9 C 393 82.8 393.8 81.3 394.2 80.6 C 395 79.1 395.8 77.5 395.8 77.1 C 395.8 76.8 392.5 70.1 391.7 68.7 C 391.3 67.9 386.3 57.9 386.1 57.4 C 385.9 56.8 384.8 54.8 376.3 37.6 C 370.9 26.9 370.1 25.2 366.7 18.5 C 365.2 15.6 364 13.1 363.9 12.9 C 363.8 12.3 363 12 362.6 12.3"/></svg><span>для дома</span></span>
+    <p>Кликабельный прототип для частных клиентов ОМА: ремонт санузла и установка под ответственностью ОМА, а Паспорт дома возвращает клиента за следующей покупкой.</p>
     <ol>
-      <li><button data-jump="home">Главная: вход из 3D-проекта ОМА</button></li>
-      <li><button data-jump="bath1">Санузел: замеры, работы, кто делает</button></li>
-      <li><button data-jump="bath2">Смета с пояснениями и резерв партии</button></li>
-      <li><button data-jump="bath3">Бригада OMA PRO, исполнитель — ОМА</button></li>
-      <li><button data-jump="cart">Одна корзина, оплата, согласия</button></li>
-      <li><button data-jump="projects">Этапы: фото, чек-лист, приёмка</button></li>
-      <li><button data-jump="passport">Паспорт дома и возврат остатков</button></li>
+      <li><button data-jump="home">Главная: вход из 3D-проекта</button></li>
+      <li><button data-jump="bath1">Санузел: что делаем</button></li>
+      <li><button data-jump="bath2">Смета и кто делает работы</button></li>
+      <li><button data-jump="bath3">Дата и бригада</button></li>
+      <li><button data-jump="cart">Корзина</button></li>
+      <li><button data-jump="confirm">Проверка заказа и согласия</button></li>
+      <li><button data-jump="pay">Способ оплаты</button></li>
+      <li><button data-jump="projects">Этап: фото, чек-лист, приёмка</button></li>
+      <li><button data-jump="passport">Паспорт дома</button></li>
       <li><button data-jump="install">Установка с мастером</button></li>
-      <li><button data-jump="profile">«Баланс» и согласия</button></li>
+      <li><button data-jump="profile">Профиль: «Баланс», тема, согласия</button></li>
     </ol>
     <p class="links"><a href="slides/">Презентация</a> · <a href="README.html">Концепция</a> · <a href="docs/legal-compliance.html">Правовой разбор</a></p>
     <button class="reset" data-action="reset">Начать демо заново</button>
-    <p class="demo-note">Концепт для хакатона. Это не официальный сервис ОМА: компании, УНП, адреса и цены условные, оплата не проводится, данные никуда не отправляются.</p>
+    <p class="demo-note">Концепт команды хакатона, не официальный сервис ОМА. Бригады, УНП, адреса и цены условные, оплата не проводится, данные никуда не отправляются.</p>
   </aside>
   <div class="phone">
     <div class="app" id="app">
@@ -254,13 +246,29 @@ const ICON = {
   heat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 8c2-3-2-3 0-6" /> <path d="M15.5 8c2-3-2-3 0-6" /> <path d="M6 10h.01" /> <path d="M6 14h.01" /> <path d="M10 16v-4" /> <path d="M14 16v-4" /> <path d="M18 16v-4" /> <path d="M20 6a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3" /> <path d="M5 20v2" /> <path d="M19 20v2" /></svg>',
   pot: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12h20" /> <path d="M20 12v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8" /> <path d="m4 8 16-4" /> <path d="m8.86 6.78-.45-1.81a2 2 0 0 1 1.45-2.43l1.94-.48a2 2 0 0 1 2.43 1.46l.45 1.8" /></svg>',
   wrench: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.106-3.105c.32-.322.863-.22.983.218a6 6 0 0 1-8.259 7.057l-7.91 7.91a1 1 0 0 1-2.999-3l7.91-7.91a6 6 0 0 1 7.057-8.259c.438.12.54.662.219.984z" /></svg>',
+  bell: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.268 21a2 2 0 0 0 3.464 0" /> <path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326" /></svg>',
   check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg>'
 };
 
-const TODAY = '27.10.2026';
-const fmt = n => n.toLocaleString('ru-RU', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' BYN';
-const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const LOGO = `<svg viewBox="0 0 451 184" role="img" aria-label="ОМА"><path fill="currentColor" fill-rule="evenodd" d="M 85 4 C 84.2 4.1 83 4.2 82.2 4.3 C 81.5 4.4 80.1 4.6 79 4.7 C 76.9 5 70.6 6.3 70.2 6.5 C 70.1 6.6 69.4 6.8 68.6 7 C 63.8 8.3 56.6 11 52.8 13 C 51.8 13.6 51 14 50.9 14 C 50.8 14 47.5 15.9 45.4 17.2 C 44.1 18 41.4 19.8 40.5 20.5 C 40.3 20.7 39.6 21.2 39.1 21.6 C 35.8 23.9 32.8 26.6 29.4 30 C 25.3 34.2 23.5 36.3 19.2 42.2 C 18.2 43.6 16.3 46.6 14.8 49.4 C 14.4 50 13.9 51 13.6 51.5 C 13.1 52.5 12.8 53 11.4 56 C 10.6 57.8 9.5 60.4 8.9 62.1 C 8.7 62.8 8.2 64.1 7.9 65.1 C 7.2 67.1 6.1 71 5.9 72.2 C 5.8 72.7 5.6 73.5 5.4 74.1 C 5.3 74.7 5.1 75.6 5 76.2 C 4.9 76.7 4.7 77.9 4.6 78.9 C 4.4 79.8 4.2 81.3 4.1 82.1 C 4.1 83 3.9 84.7 3.8 86 C 3.1 93.7 3.9 104.9 5.5 112.2 C 6.8 117.8 7.8 121.2 10 126.9 C 14.9 139.4 24.5 152.1 35.4 160.5 C 38.7 163 42.2 165.4 45.6 167.3 C 48.3 168.9 53.5 171.5 56.1 172.5 C 57.1 172.9 58.2 173.4 58.5 173.5 C 59 173.7 59.4 173.9 61.4 174.6 C 62.6 175 68.3 176.8 69 176.9 C 69.2 177 70 177.2 70.7 177.4 C 73.8 178.3 82.3 179.7 86.5 180 C 93.4 180.5 99.1 180.5 99.8 180 C 100.4 179.6 104.8 171.2 107.5 165.3 C 107.8 164.6 109.7 160.7 111.8 156.7 C 113.8 152.7 117.1 146.1 119.1 141.9 C 121.2 137.8 123 134.1 123.3 133.7 C 123.9 132.5 129.9 120.4 140.1 100 C 145.2 89.8 150.9 78.5 152.7 74.9 C 154.5 71.3 156.5 67.3 157.2 65.9 C 157.9 64.5 160.4 59.5 162.7 54.9 C 167.3 45.8 167.2 45.9 167 45.2 C 166.6 43.8 161.4 36.9 157.6 32.7 C 153.6 28.3 147.5 22.9 143.3 20.1 C 142.8 19.7 142 19.2 141.5 18.8 C 137.8 16.3 131.7 12.8 129.3 11.9 C 129 11.7 128.1 11.4 127.3 11.1 C 126.6 10.7 125.6 10.3 125.2 10.2 C 124.8 10 124.1 9.7 123.6 9.5 C 122.8 9.1 117.5 7.4 115.4 6.8 C 112.9 6.1 108.3 5.1 106.2 4.9 C 105.7 4.8 104.2 4.6 103 4.4 C 99.2 3.9 89.6 3.7 85 4 M 275.9 11.5 C 275.6 11.8 268.5 26 267.4 28.5 C 267 29.3 266 31.3 265.2 33 C 263.2 37 260.1 43.1 254.3 54.8 C 251.7 60 248.5 66.3 247.3 68.8 C 246.1 71.2 244.6 74.1 244.1 75.3 C 243.3 76.9 239 85.5 238.3 86.8 C 238.2 87 237.5 88.4 236.8 89.9 C 235.3 93 234.8 93.5 234.2 92.8 C 234.1 92.6 226 76.5 215.2 54.8 C 212.3 49.1 209.9 44.3 209.8 44.1 C 209.4 43.3 203 30.5 201 26.4 C 195.5 15.3 194 12.3 193.7 12.1 C 193.1 11.8 193.3 11.3 180.2 37.6 C 177.8 42.4 175.8 46.5 175.7 46.7 C 175.1 47.7 164.8 68.4 164 70.1 C 163.5 71.2 157.8 82.5 151.4 95.3 C 145 108.1 138 122.2 135.8 126.6 C 131.9 134.5 123.9 150.6 123.4 151.6 C 123.2 151.8 121.2 155.9 118.8 160.7 C 116.5 165.4 113.4 171.5 112.1 174.2 C 109.3 179.7 109.3 179.6 109.8 180.1 L 110.1 180.4 146.4 180.4 C 185.7 180.4 183.2 180.4 183.7 179.7 C 183.8 179.5 185.1 177.1 186.5 174.2 C 191.9 163.4 197.8 151.5 198 151 C 198.3 150.3 198.5 149.9 204.5 137.9 C 207.3 132.3 210 127 210.4 126 C 213 120.5 213.5 119.7 214.3 119.7 C 214.9 119.7 219.5 122 219.8 122.4 C 220.2 123 219.8 123.9 213.8 135.9 C 212.5 138.5 211.1 141.2 210.8 142 C 210.4 142.8 209 145.5 207.7 148.1 C 204.8 153.9 197.2 169.1 195.6 172.2 C 195 173.5 194 175.5 193.4 176.8 C 192.1 179.2 192 179.7 192.5 180.1 C 192.8 180.4 193.6 180.4 230.7 180.4 C 269.9 180.4 269.2 180.4 269.7 179.8 C 270 179.6 274.4 170.8 278.2 163.1 C 279.2 161.2 281.2 157.2 282.7 154.3 C 286.7 146.3 292.1 135.5 293.7 132.2 C 294.4 130.7 299.5 120.4 305 109.4 C 314.8 89.8 315.1 89.3 315.1 88.6 C 315.1 87.9 314.9 87.6 309.5 76.9 C 306.5 70.8 304 65.6 303.9 65.4 C 303.8 65.2 302.5 62.7 301.1 59.8 C 298.1 53.8 296.6 50.8 290.3 38.2 C 287.7 33 285 27.7 284.4 26.4 C 283.8 25.2 282.9 23.5 282.5 22.6 C 278.8 14.7 276.9 11.2 276.4 11.2 C 276.3 11.2 276.1 11.4 275.9 11.5 M 362.6 12.3 C 362.4 12.4 348.4 40.2 348 41.2 C 347.9 41.5 347.3 42.7 346.7 44 C 345.4 46.5 337 63.3 334.9 67.5 C 332.7 72 329.2 79 323.7 89.9 C 320.8 95.8 317.9 101.6 317.3 102.8 C 315.9 105.6 312 113.4 305.8 125.9 C 303.1 131.1 300.6 136.1 300.2 137 C 299.7 137.9 297.7 141.9 295.7 145.9 C 292.1 153.2 285.9 165.6 282.1 173.1 C 278.8 179.8 278.8 179.6 279.4 180.1 C 279.6 180.4 279.8 180.4 311.7 180.4 C 346.4 180.4 344.2 180.4 344.9 179.7 C 345.1 179.4 352.5 164.8 353 163.6 C 353.2 163 355.1 159.3 360.5 148.5 C 361.9 145.7 363.8 142 364.6 140.2 C 366.3 136.7 366.6 136.3 367.3 136.4 C 368 136.5 372.4 138.8 372.7 139.2 C 373.2 139.7 373 140.2 369.1 147.8 C 368.7 148.6 368.2 149.5 368.1 149.8 C 368 150.1 358.1 170.1 354.7 176.8 C 353.4 179.5 353.3 179.7 353.8 180.1 L 354.2 180.4 400.2 180.4 L 446.2 180.4 446.5 180.1 C 447 179.8 447 179.3 446.5 178.5 C 446.2 177.8 444.9 175.4 441.8 169.1 C 440.5 166.5 438.7 162.9 437.8 161.1 C 435.3 156.1 433.5 152.5 433.1 151.8 C 433 151.4 430.9 147.3 428.6 142.6 C 426.3 138 423.3 132.2 422.1 129.7 C 417.5 120.4 415.3 116 412.8 111 C 411.3 108.1 409.7 104.8 409.1 103.6 C 405.8 96.7 400.6 86.6 400.3 86.4 C 399.8 86.3 399.4 86.5 399 87.5 C 398.7 87.9 397.6 90.1 396.5 92.2 C 395.4 94.4 393.2 98.9 391.5 102.1 C 389.9 105.4 387.5 110.1 386.2 112.6 C 384.9 115.1 383.2 118.5 382.4 120 C 380.8 123.1 380.6 123.4 380 123.4 C 379.4 123.4 374.9 121.1 374.5 120.7 C 374 120.1 374.1 119.9 378 112.5 C 379.9 108.6 383.7 101.1 386.3 95.9 C 389 90.7 391.2 86.3 391.2 86.2 C 391.3 86.1 391.8 85.1 392.4 83.9 C 393 82.8 393.8 81.3 394.2 80.6 C 395 79.1 395.8 77.5 395.8 77.1 C 395.8 76.8 392.5 70.1 391.7 68.7 C 391.3 67.9 386.3 57.9 386.1 57.4 C 385.9 56.8 384.8 54.8 376.3 37.6 C 370.9 26.9 370.1 25.2 366.7 18.5 C 365.2 15.6 364 13.1 363.9 12.9 C 363.8 12.3 363 12 362.6 12.3"/></svg>`;
+const LOGO_LOCKUP = `<span class="logo">${LOGO}<span>для дома</span></span>`;
 
+const TODAY = '27.10.2026';
+const fmt = n => n.toLocaleString('ru-RU', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' BYN';
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const num1 = n => (+n).toFixed(1).replace('.', ',');
+
+/* ---------- тема: светлая по умолчанию, тёмная — переключателем в профиле ---------- */
+let THEME = 'light';
+try { THEME = localStorage.getItem('oma-theme') === 'dark' ? 'dark' : 'light'; } catch (e) {}
+function applyTheme(t) {
+  THEME = t;
+  document.documentElement.dataset.theme = t;
+  try { localStorage.setItem('oma-theme', t); } catch (e) {}
+}
+applyTheme(THEME);
+
+/* ---------- данные ---------- */
 const TIERS = {
   eco:  { name: 'Эконом',   tile: ['184 220', 'Плитка керамическая «Базальт» 20×40', 28],  glue: ['310 512', 'Клей плиточный C1, 25 кг', 18], grout: ['310 774', 'Затирка цементная, 2 кг', 9],
           mixer: ['402 118', 'Смеситель для ванны «Классик»', 89],  shower: ['405 330', 'Душевой уголок 90×90 с поддоном', 390] },
@@ -279,32 +287,33 @@ const RENTAL = [
   { name: 'Аренда миксера строительного, 3 сут', qty: 1, unit: 'усл', price: 24 }
 ];
 const OMA_EXEC = { name: 'ОМА', warranty: 24 };
+// бригады — партнёры ОМА; клиенту показываем стаж работы с ОМА и рейтинг по заказам
 const BRIGADES = [
-  { id: 'b1', name: 'ИП Ковалёв А. В.', unp: '790000002', rating: 4.9, reviews: 54, since: 2019, jobs: 38, start: '03.11' },
-  { id: 'b2', name: 'ООО «Мастер-Отделка»', unp: '190000001', rating: 4.8, reviews: 126, since: 2021, jobs: 61, start: '29.10' },
-  { id: 'b3', name: 'ООО «Ремонт-Сервис»', unp: '190000003', rating: 4.6, reviews: 212, since: 2018, jobs: 94, start: '10.11' }
+  { id: 'b2', name: 'ООО «Мастер-Отделка»', unp: '190000001', rating: 4.8, since: 2021, jobs: 61, start: '29.10' },
+  { id: 'b1', name: 'ИП Ковалёв А. В.', unp: '790000002', rating: 4.9, since: 2019, jobs: 38, start: '03.11' },
+  { id: 'b3', name: 'ООО «Ремонт-Сервис»', unp: '190000003', rating: 4.6, since: 2018, jobs: 94, start: '10.11' }
 ];
 const INSTALL = [
   { id: 'i1', name: 'Установка смесителя', price: 45 },
   { id: 'i2', name: 'Установка унитаза на прежнее место', price: 70 },
   { id: 'i3', name: 'Подключение стиральной машины', price: 40 },
-  { id: 'i4', name: 'Монтаж электрического полотенцесушителя', price: 55 },
-  { id: 'i5', name: 'Навес полок или карниза, до 3 шт.', price: 35 },
+  { id: 'i4', name: 'Электрический полотенцесушитель', price: 55 },
+  { id: 'i5', name: 'Полки или карниз, до 3 шт.', price: 35 },
   { id: 'i6', name: 'Сборка шкафа, за модуль', price: 30 }
 ];
 // чек-листы приёмки составляет технолог ОМА; здесь — понятные клиенту формулировки
 const CHECKS = {
   demol: ['Старая плитка и клей сняты до основания', 'Мусор вывезен, есть документ о передаче отходов', 'Трубы и стояки не повреждены'],
-  prep: ['Гидроизоляция без пропусков, в углах и у труб уложена лента', 'Слой заведён на стены над полом и в зоне душа', 'Мастер прислал фото слоёв до укладки плитки'],
-  tile: ['Швы одинаковой ширины, линии ровные', 'Плитка не звучит «пусто» при простукивании', 'Резы аккуратные, без сколов на видном месте', 'Вода на полу уходит к сливу'],
-  plumb: ['Под смесителем и соединениями сухо после 15 минут работы воды', 'Смеситель закреплён без люфта', 'Силиконовые швы ровные, без пропусков'],
-  install: ['Прибор закреплён без люфта', 'Соединения сухие после проверки водой или током', 'Мастер убрал за собой и показал, как пользоваться']
+  prep: ['Гидроизоляция без пропусков, в углах и у труб — лента', 'Слой заведён на стены над полом и в зоне душа', 'Есть фото слоёв до укладки плитки'],
+  tile: ['Швы одинаковой ширины, линии ровные', 'Плитка не звучит «пусто» при простукивании', 'Резы без сколов на видном месте', 'Вода на полу уходит к сливу'],
+  plumb: ['Под смесителем сухо после 15 минут работы воды', 'Смеситель закреплён без люфта', 'Силиконовые швы ровные, без пропусков'],
+  install: ['Прибор закреплён без люфта', 'Соединения сухие после проверки', 'Мастер убрал за собой и показал, как пользоваться']
 };
 
 function initialState() {
   return {
     screen: 'home', history: [], projectId: null,
-    bath: { L: 2.0, W: 1.7, H: 2.5, tasks: { tile: true, mixer: true, shower: false, move: false }, tier: 'std', mode: 'master', brigade: 'b1', from3d: '' },
+    bath: { L: 2.0, W: 1.7, H: 2.5, tasks: { tile: true, mixer: true, shower: false, move: false }, tier: 'std', mode: 'master', brigade: 'b2', from3d: '', editDims: false },
     install: { sel: { i1: true }, withGood: true, date: '2026-10-30', slot: '12:00–15:00' },
     cart: [],
     pay: 'card',
@@ -316,8 +325,7 @@ function initialState() {
     passport: [{
       id: 'kitchen', room: 'Кухня', title: 'Ремонт кухни', date: '03.2024',
       materials: [['220 415', 'Столешница 38 мм, дуб', '2 шт'], ['402 760', 'Фильтр для воды под мойку «Аква-3»', '1 шт'], ['184 102', 'Плитка-фартук «Кабанчик» 10×20', '3,2 м²']],
-      exec: 'Покупка в ОМА, монтаж — сторонний мастер', warrantyState: 'нет данных',
-      docs: ['Кассовый чек ОМА № 0042'],
+      warrantyState: 'нет данных', docs: ['Кассовый чек ОМА № 0042'],
       reminders: [{ id: 'r1', text: 'Заменить картридж фильтра «Аква-3»', due: '05.11.2026', soon: true, action: 'filter' }]
     }]
   };
@@ -325,19 +333,18 @@ function initialState() {
 let S = initialState();
 
 /* ---------- расчёты ---------- */
-function bathCalc() {
-  const b = S.bath, t = TIERS[b.tier], diy = b.mode === 'diy';
+function bathCalc(modeOverride) {
+  const b = S.bath, t = TIERS[b.tier], diy = (modeOverride || b.mode) === 'diy';
   const L = +b.L || 0, W = +b.W || 0, H = +b.H || 0;
   const perim = 2 * (L + W), floor = L * W, wall = Math.max(0, perim * H - 1.6), surf = wall + floor;
-  const r1 = n => n.toFixed(1).replace('.', ',');
   const up = n => Math.ceil(n);
   const goods = [], services = [], stages = [];
   if (b.tasks.tile) {
-    goods.push({ art: t.tile[0], name: t.tile[1], qty: Math.ceil(surf * 1.1 * 10) / 10, unit: 'м²', price: t.tile[2], why: `Стены и пол ${r1(surf)} м² и 10% запаса на подрезку` });
-    goods.push({ art: t.glue[0], name: t.glue[1], qty: up(surf / 5), unit: 'шт', price: t.glue[2], why: 'Расход около 5 кг на м²: один мешок на 5 м²' });
-    goods.push({ art: t.grout[0], name: t.grout[1], qty: up(surf / 10), unit: 'шт', price: t.grout[2], why: 'Одна упаковка примерно на 10 м²' });
+    goods.push({ art: t.tile[0], name: t.tile[1], qty: Math.ceil(surf * 1.1 * 10) / 10, unit: 'м²', price: t.tile[2], why: `Стены и пол ${num1(surf)} м² и 10% запаса на подрезку` });
+    goods.push({ art: t.glue[0], name: t.glue[1], qty: up(surf / 5), unit: 'шт', price: t.glue[2], why: 'Расход около 5 кг на м²: мешок на 5 м²' });
+    goods.push({ art: t.grout[0], name: t.grout[1], qty: up(surf / 10), unit: 'шт', price: t.grout[2], why: 'Упаковка примерно на 10 м²' });
     goods.push({ art: PRIMER[0], name: PRIMER[1], qty: up(surf / 40), unit: 'шт', price: PRIMER[2], why: 'Под гидроизоляцию и клей: канистра на 40 м²' });
-    goods.push({ art: WATERPROOF[0], name: WATERPROOF[1], qty: up((floor + perim * 0.2) / 6), unit: 'шт', price: WATERPROOF[2], why: 'Пол и низ стен на 20 см — зона, где чаще всего протекает' });
+    goods.push({ art: WATERPROOF[0], name: WATERPROOF[1], qty: up((floor + perim * 0.2) / 6), unit: 'шт', price: WATERPROOF[2], why: 'Пол и низ стен на 20 см — там чаще всего протекает' });
   }
   if (b.tasks.mixer) goods.push({ art: t.mixer[0], name: t.mixer[1], qty: 1, unit: 'шт', price: t.mixer[2], why: 'Вы выбрали в задаче' });
   if (b.tasks.shower) goods.push({ art: t.shower[0], name: t.shower[1], qty: 1, unit: 'шт', price: t.shower[2], why: 'Вы выбрали в задаче' });
@@ -362,22 +369,29 @@ function bathCalc() {
     if (b.tasks.shower) { services.push({ name: 'Монтаж душевой зоны', qty: 1, unit: 'шт', price: PRICE.shower }); plumb += PRICE.shower; }
     if (plumb) stages.push({ kind: 'plumb', name: 'Сантехника и финальная приёмка', amount: plumb });
   }
-  const sum = arr => arr.reduce((a, i) => a + i.qty * i.price, 0);
-  return { goods, services, stages, goodsSum: sum(goods), servSum: sum(services), diy, surf, floor, wall, tierName: t.name, brigade: BRIGADES.find(x => x.id === b.brigade) };
+  return { goods, services, stages, goodsSum: sumOf(goods), servSum: sumOf(services), diy, surf, floor, wall, tierName: t.name, brigade: BRIGADES.find(x => x.id === b.brigade) };
 }
 
 function installCalc() {
   const s = S.install, services = INSTALL.filter(i => s.sel[i.id]).map(i => ({ name: i.name, qty: 1, unit: 'шт', price: i.price }));
   const goods = s.sel.i1 && s.withGood ? [{ art: TIERS.std.mixer[0], name: TIERS.std.mixer[1], qty: 1, unit: 'шт', price: TIERS.std.mixer[2] }] : [];
-  const sum = arr => arr.reduce((a, i) => a + i.qty * i.price, 0);
-  return { services, goods, goodsSum: sum(goods), servSum: sum(services) };
+  return { services, goods, goodsSum: sumOf(goods), servSum: sumOf(services) };
 }
 
 /* ---------- корзина ---------- */
+const sumOf = arr => arr.reduce((a, i) => a + i.qty * i.price, 0);
 const cartCount = () => new Set(S.cart.map(i => i.group)).size;
 function addBundle(group, title, goods, services, executor, extra) {
   S.cart = S.cart.filter(i => i.group !== group);
   S.cart.push({ group, title, goods, services, executor, ...extra });
+}
+function cartTotals() {
+  let goods = 0, serv = 0, nowServ = 0;
+  S.cart.forEach(b => {
+    goods += sumOf(b.goods); const s = sumOf(b.services); serv += s;
+    nowServ += b.staged ? (b.stages.find(x => !x.gov) || { amount: 0 }).amount : s;
+  });
+  return { goods, serv, now: goods + nowServ, staged: S.cart.some(b => b.staged) };
 }
 
 /* ---------- анимации (Motion) ---------- */
@@ -417,10 +431,8 @@ function afterRender(screenChanged) {
   if (count > FX.lastCart) anim(document.querySelector('.nav .badge'), { scale: [1, 1.45, 1] }, { duration: 0.35, ease: 'easeOut' });
   FX.lastCart = count;
   if (FX.justDone != null) {
-    const steps = screen.querySelectorAll('.st');
-    anim(steps[FX.justDone]?.querySelector('.dot'), { scale: [0.4, 1] }, { type: 'spring', visualDuration: 0.35, bounce: 0.45 });
-    const next = steps[FX.justDone + 1];
-    if (next) anim(next.querySelector('.body'), { opacity: [0, 1], y: [8, 0] }, { delay: 0.1, type: 'spring', visualDuration: 0.3, bounce: 0 });
+    anim(screen.querySelector('[data-stagecard]'), { opacity: [0, 1], y: [14, 0] }, { y: { type: 'spring', visualDuration: 0.35, bounce: 0.1 }, opacity: { duration: 0.2 } });
+    anim(screen.querySelector('.progress i'), { scaleX: [0.85, 1] }, { type: 'spring', visualDuration: 0.4, bounce: 0.3 });
     FX.justDone = null;
   }
   if (FX.star) { anim(screen.querySelector(`[data-star="${FX.star}"]`), { scale: [1, 1.3, 1] }, { duration: 0.3, ease: 'easeOut' }); FX.star = null; }
@@ -430,12 +442,14 @@ function afterRender(screenChanged) {
 // отклик на нажатие: короткое сжатие и пружинный возврат
 document.addEventListener('pointerdown', e => {
   if (!canAnimate) return;
-  const el = e.target.closest('.btn:not([disabled]), .tile:not([disabled]), .exec, .seg button, .nav button, .icon-btn, .map li button, .stars button');
+  const el = e.target.closest('.btn:not([disabled]), .tile, .option, .seg button, .nav button, .icon-btn, .map li button, .stars button');
   if (!el) return;
   MOTION.animate(el, { scale: 0.97 }, { type: 'spring', visualDuration: 0.12, bounce: 0 });
   const up = () => MOTION.animate(el, { scale: 1 }, { type: 'spring', visualDuration: 0.25, bounce: 0.3 });
   ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => el.addEventListener(ev, up, { once: true }));
 });
+
+/* ---------- навигация ---------- */
 
 /* ---------- навигация ---------- */
 function go(screen, opts = {}) {
@@ -470,16 +484,17 @@ function sheet(html) {
   }
 }
 
+
 const TABS = [['home', 'Главная', ICON.home], ['projects', 'Проекты', ICON.proj], ['cart', 'Корзина', ICON.cart], ['passport', 'Паспорт', ICON.pass], ['profile', 'Профиль', ICON.user]];
-const TAB_OF = { home: 'home', bath1: 'home', bath2: 'home', bath3: 'home', install: 'home', cart: 'cart', projects: 'projects', project: 'projects', review: 'projects', passport: 'passport', profile: 'profile' };
-const TITLES = { home: 'ОМА Дом', bath1: 'Ремонт санузла', bath2: 'Смета', bath3: 'Бригада и дата', install: 'Установка с мастером', cart: 'Корзина', projects: 'Мои проекты', project: 'Проект', review: 'Завершение проекта', passport: 'Паспорт дома', profile: 'Профиль' };
+const TAB_OF = { home: 'home', bath1: 'home', bath2: 'home', bath3: 'home', install: 'home', cart: 'cart', confirm: 'cart', pay: 'cart', projects: 'projects', project: 'projects', review: 'projects', passport: 'passport', profile: 'profile' };
+const TITLES = { bath1: 'Ремонт санузла', bath2: 'Ремонт санузла', bath3: 'Ремонт санузла', install: 'Установка с мастером', cart: 'Корзина', confirm: 'Оформление', pay: 'Оплата', projects: 'Мои проекты', project: 'Проект', review: 'Завершение', passport: 'Паспорт дома', profile: 'Профиль' };
 
 function render() {
   const s = S.screen;
   const isRoot = ['home', 'projects', 'cart', 'passport', 'profile'].includes(s);
-  document.getElementById('top').innerHTML =
-    (isRoot ? '' : `<button class="icon-btn" data-action="back" aria-label="Назад">${ICON.back}</button>`) +
-    `<h2>${TITLES[s]}</h2>`;
+  document.getElementById('top').innerHTML = s === 'home'
+    ? LOGO_LOCKUP
+    : (isRoot ? '' : `<button class="icon-btn" data-action="back" aria-label="Назад">${ICON.back}</button>`) + `<h2>${TITLES[s]}</h2>`;
   document.getElementById('nav').innerHTML = TABS.map(([id, label, ic]) =>
     `<button data-go="${id}" ${TAB_OF[s] === id ? 'aria-current="page"' : ''}>${ic}${label}${id === 'cart' && cartCount() ? `<span class="badge">${cartCount()}</span>` : ''}</button>`).join('');
   document.getElementById('screen').innerHTML = (VIEWS[s] || VIEWS.home)();
@@ -491,389 +506,346 @@ function render() {
 }
 
 /* ---------- экраны ---------- */
-const steps = n => `<div class="steps">${[1, 2, 3, 4].map(i => `<span class="${i <= n ? 'on' : ''}"></span>`).join('')}</div>`;
+const stepsBar = n => `<div class="steps">${[1, 2, 3].map(i => `<span class="${i <= n ? 'on' : ''}"></span>`).join('')}</div>`;
 const law = text => `<span class="law">Основание: ${text}</span>`;
 const execLine = p => p.brigade ? `Исполнитель ОМА · бригада ${esc(p.brigade.name)}` : 'Исполнитель ОМА';
+const option = (attr, val, on, title, hint, right = '') =>
+  `<button class="option" data-${attr}="${val}" aria-pressed="${on}"><span class="radio-dot"></span><span class="grow"><b>${title}</b><span class="small muted">${hint}</span></span>${right ? `<span class="mono">${right}</span>` : ''}</button>`;
 
 const VIEWS = {
   home() {
     const soon = S.passport.flatMap(e => e.reminders.filter(r => r.soon).map(r => ({ ...r, room: e.room })));
     const active = S.projects.filter(p => !p.done);
     return `
-      <p class="hello">С какой задачей пришли?</p>
+      <p class="hello">Чем займёмся?</p>
       ${soon.map(r => `
-        <div class="remind">
-          <span class="lbl">Паспорт дома · ${esc(r.room)}</span>
-          <b>${esc(r.text)} до ${r.due}</b>
-          <span class="small">Картридж есть в наличии, замена мастером ОМА — 25 BYN.</span>
-          <button class="btn small" data-action="reminder" data-id="${r.id}">Заказать картридж и замену</button>
-        </div>`).join('')}
-      ${active.map(p => `
+        <div class="remind">${ICON.bell}<span class="grow"><b>${esc(r.text)}</b><br><span class="muted">${esc(r.room)} · до ${r.due} · замена 25 BYN</span></span>
+          <button class="btn small" data-action="reminder" data-id="${r.id}">Заказать</button></div>`).join('')}
+      ${active.map(p => { const d = p.stages.filter(x => x.done).length; return `
         <button class="card" style="text-align:left" data-action="open-project" data-id="${p.id}">
           <div class="between"><h3>${esc(p.title)}</h3><span class="pill ok">в работе</span></div>
-          <span class="small muted">Этап ${Math.min(p.stages.findIndex(x => !x.done) + 1 || p.stages.length, p.stages.length)} из ${p.stages.length}: ${esc((p.stages.find(x => !x.done) || p.stages[p.stages.length - 1]).name)}</span>
-        </button>`).join('')}
+          <div class="progress"><i style="width:${d / p.stages.length * 100}%"></i></div>
+          <span class="small muted">Принято этапов: ${d} из ${p.stages.length}</span>
+        </button>`; }).join('')}
       ${!S.bath.from3d && !active.length ? `
         <div class="card">
-          <div class="between"><h3>Ваш 3D-проект ванной готов</h3><span class="pill ok">дизайнер ОМА</span></div>
-          <span class="small muted">Проект № В-2026-1047 от 20.10.2026. Превратим его в смету, зарезервируем материалы и подберём бригаду.</span>
-          <button class="btn small" data-action="import3d">Продолжить проект</button>
+          <div class="between"><h3>Ваш 3D-проект ванной готов</h3><span class="pill ok">№ В-2026-1047</span></div>
+          <span class="small muted">Посчитаем материалы и подберём бригаду.</span>
+          <button class="btn blue" data-action="import3d">Продолжить проект</button>
         </div>` : ''}
       <div class="tiles">
-        <button class="tile" data-go="bath1"><span class="mark">${ICON.bath}</span><b>Ремонт санузла</b><span class="muted">Смета, материалы и работы под ответственностью ОМА</span></button>
-        <button class="tile" data-go="install"><span class="mark">${ICON.wrench}</span><b>Установка с мастером</b><span class="muted">Смеситель, унитаз, полки, шкаф — цена известна заранее</span></button>
-        <button class="tile" disabled><span class="mark">${ICON.pot}</span><b>Кухня</b><span class="soon">следующая волна, из 3D-конструктора</span></button>
-        <button class="tile" disabled><span class="mark">${ICON.leaf}</span><b>Дача и сад</b><span class="soon">после кухни и полов</span></button>
+        <button class="tile" data-go="bath1"><span class="mark">${ICON.bath}</span><b>Ремонт санузла</b><span class="muted">Материалы и работы под ответственностью ОМА</span></button>
+        <button class="tile" data-go="install"><span class="mark">${ICON.wrench}</span><b>Установка с мастером</b><span class="muted">Смеситель, унитаз, полки, шкаф</span></button>
       </div>
-      <div class="card">
-        <h3>Как это работает</h3>
-        <span class="small muted">ОМА считает материалы по каталогу, резервирует одну партию и привозит её к началу работ. Работы выполняет проверенная бригада-партнёр, а отвечает за них ОМА. Платите за этап только после приёмки. Всё сделанное хранится в Паспорте дома.</span>
-      </div>`;
+      <p class="soon-line">Скоро: кухня, полы и двери, дача</p>`;
   },
 
   bath1() {
     const b = S.bath, c = bathCalc();
-    const task = (key, title, hint) => `
-      <label class="check"><input type="checkbox" id="t-${key}" data-task="${key}" ${b.tasks[key] ? 'checked' : ''}><span><b>${title}</b><br><span class="small muted">${hint}</span></span></label>`;
-    return `
-      ${steps(1)}
-      ${b.from3d ? `
+    const task = (key, title) => `<label class="check"><input type="checkbox" id="t-${key}" data-task="${key}" ${b.tasks[key] ? 'checked' : ''}><span>${title}</span></label>`;
+    const area = `Пол ${num1(c.floor)} м² · стены ${num1(c.wall)} м²`;
+    const dims = b.from3d && !b.editDims ? `
       <div class="card">
-        <div class="between"><h3>3D-проект № ${esc(b.from3d)}</h3><span class="pill ok">загружен</span></div>
-        <span class="small muted">Размеры, плитка и сантехника перенесены из проекта дизайнера ОМА. Всё можно поправить.</span>
+        <div class="between"><h3>Из 3D-проекта № ${esc(b.from3d)}</h3><button class="link" data-action="edit-dims">Изменить</button></div>
+        <span class="small muted">${num1(b.L)} × ${num1(b.W)} м, высота ${num1(b.H)} м · ${area}</span>
       </div>` : `
       <div class="card">
-        <h3>Есть 3D-проект ванной от ОМА?</h3>
-        <span class="small muted">Бесплатный проект делают дизайнеры в магазинах ОМА. Загрузим размеры и выбранные товары.</span>
-        <button class="btn small ghost" data-action="import3d">Загрузить проект по номеру</button>
-      </div>`}
-      <div class="card">
-        <h3>Размеры помещения, м</h3>
+        <div class="between"><h3>Размеры, м</h3>${b.from3d ? '' : '<button class="link" data-action="import3d">Взять из 3D-проекта</button>'}</div>
         <div class="fields">
           <label class="f">Длина<input id="bL" type="number" step="0.1" min="0.5" max="10" value="${b.L}" data-dim="L"></label>
           <label class="f">Ширина<input id="bW" type="number" step="0.1" min="0.5" max="10" value="${b.W}" data-dim="W"></label>
           <label class="f">Высота<input id="bH" type="number" step="0.1" min="2" max="4" value="${b.H}" data-dim="H"></label>
         </div>
-        <span class="small muted mono" id="area">Пол ${c.floor.toFixed(2)} м² · стены ${c.wall.toFixed(2)} м² (без двери 0,8×2,0)</span>
-      </div>
-      <div class="card">
-        <h3>Что нужно сделать</h3>
-        <div>
-          ${task('tile', 'Заменить плитку на стенах и полу', 'Демонтаж, гидроизоляция, укладка')}
-          ${task('mixer', 'Заменить смеситель', 'На прежнем месте')}
-          ${task('shower', 'Поставить душевую зону вместо ванны', 'Подключение к существующим трубам')}
-          ${task('move', 'Перенести трубы или сантехнику на новое место', 'Изменение инженерных сетей')}
-        </div>
-      </div>
+        <span class="small muted" id="area">${area}</span>
+      </div>`;
+    return `
+      ${stepsBar(1)}
+      <p class="step-title">Что делаем</p>
+      ${dims}
+      <div class="card"><div>
+        ${task('tile', 'Заменить плитку на стенах и полу')}
+        ${task('mixer', 'Заменить смеситель')}
+        ${task('shower', 'Душевая зона вместо ванны')}
+        ${task('move', 'Перенести трубы или сантехнику')}
+      </div></div>
       ${b.tasks.move ? `
       <div class="warn">
-        <b>Нужно разрешение исполкома</b>
-        <span>Перенос инженерных сетей и сантехнических приборов — переустройство жилого помещения. Эти работы начнутся только после решения районного исполкома, которое вы загрузите в проект. Гидроизоляция пола разрешения не требует.</span>
-        ${law('Жилищный кодекс; постановление Совмина № 164 от 03.04.2026')}
-      </div>` : `
-      <div class="card small muted">Замена отделки и сантехники на прежних местах и гидроизоляция не требуют согласования. Если переносите трубы, стены или вентиляцию, отметьте последний пункт — подскажем порядок.</div>`}
-      <div class="card">
-        <h3>Кто делает работы</h3>
-        <div class="seg two" role="group" aria-label="Кто делает работы">
-          <button data-mode="master" aria-pressed="${b.mode === 'master'}"><b>Мастер ОМА</b><span class="small muted">фиксированная цена, гарантия ОМА</span></button>
-          <button data-mode="diy" aria-pressed="${b.mode === 'diy'}"><b>Сделаю сам</b><span class="small muted">аренда инструмента ОМА</span></button>
-        </div>
-      </div>
-      <div class="sticky-cta"><button class="btn block" data-go="bath2" ${Object.values(b.tasks).some(Boolean) ? '' : 'disabled'}>Рассчитать смету</button></div>`;
+        <b>Понадобится разрешение исполкома</b>
+        <span>Перенос сетей — это переустройство. Эти работы начнутся после решения райисполкома, которое вы загрузите в проект.</span>
+        ${law('Жилищный кодекс; постановление Совмина № 164')}
+      </div>` : ''}
+      <div class="sticky-cta"><button class="btn block" data-go="bath2" ${Object.values(b.tasks).some(Boolean) ? '' : 'disabled'}>Дальше: смета</button></div>`;
   },
 
   bath2() {
-    const c = bathCalc(), b = S.bath;
-    const works = c.diy ? `
-      <div class="card">
-        <h3>Аренда инструмента ОМА</h3>
-        ${c.services.map(i => `<div class="line-item"><span class="grow">${esc(i.name)}</span><span class="mono">${fmt(i.price)}</span></div>`).join('') || '<span class="small muted">Для выбранных работ инструмент не нужен.</span>'}
-        <span class="small muted">Инструмент выдаётся в магазине по договору проката. Довезти материалы можно на прицепе ОМА — он тоже сдаётся напрокат.</span>
-      </div>` : `
-      <div class="card">
-        <h3>Работы по фиксированной цене ОМА</h3>
-        <table class="est"><tbody>
-          ${c.services.map(i => `<tr><td>${esc(i.name)}<br><span class="art">${String(i.qty).replace('.', ',')} ${i.unit} × ${fmt(i.price)}</span></td><td class="mono">${fmt(i.qty * i.price)}</td></tr>`).join('')}
-        </tbody></table>
-        <div class="total"><span>Работы</span><span class="mono" data-count="bath-serv" data-value="${c.servSum}">${fmt(c.servSum)}</span></div>
-        <span class="small muted">Цена одинакова для всех бригад-партнёров. Мастер не попросит доплату за «непредвиденное» без вашего согласия в приложении.</span>
-      </div>`;
+    const b = S.bath, c = bathCalc(), master = bathCalc('master'), diy = bathCalc('diy');
+    const total = c.goodsSum + c.servSum;
     return `
-      ${steps(2)}
+      ${stepsBar(2)}
+      <p class="step-title">Смета</p>
       <div class="seg" role="group" aria-label="Уровень материалов">
         ${Object.entries(TIERS).map(([k, t]) => `<button data-tier="${k}" aria-pressed="${b.tier === k}"><b>${t.name}</b><span class="small muted mono">${t.tile[2]} BYN/м²</span></button>`).join('')}
       </div>
-      <div class="card">
-        <div class="between"><h3>Материалы</h3><span class="pill ok">в наличии</span></div>
-        <span class="small">Плитка и затирка — из одной партии, резерв на 7 дней. Оттенок не будет отличаться, если понадобится докупить.</span>
-        <table class="est"><tbody>
-          ${c.goods.map(g => `<tr><td>${esc(g.name)}<br><span class="art">арт. <span class="code">${g.art}</span> · ${String(g.qty).replace('.', ',')} ${g.unit} × ${fmt(g.price)}</span><br><span class="why">${esc(g.why)}</span></td><td class="mono">${fmt(g.qty * g.price)}</td></tr>`).join('') || '<tr><td class="muted">Материалы не нужны</td><td></td></tr>'}
-        </tbody></table>
-        <div class="total"><span>Товары ОМА</span><span class="mono" data-count="bath-goods" data-value="${c.goodsSum}">${fmt(c.goodsSum)}</span></div>
-        <span class="small muted">Расчёт ориентировочный и не заменяет проектную документацию, если она требуется.</span>
+      <div class="card sumcard">
+        <span class="small muted">Материалы · ${c.goods.length} позиций</span>
+        <span class="big" data-count="bath-goods" data-value="${c.goodsSum}">${fmt(c.goodsSum)}</span>
+        <span class="small muted">В наличии. Плитка и затирка — из одной партии, резерв 7 дней.</span>
+        <button class="link" data-action="goods-sheet">Состав и как посчитано</button>
       </div>
-      ${works}
+      <span class="small muted">Кто делает работы</span>
+      ${option('mode', 'master', b.mode === 'master', 'Мастер ОМА', 'Цена фиксирована, гарантия ОМА 24 мес', fmt(master.servSum))}
+      ${option('mode', 'diy', b.mode === 'diy', 'Сделаю сам', 'Аренда плиткореза и миксера', fmt(diy.servSum))}
       <div class="sticky-cta">
-        ${c.diy
-          ? `<button class="btn block" data-action="bath-to-cart">В корзину: материалы и аренда · ${fmt(c.goodsSum + c.servSum)}</button>`
-          : `<button class="btn block" data-go="bath3">Выбрать бригаду и дату</button>
-             <button class="btn ghost block" data-action="goods-only">Купить только материалы</button>`}
+        <div class="sum"><span>Итого</span><span data-count="bath-total" data-value="${total}">${fmt(total)}</span></div>
+        ${c.diy ? '<button class="btn block" data-action="bath-to-cart">В корзину</button>' : '<button class="btn block" data-go="bath3">Дальше: дата начала</button>'}
       </div>`;
   },
 
   bath3() {
     const b = S.bath, c = bathCalc();
-    const cards = BRIGADES.map(g => `
-      <button class="exec" data-brigade="${g.id}" aria-pressed="${b.brigade === g.id}">
-        <div class="between"><b>${esc(g.name)}</b><span class="small">старт ${g.start}</span></div>
-        <span class="small muted">УНП <span class="code">${g.unp}</span> (демо) · <span class="star">★</span> ${String(g.rating).replace('.', ',')} · ${g.reviews} отзывов по заказам ОМА</span>
-        <span class="small">В OMA PRO с ${g.since} года · ${g.jobs} объектов с ОМА</span>
-      </button>`).join('');
     return `
-      ${steps(3)}
+      ${stepsBar(3)}
+      <p class="step-title">Когда начать</p>
       <div class="card">
-        <h3>Исполнитель и гарантия — ОМА</h3>
-        <span class="small muted">Работы выполняет бригада-партнёр из OMA PRO, прошедшая проверку и пробный объект. Цена одна для всех бригад — ${fmt(c.servSum)}, гарантия на работы 24 месяца. Выберите удобный старт.</span>
+        <div class="between"><span>Работы под ключ</span><b class="mono">${fmt(c.servSum)}</b></div>
+        <span class="small muted">Исполнитель и гарантия — ОМА. Цена одна для всех бригад. Платите за этап после приёмки.</span>
+        <button class="link" data-action="stages-sheet">Этапы и оплата</button>
       </div>
-      ${cards}
-      <div class="card">
-        <h3>Этапы и оплата</h3>
-        <table class="est"><tbody>
-          ${c.stages.map((s, i) => `<tr><td>${i + 1}. ${esc(s.name)}</td><td class="mono">${s.gov ? 'документ' : fmt(s.amount)}</td></tr>`).join('')}
-        </tbody></table>
-        <span class="small muted">Материалы приедут к началу работ. Каждый этап оплачивается после того, как вы примете его по фото и чек-листу.</span>
-      </div>
-      <div class="card small muted">Договор бытового подряда вы заключаете с ОМА. Если с работой что-то не так, отвечает ОМА, а не «мастер, которого не найти».
-        ${law('Гражданский кодекс; Закон «О защите прав потребителей»; Правила бытового обслуживания, постановление Совмина № 134')}</div>
-      <div class="sticky-cta"><button class="btn block" data-action="bath-to-cart">В корзину: материалы и работы · ${fmt(c.goodsSum + c.servSum)}</button></div>`;
+      ${BRIGADES.map(g => option('brigade', g.id, b.brigade === g.id, `Старт ${g.start}`,
+        `${esc(g.name)} · <span class="star">★</span> ${num1(g.rating)} · ${g.jobs} объектов с ОМА`)).join('')}
+      <div class="sticky-cta">
+        <div class="sum"><span>Итого</span><span class="mono">${fmt(c.goodsSum + c.servSum)}</span></div>
+        <button class="btn block" data-action="bath-to-cart">В корзину</button>
+      </div>`;
   },
 
   install() {
     const s = S.install, c = installCalc();
     return `
-      <div class="card">
-        <h3>Что установить</h3>
-        <div>
-          ${INSTALL.map(i => `<label class="check"><input type="checkbox" id="inst-${i.id}" data-inst="${i.id}" ${s.sel[i.id] ? 'checked' : ''}><span class="between"><span>${esc(i.name)}</span><span class="mono">${fmt(i.price)}</span></span></label>`).join('')}
-        </div>
-        ${s.sel.i1 ? `<label class="check"><input type="checkbox" id="inst-good" data-instgood="1" ${s.withGood ? 'checked' : ''}><span class="small">Добавить смеситель: ${esc(TIERS.std.mixer[1])}, ${fmt(TIERS.std.mixer[2])} — в наличии</span></label>` : ''}
-      </div>
-      <div class="card">
-        <h3>Когда приехать</h3>
-        <div class="fields two">
-          <label class="f">Дата<input id="iDate" type="date" value="${s.date}" data-if="date"></label>
-          <label class="f">Время<select id="iSlot" data-if="slot">${['9:00–12:00', '12:00–15:00', '15:00–18:00'].map(x => `<option ${s.slot === x ? 'selected' : ''}>${x}</option>`).join('')}</select></label>
-        </div>
-      </div>
-      <div class="card">
-        <div class="between"><span>Товары</span><span class="mono">${fmt(c.goodsSum)}</span></div>
-        <div class="between"><span>Работы</span><span class="mono">${fmt(c.servSum)}</span></div>
-        <div class="total"><span>Итого</span><span class="mono" data-count="inst-total" data-value="${c.goodsSum + c.servSum}">${fmt(c.goodsSum + c.servSum)}</span></div>
-        <span class="small muted">Исполнитель — ОМА, гарантия на работу 12 месяцев. Если понадобятся дополнительные работы, мастер согласует их с вами в приложении.</span>
-        ${law('Правила бытового обслуживания, постановление Совмина № 134')}
-      </div>
-      <div class="sticky-cta"><button class="btn block" data-action="install-to-cart" ${c.services.length ? '' : 'disabled'}>Добавить в корзину</button></div>`;
+      <p class="step-title">Что установить</p>
+      <div class="card"><div>
+        ${INSTALL.map(i => `<label class="check"><input type="checkbox" id="inst-${i.id}" data-inst="${i.id}" ${s.sel[i.id] ? 'checked' : ''}><span class="between"><span>${esc(i.name)}</span><span class="muted mono">${fmt(i.price)}</span></span></label>`).join('')}
+      </div></div>
+      ${s.sel.i1 ? `<div class="card"><label class="check"><input type="checkbox" id="inst-good" data-instgood="1" ${s.withGood ? 'checked' : ''}><span class="between"><span>Смеситель термостатический, в наличии</span><span class="muted mono">${fmt(TIERS.std.mixer[2])}</span></span></label></div>` : ''}
+      <div class="card"><div class="fields two">
+        <label class="f">Дата<input id="iDate" type="date" value="${s.date}" data-if="date"></label>
+        <label class="f">Время<select id="iSlot" data-if="slot">${['9:00–12:00', '12:00–15:00', '15:00–18:00'].map(x => `<option ${s.slot === x ? 'selected' : ''}>${x}</option>`).join('')}</select></label>
+      </div></div>
+      <div class="sticky-cta">
+        <div class="sum"><span>Итого</span><span data-count="inst-total" data-value="${c.goodsSum + c.servSum}">${fmt(c.goodsSum + c.servSum)}</span></div>
+        <span class="small muted">Исполнитель ОМА · гарантия на работу 12 мес</span>
+        <button class="btn block" data-action="install-to-cart" ${c.services.length ? '' : 'disabled'}>В корзину</button>
+      </div>`;
   },
 
   cart() {
-    if (!S.cart.length) return `<div class="empty"><b>Корзина пуста</b><span>Начните с задачи на главной — соберём товары и работы в один заказ.</span><button class="btn" data-go="home">На главную</button></div>`;
-    let goodsTotal = 0, servTotal = 0, nowServ = 0;
-    const blocks = S.cart.map(b => {
-      const g = b.goods.reduce((a, i) => a + i.qty * i.price, 0), s = b.services.reduce((a, i) => a + i.qty * i.price, 0);
-      goodsTotal += g; servTotal += s;
-      nowServ += b.staged ? (b.stages.find(x => !x.gov) || { amount: 0 }).amount : s;
-      const servHead = b.rental ? 'Аренда · ОМА' : `Работы · ${execLine(b)}`;
-      return `
-      <div class="card">
-        <div class="between"><h3>${esc(b.title)}</h3><button class="rm" data-action="cart-rm" data-group="${b.group}">Убрать</button></div>
-        ${b.goods.length ? `<span class="group-h">Товары · ОМА</span>
-          ${b.goods.map(i => `<div class="line-item"><span class="grow">${esc(i.name)} <span class="art">× ${String(i.qty).replace('.', ',')} ${i.unit}</span></span><span class="mono">${fmt(i.qty * i.price)}</span></div>`).join('')}` : ''}
-        ${b.services.length ? `<span class="group-h">${servHead}</span>
-          ${b.services.map(i => `<div class="line-item"><span class="grow">${esc(i.name)}</span><span class="mono">${fmt(i.qty * i.price)}</span></div>`).join('')}
-          ${b.staged ? `<span class="small muted">Работы оплачиваются по этапам: сейчас только первый этап.</span>` : ''}` : ''}
-        ${b.delivery ? `<span class="small">${esc(b.delivery)}</span>` : ''}
-        ${b.gov ? `<div class="warn"><b>Перед переносом сетей</b><span>Загрузите решение исполкома о переустройстве в проект.</span></div>` : ''}
-      </div>`;
-    }).join('');
-    const now = goodsTotal + nowServ;
-    const c = S.consents;
-    const pay = (id, title, hint) => `<label class="radio ${S.pay === id ? 'on' : ''}"><input type="radio" name="pay" id="pay-${id}" value="${id}" ${S.pay === id ? 'checked' : ''} data-pay="${id}"><span><b>${title}</b><br><span class="small muted">${hint}</span></span></label>`;
+    if (!S.cart.length) return `<div class="empty"><b>Корзина пуста</b><span>Начните с задачи на главной.</span><button class="btn blue" data-go="home">На главную</button></div>`;
+    const t = cartTotals();
     return `
-      ${blocks}
-      <div class="card">
-        <div class="between"><span>Товары</span><span class="mono">${fmt(goodsTotal)}</span></div>
-        <div class="between"><span>Работы и аренда всего</span><span class="mono">${fmt(servTotal)}</span></div>
-        <div class="total"><span>К оплате сейчас</span><span class="mono" data-count="cart-now" data-value="${now}">${fmt(now)}</span></div>
-        <span class="small muted">Бонусы «Баланс» начислятся на товары и работы (демо: ${Math.round((goodsTotal + servTotal) * 0.01)}).</span>
-      </div>
-      <div class="card"><h3>Способ оплаты</h3>
-        ${pay('card', 'Банковская карта', 'Оплата на счёт ОМА, чек ОМА на товары и работы')}
-        ${pay('erip', 'ЕРИП', 'Счёт появится в системе «Расчёт» после оформления')}
-        ${pay('loan', 'Рассрочка банка-партнёра', `6 платежей по ${fmt(now / 6)}. Договор заключает банк, решение — за банком`)}
-      </div>
-      <div class="card"><h3>Проверьте заказ</h3>
-        <span class="small muted">Состав, адрес и даты можно исправить до оформления. После оплаты придёт подтверждение договора в приложение и на e-mail.</span>
-        ${law('Правила дистанционной торговли, постановление Совмина № 489')}
-      </div>
-      <div class="card"><h3>Согласия</h3>
-        <label class="check"><input type="checkbox" id="c-offer" data-consent="offer" ${c.offer ? 'checked' : ''}><span class="small">Принимаю <u data-action="doc" data-doc="offer">публичную оферту</u> ОМА: купля-продажа товаров и бытовой подряд</span></label>
-        <label class="check"><input type="checkbox" id="c-pd" data-consent="pd" ${c.pd ? 'checked' : ''}><span class="small">Ознакомлен с <u data-action="doc" data-doc="pd">политикой обработки персональных данных</u>; имя, телефон и адрес передаются бригаде-партнёру только для выполнения заказа</span></label>
-        <label class="check"><input type="checkbox" id="c-ads" data-consent="ads" ${c.ads ? 'checked' : ''}><span class="small">Хочу получать акции и персональные предложения ОМА (необязательно, можно отозвать в профиле)</span></label>
-        ${law('Закон «О защите персональных данных»; Закон «О рекламе»')}
-      </div>
+      ${S.cart.map(b => {
+        const kind = b.rental ? ' · аренда инструмента' : b.staged ? ' · работы по этапам' : b.services.length ? ' · работы' : '';
+        return `
+        <div class="card">
+          <div class="between"><h3>${esc(b.title)}</h3><b class="mono">${fmt(sumOf(b.goods) + sumOf(b.services))}</b></div>
+          <span class="small muted">${b.goods.length ? `${b.goods.length} товар.` : ''}${kind}${b.delivery ? ` · ${esc(b.delivery)}` : ''}</span>
+          <details class="fold"><summary>Состав</summary>
+            ${[...b.goods, ...b.services].map(i => `<div class="line-item"><span class="grow">${esc(i.name)}</span><span class="mono">${fmt(i.qty * i.price)}</span></div>`).join('')}
+          </details>
+          <button class="rm" data-action="cart-rm" data-group="${b.group}" style="align-self:flex-start">Убрать</button>
+        </div>`; }).join('')}
       <div class="sticky-cta">
-        <button class="btn block" data-action="checkout" ${c.offer && c.pd ? '' : 'disabled'}>Оформить заказ (демо) · ${fmt(now)}</button>
-        ${c.offer && c.pd ? '' : '<span class="small muted" style="text-align:center">Отметьте оферту и согласие на обработку данных</span>'}
+        <div class="sum"><span>К оплате сейчас</span><span data-count="cart-now" data-value="${t.now}">${fmt(t.now)}</span></div>
+        <span class="small muted">${t.staged ? 'Работы оплачиваются по этапам после приёмки. ' : ''}+${Math.round((t.goods + t.serv) * 0.01)} бонусов «Баланс» (демо)</span>
+        <button class="btn block" data-go="confirm">Оформить</button>
+      </div>`;
+  },
+
+  confirm() {
+    if (!S.cart.length) return VIEWS.cart();
+    const t = cartTotals(), c = S.consents;
+    const row = (k, v) => `<div class="line-item"><span class="grow muted">${k}</span><span style="text-align:right">${v}</span></div>`;
+    const check = (id, key, html) => `<label class="check"><input type="checkbox" id="${id}" data-consent="${key}" ${c[key] ? 'checked' : ''}><span class="small">${html}</span></label>`;
+    return `
+      <p class="step-title">Проверьте заказ</p>
+      <div class="card">
+        <div>
+          ${row('Заказ', S.cart.map(b => esc(b.title)).join(', '))}
+          ${row('Адрес', 'г. Минск, ул. Примерная, 1 (демо)')}
+          ${row('Когда', S.cart.map(b => esc(b.delivery || 'по согласованию')).join('; '))}
+          ${row('К оплате сейчас', `<b>${fmt(t.now)}</b>`)}
+        </div>
+        <button class="link" data-go="cart">Изменить заказ</button>
+      </div>
+      <div class="card"><div>
+        ${check('c-offer', 'offer', 'Принимаю <u data-action="doc" data-doc="offer">оферту ОМА</u>: товары и бытовой подряд')}
+        ${check('c-pd', 'pd', 'Согласен с <u data-action="doc" data-doc="pd">обработкой данных</u> для выполнения заказа')}
+        ${check('c-ads', 'ads', 'Присылать акции и подборки (необязательно)')}
+      </div></div>
+      <div class="sticky-cta"><button class="btn block" data-go="pay" ${c.offer && c.pd ? '' : 'disabled'}>Дальше: оплата</button></div>`;
+  },
+
+  pay() {
+    if (!S.cart.length) return VIEWS.cart();
+    const t = cartTotals();
+    return `
+      <p class="step-title">Как оплатить</p>
+      ${option('pay', 'card', S.pay === 'card', 'Банковская карта', 'Списание сразу')}
+      ${option('pay', 'erip', S.pay === 'erip', 'ЕРИП', 'Счёт в системе «Расчёт»')}
+      ${option('pay', 'loan', S.pay === 'loan', 'Рассрочка банка-партнёра', `6 × ${fmt(t.now / 6)}, решение за банком`)}
+      <div class="sticky-cta">
+        <div class="sum"><span>К оплате</span><span class="mono">${fmt(t.now)}</span></div>
+        <button class="btn block" data-action="checkout">Оплатить (демо)</button>
+        <span class="small muted" style="text-align:center">Чек ОМА и подтверждение договора придут в приложение</span>
       </div>`;
   },
 
   projects() {
-    if (!S.projects.length) return `<div class="empty"><b>Пока нет проектов</b><span>Оформите ремонт или установку — здесь появятся этапы, фото и акты.</span><button class="btn" data-go="home">Выбрать задачу</button></div>`;
+    if (!S.projects.length) return `<div class="empty"><b>Пока нет проектов</b><span>Здесь появятся этапы, фото и акты.</span><button class="btn blue" data-go="home">Выбрать задачу</button></div>`;
     return S.projects.map(p => `
       <button class="card" style="text-align:left" data-action="open-project" data-id="${p.id}">
         <div class="between"><h3>${esc(p.title)}</h3><span class="pill ${p.done ? '' : 'ok'}">${p.done ? 'завершён' : 'в работе'}</span></div>
-        <span class="small muted">${execLine(p)} · этапов принято ${p.stages.filter(s => s.done).length} из ${p.stages.length}</span>
+        <span class="small muted">Принято этапов: ${p.stages.filter(s => s.done).length} из ${p.stages.length}</span>
       </button>`).join('');
   },
 
   project() {
     const p = S.projects.find(x => x.id === S.projectId);
     if (!p) return VIEWS.projects();
-    const cur = p.stages.findIndex(s => !s.done);
-    const items = p.stages.map((s, i) => {
-      const state = s.done ? 'done' : i === cur ? 'active' : '';
-      let body = `<b>${esc(s.name)}</b><span class="small muted mono">${s.gov ? 'документ от вас' : fmt(s.amount)}${s.done ? ' · принято' : ''}</span>`;
-      if (i === cur && s.gov) {
-        body += `<div class="warn"><span>Загрузите решение исполкома о переустройстве. Без него бригада не начнёт перенос сетей.</span></div><button class="btn small" data-action="accept" data-i="${i}">Загрузить решение (демо)</button>`;
-      } else if (i === cur) {
-        body += `<div class="photo">Фото от мастера · ${TODAY}</div>
-          <details class="checks" open><summary>Как проверить этап</summary><ul>${(CHECKS[s.kind] || []).map(x => `<li>${esc(x)}</li>`).join('')}</ul></details>
-          <div class="row"><button class="btn small" data-action="accept" data-i="${i}">Принять и оплатить</button><button class="btn small ghost" data-action="claim">Есть замечания</button></div>
-          ${s.kind === 'tile' ? `<button class="btn small ghost" data-action="extra">Мастеру не хватило плитки — докупить</button>` : ''}`;
-      }
-      return `<div class="st ${state}"><span class="dot">${s.done ? ICON.check : ''}</span><div class="body">${body}</div></div>`;
-    }).join('');
+    const cur = p.stages.findIndex(s => !s.done), n = p.stages.length, done = p.stages.filter(s => s.done).length;
+    const s = p.stages[cur];
+    let card = '';
+    if (s && s.gov) card = `
+      <div class="card" data-stagecard>
+        <h3>${esc(s.name)}</h3>
+        <div class="warn"><span>Загрузите решение исполкома. Без него бригада не начнёт перенос сетей.</span></div>
+        <button class="btn block" data-action="accept" data-i="${cur}">Загрузить решение (демо)</button>
+      </div>`;
+    else if (s) card = `
+      <div class="card" data-stagecard>
+        <div class="between"><h3>${esc(s.name)}</h3><b class="mono">${fmt(s.amount)}</b></div>
+        <div class="photo">Фото от бригады · ${TODAY}</div>
+        <div class="checks"><b>Как проверить</b><ul>${(CHECKS[s.kind] || []).map(x => `<li>${esc(x)}</li>`).join('')}</ul></div>
+        <div class="row"><button class="btn grow" data-action="accept" data-i="${cur}">Принять и оплатить</button><button class="btn ghost" data-action="claim">Замечание</button></div>
+        ${s.kind === 'tile' ? '<button class="link" data-action="extra">Не хватило плитки? Докупить той же партии</button>' : ''}
+      </div>`;
     return `
       <div class="card">
         <h3>${esc(p.title)}</h3>
-        <span class="small muted">${execLine(p)} · гарантия на работы ${p.warranty} мес</span>
+        <div class="progress"><i style="width:${done / n * 100}%"></i></div>
+        <span class="small muted">${cur === -1 ? 'Все этапы приняты' : `Этап ${cur + 1} из ${n}`} · ${execLine(p)}</span>
       </div>
-      <div class="card"><div class="timeline">${items}</div></div>
-      ${cur === -1 && !p.done ? `<div class="sticky-cta"><button class="btn block" data-go="review">Завершить проект</button></div>` : ''}
-      ${p.done ? `<button class="btn ghost" data-go="passport">Открыть в Паспорте дома</button>` : ''}`;
+      ${card}
+      <details class="card fold"><summary>Все этапы</summary>
+        <div class="done-list">${p.stages.map(x => `<div><span>${esc(x.name)}</span>${x.done ? '<span class="pill ok">принят</span>' : `<span class="muted mono">${x.gov ? 'документ' : fmt(x.amount)}</span>`}</div>`).join('')}</div>
+      </details>
+      ${cur === -1 && !p.done ? '<div class="sticky-cta"><button class="btn block" data-go="review">Завершить проект</button></div>' : ''}
+      ${p.done ? '<button class="btn ghost" data-go="passport">Открыть в Паспорте дома</button>' : ''}`;
   },
 
   review() {
-    const p = S.projects.find(x => x.id === S.projectId);
     return `
       <div class="card">
         <h3>Все этапы приняты</h3>
-        <span class="small muted">Акт приёмки подтверждён в приложении, чеки сохранены. Оцените работу${p.brigade ? ` бригады ${esc(p.brigade.name)}` : ' мастера'} — отзыв привязан к подтверждённому заказу.</span>
+        <span class="small muted">Оцените работу — отзыв привязан к подтверждённому заказу.</span>
         <div class="stars" role="group" aria-label="Оценка">${[1, 2, 3, 4, 5].map(n => `<button data-star="${n}" class="${S.rating >= n ? 'on' : ''}" aria-label="${n} из 5">★</button>`).join('')}</div>
-      </div>
-      <div class="card">
-        <h3>Что попадёт в Паспорт дома</h3>
-        <span class="small muted">Артикулы и партии материалов, гарантия ОМА на работы, акты, чеки и календарь ухода. Целые упаковки, которые остались, можно вернуть за бонусы «Баланс» в течение 60 дней.</span>
       </div>
       <div class="sticky-cta"><button class="btn block" data-action="finish" ${S.rating ? '' : 'disabled'}>Сохранить в Паспорт дома</button></div>`;
   },
 
   passport() {
     return `
-      <div class="card">
-        <h3>Квартира · г. Минск, ул. Примерная, 1 (демо)</h3>
-        <span class="small muted">Записей: ${S.passport.length} · данные хранятся на серверах в Республике Беларусь</span>
-      </div>
-      ${S.passport.map((e, idx) => `
-        <details class="card entry" ${idx === 0 ? 'open' : ''}>
-          <summary><h3>${esc(e.room)} · ${esc(e.title)}</h3><span class="pill">${e.date}</span></summary>
-          <span class="group-h">Материалы</span>
-          ${e.materials.map(m => `<div class="line-item"><span class="grow">${esc(m[1])}<br><span class="art">арт. <span class="code">${m[0]}</span> · ${m[2]}</span></span><button class="btn small ghost" data-action="rebuy" data-art="${m[0]}" data-name="${esc(m[1])}">Докупить</button></div>`).join('')}
-          ${e.leftovers && !e.leftDone ? `<button class="btn small ghost" data-action="leftovers" data-id="${e.id}">Вернуть остатки за бонусы</button>` : ''}
-          <span class="group-h">Работы и гарантия</span>
-          <div class="between small"><span>${esc(e.exec)}</span><span class="pill ${e.warrantyState === 'действует' ? 'ok' : ''}">${e.warrantyState}</span></div>
-          ${e.warrantyState === 'действует' ? `<div class="row"><button class="btn small ghost" data-action="claim">Гарантийный случай</button>${e.brigade ? `<button class="btn small ghost" data-action="same-brigade" data-id="${e.id}">Позвать ту же бригаду</button>` : ''}</div>` : ''}
-          <span class="group-h">Документы</span>
-          ${e.docs.map(d => `<div class="line-item small"><span class="grow">${esc(d)}</span><span class="muted">PDF</span></div>`).join('')}
-          <span class="group-h">Календарь ухода</span>
-          ${e.reminders.map(r => `<div class="line-item small"><span class="grow">${esc(r.text)}</span><span class="pill ${r.soon ? 'soon' : ''}">${r.due}</span></div>
-            ${r.soon && r.action === 'filter' ? `<button class="btn small" data-action="reminder" data-id="${r.id}">Заказать в ОМА</button>` : ''}`).join('')}
-        </details>`).join('')}`;
+      <span class="small muted">Квартира · ул. Примерная, 1 (демо)</span>
+      ${S.passport.map((e, idx) => {
+        const actions = [
+          e.warrantyState === 'действует' ? '<button class="btn small ghost" data-action="claim">Гарантия</button>' : '',
+          e.brigade ? `<button class="btn small ghost" data-action="same-brigade" data-id="${e.id}">Та же бригада</button>` : '',
+          e.leftovers && !e.leftDone ? `<button class="btn small ghost" data-action="leftovers" data-id="${e.id}">Вернуть остатки</button>` : ''
+        ].join('');
+        return `
+        <details class="card fold" ${idx === 0 ? 'open' : ''}>
+          <summary><span>${esc(e.room)} · ${esc(e.title)}<br><span class="small muted" style="font-weight:400">${e.date} · гарантия: ${e.warrantyState}</span></span></summary>
+          <div class="entry-body">
+          ${actions ? `<div class="row" style="flex-wrap:wrap">${actions}</div>` : ''}
+          <details class="fold"><summary>Уход · ${e.reminders.length}</summary>
+            ${e.reminders.map(r => `<div class="line-item"><span class="grow">${esc(r.text)}</span>${r.soon && r.action === 'filter' ? `<button class="btn small" data-action="reminder" data-id="${r.id}">Заказать</button>` : `<span class="pill ${r.soon ? 'soon' : ''}">${r.due}</span>`}</div>`).join('')}
+          </details>
+          <details class="fold"><summary>Материалы · ${e.materials.length}</summary>
+            ${e.materials.map(m => `<div class="line-item"><span class="grow">${esc(m[1])}<br><span class="art">арт. <span class="code">${m[0]}</span> · ${m[2]}</span></span><button class="btn small ghost" data-action="rebuy" data-art="${m[0]}" data-name="${esc(m[1])}">Докупить</button></div>`).join('')}
+          </details>
+          <details class="fold"><summary>Документы · ${e.docs.length}</summary>
+            ${e.docs.map(d => `<div class="line-item"><span class="grow">${esc(d)}</span><span class="muted small">PDF</span></div>`).join('')}
+          </details>
+          </div>
+        </details>`; }).join('')}`;
   },
 
   profile() {
     return `
+      <div class="balance"><span class="small">Карта «Баланс» · Анна (демо)</span><span class="big">${S.bonus.toLocaleString('ru-RU')} бонусов</span><span class="small">За товары, работы и уход по календарю Паспорта</span></div>
+      <div class="card"><label class="switch"><span><b>Тёмная тема</b></span><input type="checkbox" id="p-theme" data-action="toggle-theme" ${THEME === 'dark' ? 'checked' : ''}></label></div>
+      <div class="card"><h3>Согласия</h3><div>
+        <label class="switch"><span class="small"><b>Акции и подборки</b><br><span class="muted">Отзываются здесь же одним переключателем</span></span><input type="checkbox" id="p-ads" data-action="toggle-ads" ${S.profileAds ? 'checked' : ''}></label>
+        <label class="switch"><span class="small"><b>Аналитические cookies</b><br><span class="muted">Только с вашего согласия</span></span><input type="checkbox" id="p-cookies"></label>
+      </div><span class="small muted">Данные для заказов, доставки и гарантии обрабатываются по договору и хранятся в Республике Беларусь.</span></div>
       <div class="card">
-        <h3>Анна (демо-профиль)</h3>
-        <span class="small muted">Карта «Баланс»: <span class="mono">${S.bonus.toLocaleString('ru-RU')}</span> бонусов. Начисляются за товары, работы и уход по календарю Паспорта.</span>
-      </div>
-      <div class="card"><h3>Согласия</h3>
-        <div class="switch"><span class="small"><b>Обработка данных для заказов</b><br><span class="muted">Основание — договор. Нужна для доставки, работ и гарантии.</span></span><span class="pill ok">действует</span></div>
-        <label class="switch"><span class="small"><b>Реклама и персональные предложения</b><br><span class="muted">Отзывается здесь же, одним переключателем. Сервисные уведомления о заказах, гарантии и календаре ухода приходят независимо.</span></span><input type="checkbox" id="p-ads" data-action="toggle-ads" ${S.profileAds ? 'checked' : ''}></label>
-        <label class="switch"><span class="small"><b>Аналитические cookies</b><br><span class="muted">Только с вашего согласия, отзыв — так же просто</span></span><input type="checkbox" id="p-cookies"></label>
-      </div>
-      <div class="card"><h3>Мои данные</h3>
-        <button class="btn ghost small" data-action="doc" data-doc="pd">Политика обработки персональных данных</button>
-        <button class="btn ghost small" data-action="doc" data-doc="mydata">Какие данные хранятся и кому передаются</button>
-        <button class="btn ghost small" data-action="delete">Удалить аккаунт и данные</button>
+        <button class="link" data-action="doc" data-doc="pd">Как ОМА обрабатывает данные</button>
+        <button class="link" data-action="doc" data-doc="mydata">Какие данные хранятся</button>
+        <button class="link" data-action="delete">Удалить аккаунт</button>
       </div>`;
   }
 };
 
 const DOCS = {
-  offer: `<h3>Публичная оферта (кратко, демо)</h3><ul>
+  offer: `<h3>Оферта (кратко, демо)</h3><ul>
     <li>Товары продаёт ОМА. Обмен и возврат — по Закону «О защите прав потребителей» и Правилам дистанционной торговли.</li>
     <li>Работы по договору бытового подряда выполняет ОМА силами проверенных бригад-партнёров. За качество работ отвечает ОМА.</li>
     <li>Цена работ фиксируется до начала. Дополнительные работы — только с вашего согласия в приложении.</li>
     <li>Работы оплачиваются по этапам после приёмки. Гарантия на работы — 24 месяца, продлевается на время устранения недостатков.</li>
-    <li>Целые упаковки материалов проекта можно вернуть в течение 60 дней за бонусы «Баланс». Это условие ОМА сверх закона.</li>
-    <li>Рассрочку и кредит предоставляет банк по своему договору.</li></ul>`,
-  pd: `<h3>Обработка персональных данных (кратко, демо)</h3><ul>
-    <li>Оператор — ОМА. Ответственное лицо указано в политике.</li>
-    <li>Для заказов обрабатываем имя, телефон, адрес объекта и историю заказов — на основании договора.</li>
-    <li>Бригаде-партнёру передаём только имя, телефон и адрес, по договору поручения обработки.</li>
+    <li>Целые упаковки материалов проекта можно вернуть в течение 60 дней за бонусы «Баланс» — это условие ОМА сверх закона.</li>
+    <li>Рассрочку предоставляет банк по своему договору.</li></ul>`,
+  pd: `<h3>Обработка данных (кратко, демо)</h3><ul>
+    <li>Оператор — ОМА. Для заказов обрабатываем имя, телефон, адрес объекта и историю заказов на основании договора.</li>
+    <li>Бригаде передаём только имя, телефон и адрес по договору поручения обработки.</li>
     <li>Реклама, аналитика и cookies, кроме технических, — только с отдельного согласия, которое отзывается так же просто.</li>
-    <li>Данные хранятся в Республике Беларусь. Вы можете получить, изменить, удалить данные и отозвать согласие.</li></ul>
+    <li>Данные хранятся в Республике Беларусь. Их можно получить, изменить, удалить, а согласие — отозвать.</li></ul>
     ${law('Закон «О защите персональных данных» № 99-З')}`,
   mydata: `<h3>Ваши данные (демо)</h3><ul>
-    <li>Контакты: имя, телефон, e-mail.</li><li>Адрес объекта и Паспорт дома: материалы, работы, документы.</li>
-    <li>Передавались: бригадам-партнёрам по вашим заказам, банку при выборе рассрочки.</li>
-    <li>Срок хранения: пока действует аккаунт и гарантийные сроки, затем удаление.</li></ul>`
+    <li>Контакты: имя, телефон, e-mail.</li><li>Адрес и Паспорт дома: материалы, работы, документы.</li>
+    <li>Передавались: бригадам по вашим заказам, банку при выборе рассрочки.</li>
+    <li>Срок хранения: пока действует аккаунт и гарантийные сроки.</li></ul>`
 };
 
 /* ---------- действия ---------- */
-const sumOf = arr => arr.reduce((a, i) => a + i.qty * i.price, 0);
-
 function bathToCart(withServices) {
   const c = bathCalc(), staged = withServices && !c.diy;
   addBundle('bath', 'Ремонт санузла · ' + c.tierName, c.goods.map(g => ({ ...g })), withServices ? c.services.map(s => ({ ...s })) : [], OMA_EXEC, {
-    staged, rental: c.diy, brigade: staged ? c.brigade : null,
+    staged, rental: withServices && c.diy, brigade: staged ? c.brigade : null,
     stages: staged ? c.stages.map(s => ({ ...s })) : [], gov: staged && S.bath.tasks.move,
-    delivery: staged ? `Доставка к началу работ ${c.brigade.start}, подъём на этаж` : 'Самовывоз из магазина или доставка в удобный день'
+    delivery: staged ? `доставка и старт ${c.brigade.start}` : 'самовывоз или доставка'
   });
+  sheet('');
   go('cart');
-  toast(staged ? 'Материалы и работы в корзине' : 'Материалы в корзине');
+  toast('Добавлено в корзину');
 }
 
 function checkout() {
   S.cart.forEach(b => {
     if (b.group === 'bath' && b.staged) {
-      const stages = b.stages.map(s => ({ ...s, done: false }));
-      S.projects.unshift({ id: 'p' + Date.now(), kind: 'bath', title: b.title, brigade: b.brigade, warranty: 24, stages, goods: b.goods, total: sumOf(b.goods) + sumOf(b.services), done: false, tasks: { ...S.bath.tasks } });
+      S.projects.unshift({ id: 'p' + Date.now(), kind: 'bath', title: b.title, brigade: b.brigade, warranty: 24, stages: b.stages.map(s => ({ ...s, done: false })), goods: b.goods, total: sumOf(b.goods) + sumOf(b.services), done: false, tasks: { ...S.bath.tasks } });
     } else if (b.group === 'install') {
-      S.projects.unshift({ id: 'p' + Date.now() + 'i', kind: 'install', title: 'Установка с мастером ОМА', brigade: null, warranty: 12, goods: b.goods, total: sumOf(b.goods) + sumOf(b.services), done: false,
-        stages: [{ kind: 'install', name: b.services.map(s => s.name).join(', '), amount: sumOf(b.services) }] });
+      S.projects.unshift({ id: 'p' + Date.now() + 'i', kind: 'install', title: 'Установка с мастером', brigade: null, warranty: 12, goods: b.goods, total: sumOf(b.goods) + sumOf(b.services), done: false,
+        stages: [{ kind: 'install', name: 'Работы мастера', amount: sumOf(b.services) }] });
     } else if (b.group === 'filter') {
       const e = S.passport.find(x => x.id === 'kitchen'); const r = e && e.reminders.find(x => x.id === 'r1');
-      if (r) { r.soon = false; r.due = '05.11.2027'; r.text = 'Заменить картридж фильтра «Аква-3» (следующая замена)'; }
+      if (r) { r.soon = false; r.due = '05.11.2027'; r.text = 'Заменить картридж фильтра «Аква-3»'; }
       e && e.docs.push('Замена картриджа мастером ОМА · ' + TODAY);
     }
   });
   if (S.consents.ads) S.profileAds = true;
   const hadProject = S.cart.some(b => b.staged || b.group === 'install');
   S.cart = []; S.consents = { pd: false, ads: false, offer: false };
-  if (hadProject) { S.projectId = S.projects[0].id; S.history = ['home']; S.screen = 'project'; render(); toast('Заказ оформлен. Оплачены товары и первый этап (демо)'); }
-  else { S.history = []; S.screen = 'passport'; render(); toast('Заказ оформлен (демо)'); }
+  if (hadProject) { S.projectId = S.projects[0].id; S.history = ['home']; S.screen = 'project'; render(); toast('Оплачено (демо). Проект начался'); }
+  else { S.history = []; S.screen = 'passport'; render(); toast('Оплачено (демо)'); }
 }
 
 function finishProject() {
@@ -884,49 +856,65 @@ function finishProject() {
   if (p.kind === 'install') {
     S.passport.unshift({
       id: 'inst' + Date.now(), room: 'Ванная', title: 'Установка с мастером', date: '10.2026',
-      materials: p.goods.map(g => [g.art, g.name, `${g.qty} ${g.unit}`]), exec: 'Работы: ОМА · гарантия до 10.2027', warrantyState: 'действует',
+      materials: p.goods.map(g => [g.art, g.name, `${g.qty} ${g.unit}`]), warrantyState: 'действует',
       docs: ['Акт выполненных работ', 'Кассовый чек ОМА'], reminders: [{ id: 'i1', text: 'Проверить соединения под раковиной', due: '10.2027', soon: false }]
     });
   } else {
-    const rem = [{ id: 'b1', text: 'Обновить силиконовые швы у душевой зоны и ванны', due: '11.2027' }, { id: 'b2', text: 'Нанести водоотталкивающую пропитку на затирку', due: '11.2027' }];
+    const rem = [{ id: 'b1', text: 'Обновить силиконовые швы', due: '11.2027' }, { id: 'b2', text: 'Пропитать затирку', due: '11.2027' }];
     if (p.tasks.mixer) rem.push({ id: 'b3', text: 'Заменить картридж смесителя', due: '11.2029' });
     const glue = p.goods.find(g => /Клей/.test(g.name)), grout = p.goods.find(g => /Затирка/.test(g.name));
     S.passport.unshift({
-      id: 'bath' + Date.now(), room: 'Ванная', title: p.title, date: '11.2026', brigade: p.brigade,
+      id: 'bath' + Date.now(), room: 'Ванная', title: 'Ремонт санузла', date: '11.2026', brigade: p.brigade,
       materials: p.goods.map(g => [g.art, g.name, `${String(g.qty).replace('.', ',')} ${g.unit}`]),
       leftovers: [glue && { name: glue.name, qty: 1, price: glue.price }, grout && { name: grout.name, qty: 1, price: grout.price }].filter(Boolean),
-      exec: `Работы: ОМА, бригада ${p.brigade.name} · гарантия до 11.2028`, warrantyState: 'действует',
-      docs: ['Акт приёмки работ', 'Кассовый чек ОМА на материалы и работы', 'Договор бытового подряда с ОМА', 'Фотоотчёт по этапам'],
+      warrantyState: 'действует',
+      docs: ['Акт приёмки работ', 'Кассовый чек ОМА', 'Договор бытового подряда с ОМА', 'Фотоотчёт по этапам'],
       reminders: rem.map(r => ({ ...r, soon: false }))
     });
   }
   S.rating = 0; S.history = []; S.screen = 'passport'; render();
-  toast(`Сохранено в Паспорт дома · +${earned} бонусов «Баланс» (демо)`);
+  toast(`Сохранено в Паспорт · +${earned} бонусов (демо)`);
 }
 
 document.addEventListener('click', e => {
-  const t = e.target.closest('[data-go],[data-action],[data-jump],[data-tier],[data-brigade],[data-mode],[data-star]');
+  const t = e.target.closest('[data-go],[data-action],[data-jump],[data-tier],[data-brigade],[data-mode],[data-pay],[data-star]');
   if (!t) return;
   if (t.dataset.jump) return jump(t.dataset.jump);
   if (t.dataset.go) { if (TAB_OF[t.dataset.go] === t.dataset.go && t.closest('.nav')) S.history = []; return go(t.dataset.go, { replace: !!t.closest('.nav') }); }
   if (t.dataset.tier) { S.bath.tier = t.dataset.tier; return render(); }
   if (t.dataset.brigade) { S.bath.brigade = t.dataset.brigade; return render(); }
   if (t.dataset.mode) { S.bath.mode = t.dataset.mode; return render(); }
+  if (t.dataset.pay) { S.pay = t.dataset.pay; return render(); }
   if (t.dataset.star) { S.rating = +t.dataset.star; FX.star = t.dataset.star; return render(); }
   const a = t.dataset.action;
   if (a === 'close-sheet') { if (e.target === t) sheet(''); return; }
   if (a === 'back') return back();
   if (a === 'reset') { S = initialState(); sheet(''); render(); return toast('Демо начато заново'); }
   if (a === 'import3d') {
-    Object.assign(S.bath, { L: 2.2, W: 1.8, H: 2.6, tier: 'std', from3d: 'В-2026-1047', tasks: { tile: true, mixer: true, shower: true, move: false } });
-    go('bath1'); return toast('3D-проект загружен: размеры и сантехника перенесены');
+    Object.assign(S.bath, { L: 2.2, W: 1.8, H: 2.6, tier: 'std', from3d: 'В-2026-1047', editDims: false, tasks: { tile: true, mixer: true, shower: true, move: false } });
+    go('bath1'); return toast('3D-проект загружен');
+  }
+  if (a === 'edit-dims') { S.bath.editDims = true; return render(); }
+  if (a === 'goods-sheet') {
+    const c = bathCalc();
+    return sheet(`<h3>Материалы и расчёт</h3>
+      <div>${c.goods.map(g => `<div class="line-item"><span class="grow">${esc(g.name)}<br><span class="art">арт. <span class="code">${g.art}</span> · ${String(g.qty).replace('.', ',')} ${g.unit}</span><br><span class="why">${esc(g.why)}</span></span><span class="mono">${fmt(g.qty * g.price)}</span></div>`).join('')}</div>
+      <span class="small muted">Расчёт ориентировочный и не заменяет проектную документацию, если она требуется.</span>
+      <button class="btn ghost block" data-action="goods-only">Купить только материалы</button>`);
+  }
+  if (a === 'stages-sheet') {
+    const c = bathCalc();
+    return sheet(`<h3>Этапы и оплата</h3>
+      <div>${c.stages.map((s, i) => `<div class="line-item"><span class="grow">${i + 1}. ${esc(s.name)}</span><span class="mono">${s.gov ? 'документ' : fmt(s.amount)}</span></div>`).join('')}</div>
+      <span class="small">Материалы приедут к началу работ. Каждый этап оплачивается после приёмки по фото и чек-листу. Договор бытового подряда — с ОМА, она же отвечает за качество.</span>
+      ${law('ГК; Закон «О защите прав потребителей»; Правила бытового обслуживания, постановление Совмина № 134')}`);
   }
   if (a === 'goods-only') return bathToCart(false);
   if (a === 'bath-to-cart') return bathToCart(true);
   if (a === 'install-to-cart') {
     const c = installCalc(), s = S.install;
-    addBundle('install', 'Установка с мастером', c.goods, c.services, OMA_EXEC, { delivery: `Мастер приедет ${s.date.split('-').reverse().join('.')}, ${s.slot}` });
-    go('cart'); return toast('Установка в корзине');
+    addBundle('install', 'Установка с мастером', c.goods, c.services, OMA_EXEC, { delivery: `мастер ${s.date.split('-').reverse().join('.')}, ${s.slot}` });
+    go('cart'); return toast('Добавлено в корзину');
   }
   if (a === 'cart-rm') { S.cart = S.cart.filter(i => i.group !== t.dataset.group); return render(); }
   if (a === 'checkout') return checkout();
@@ -936,13 +924,13 @@ document.addEventListener('click', e => {
     s.done = true; FX.justDone = +t.dataset.i; render();
     return toast(s.gov ? 'Решение исполкома загружено' : `Этап принят, оплачено ${fmt(s.amount)} (демо)`);
   }
-  if (a === 'extra') return toast('Плитка той же партии заказана: доставка сегодня до 18:00 (демо)');
-  if (a === 'claim') return sheet(`<h3>Одно обращение — в ОМА</h3><ul><li>Опишите проблему и приложите фото. Не нужно выяснять, виноват материал или укладка: ОМА отвечает и за товар, и за работу.</li><li>Технолог ОМА свяжется с вами и согласует выезд.</li><li>Сроки ответа и устранения — по Закону «О защите прав потребителей» и Правилам бытового обслуживания. Гарантия продлевается на время устранения недостатков.</li></ul><button class="btn block" data-action="close-sheet">Отправить (демо)</button>`);
+  if (a === 'extra') return toast('Плитка той же партии: доставка сегодня до 18:00 (демо)');
+  if (a === 'claim') return sheet(`<h3>Одно обращение — в ОМА</h3><ul><li>Опишите проблему и приложите фото. Выяснять, виноват материал или укладка, не нужно: ОМА отвечает и за товар, и за работу.</li><li>Технолог ОМА свяжется с вами и согласует выезд.</li><li>Гарантия продлевается на время устранения недостатков.</li></ul><button class="btn block" data-action="close-sheet">Отправить (демо)</button>`);
   if (a === 'finish') return finishProject();
   if (a === 'reminder') {
     addBundle('filter', 'Замена картриджа фильтра', [{ art: '402 761', name: 'Картридж для фильтра «Аква-3», комплект', qty: 1, unit: 'шт', price: 39.9 }],
-      [{ name: 'Замена картриджа, выезд мастера', qty: 1, unit: 'усл', price: 25 }], OMA_EXEC, { delivery: 'Мастер привезёт картридж с собой' });
-    go('cart'); return toast('Картридж и замена в корзине');
+      [{ name: 'Замена картриджа, выезд мастера', qty: 1, unit: 'усл', price: 25 }], OMA_EXEC, { delivery: 'мастер привезёт картридж' });
+    go('cart'); return toast('Добавлено в корзину');
   }
   if (a === 'rebuy') {
     const name = t.dataset.name;
@@ -951,30 +939,31 @@ document.addEventListener('click', e => {
   }
   if (a === 'leftovers') {
     const en = S.passport.find(x => x.id === t.dataset.id), total = sumOf(en.leftovers);
-    return sheet(`<h3>Вернуть остатки</h3><ul>${en.leftovers.map(l => `<li>${esc(l.name)} — ${l.qty} уп., ${fmt(l.price)}</li>`).join('')}</ul>
-      <span class="small muted">Принимаем целые упаковки с тем же артикулом в течение 60 дней после завершения проекта. Сдать можно в любом магазине ОМА или отдать курьеру при следующей доставке.</span>
-      <button class="btn block" data-action="return-left" data-id="${en.id}">Вернуть за ${Math.round(total)} бонусов «Баланс» (демо)</button>`);
+    return sheet(`<h3>Вернуть остатки</h3><ul>${en.leftovers.map(l => `<li>${esc(l.name)} — ${l.qty} уп.</li>`).join('')}</ul>
+      <span class="small muted">Целые упаковки того же артикула, 60 дней после проекта. В любом магазине ОМА или курьеру.</span>
+      <button class="btn block" data-action="return-left" data-id="${en.id}">Вернуть за ${Math.round(total)} бонусов (демо)</button>`);
   }
   if (a === 'return-left') {
     const en = S.passport.find(x => x.id === t.dataset.id), n = Math.round(sumOf(en.leftovers));
     en.leftDone = true; S.bonus += n; sheet(''); render();
-    return toast(`Возврат оформлен: +${n} бонусов после приёма упаковок (демо)`);
+    return toast(`Возврат оформлен: +${n} бонусов (демо)`);
   }
   if (a === 'same-brigade') {
     const en = S.passport.find(x => x.id === t.dataset.id);
     return toast(`Заявка бригаде ${en.brigade.name} отправлена (демо)`);
   }
   if (a === 'doc') { e.preventDefault(); return sheet(DOCS[t.dataset.doc]); }
-  if (a === 'toggle-ads') { S.profileAds = t.checked; return toast(t.checked ? 'Согласие на рекламу дано' : 'Согласие на рекламу отозвано. Сервисные уведомления останутся'); }
-  if (a === 'delete') return sheet(`<h3>Удаление аккаунта</h3><ul><li>Персональные данные удаляются, кроме тех, что ОМА обязана хранить по закону (например, бухгалтерские документы).</li><li>Паспорт дома можно сначала выгрузить в PDF.</li></ul><span class="small muted">В прототипе удаление отключено.</span>`);
+  if (a === 'toggle-theme') { applyTheme(t.checked ? 'dark' : 'light'); return; }
+  if (a === 'toggle-ads') { S.profileAds = t.checked; return toast(t.checked ? 'Согласие дано' : 'Согласие отозвано. Уведомления о заказах останутся'); }
+  if (a === 'delete') return sheet(`<h3>Удаление аккаунта</h3><ul><li>Данные удаляются, кроме тех, что ОМА обязана хранить по закону (например, бухгалтерские документы).</li><li>Паспорт дома можно сначала выгрузить в PDF.</li></ul><span class="small muted">В прототипе удаление отключено.</span>`);
 });
 
 document.addEventListener('input', e => {
   const t = e.target;
   if (t.dataset.dim) {
     S.bath[t.dataset.dim] = t.value;
-    const c = bathCalc();
-    document.getElementById('area').textContent = `Пол ${c.floor.toFixed(2)} м² · стены ${c.wall.toFixed(2)} м² (без двери 0,8×2,0)`;
+    const c = bathCalc(), el = document.getElementById('area');
+    if (el) el.textContent = `Пол ${num1(c.floor)} м² · стены ${num1(c.wall)} м²`;
   }
 });
 document.addEventListener('change', e => {
@@ -983,15 +972,19 @@ document.addEventListener('change', e => {
   if (t.dataset.inst) { S.install.sel[t.dataset.inst] = t.checked; render(); }
   if (t.dataset.instgood) { S.install.withGood = t.checked; render(); }
   if (t.dataset.if) { S.install[t.dataset.if] = t.value; }
-  if (t.dataset.pay) { S.pay = t.dataset.pay; render(); }
   if (t.dataset.consent) { S.consents[t.dataset.consent] = t.checked; render(); }
 });
 
 function jump(screen) {
   sheet('');
-  const prepCart = () => { if (!S.cart.some(b => b.group === 'bath' && b.staged)) { S.bath.mode = 'master'; bathToCart(true); } S.consents = { pd: true, ads: false, offer: true }; };
-  if (screen === 'cart' && !S.cart.length) { prepCart(); S.history = ['home']; return render(); }
-  if (screen === 'projects' && !S.projects.length) { prepCart(); S.cart = S.cart.filter(b => b.group === 'bath'); return checkout(); }
+  const prepCart = () => { if (!S.cart.some(b => b.group === 'bath' && b.staged)) { S.bath.mode = 'master'; bathToCart(true); } };
+  if (['cart', 'confirm', 'pay'].includes(screen)) {
+    if (!S.cart.length) prepCart();
+    if (screen === 'pay') S.consents = { pd: true, ads: false, offer: true };
+    S.history = screen === 'cart' ? [] : ['cart'];
+    return go(screen, { replace: true });
+  }
+  if (screen === 'projects' && !S.projects.length) { prepCart(); S.cart = S.cart.filter(b => b.group === 'bath'); S.consents = { pd: true, ads: false, offer: true }; return checkout(); }
   if (screen === 'bath1' && !S.bath.from3d) Object.assign(S.bath, { L: 2.2, W: 1.8, H: 2.6, from3d: 'В-2026-1047', tasks: { tile: true, mixer: true, shower: true, move: false } });
   S.history = TAB_OF[screen] === screen ? [] : ['home'];
   go(screen, { replace: true });
