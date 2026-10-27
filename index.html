@@ -55,7 +55,7 @@ button { cursor: pointer; transition: border-color .15s ease, background-color .
 
 .stage { min-height: 100%; display: grid; grid-template-columns: minmax(0, 340px) auto; justify-content: center; align-items: center; gap: 48px; padding-block: 32px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
 .map { display: flex; flex-direction: column; gap: 16px; }
-.map .logo { font-size: 34px; }
+.map .logo { font-size: 28px; }
 .map p { margin: 0; color: var(--muted); }
 .map ol { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; counter-reset: step; }
 .map li button { width: 100%; text-align: left; border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 8px 12px; display: flex; gap: 10px; align-items: baseline; }
@@ -77,7 +77,7 @@ button { cursor: pointer; transition: border-color .15s ease, background-color .
 
 .banner-demo { background: var(--frame); color: #C9D6EA; font-size: 11px; text-align: center; padding: 5px 12px; padding-top: calc(5px + env(safe-area-inset-top, 0px)); }
 .top { display: flex; align-items: center; gap: 10px; padding: 12px 18px; background: var(--bar); color: var(--bar-ink); min-height: 58px; }
-.top .logo { color: var(--bar-ink); font-size: 26px; }
+.top .logo { color: var(--bar-ink); font-size: 21px; }
 .top h2 { margin: 0; font: 700 16px/1.2 var(--f-display); flex: 1; min-width: 0; text-wrap: balance; }
 .icon-btn { width: 34px; height: 34px; border-radius: 50%; border: 0; background: rgba(255,255,255,.18); color: inherit; display: grid; place-items: center; flex: none; }
 .icon-btn svg { width: 18px; height: 18px; }
@@ -590,7 +590,7 @@ const VIEWS = {
       <div class="card sumcard">
         <span class="small muted">Материалы · ${c.goods.length} позиций</span>
         <span class="big" data-count="bath-goods" data-value="${c.goodsSum}">${fmt(c.goodsSum)}</span>
-        <span class="small muted">В наличии. Плитка и затирка — из одной партии, резерв 7 дней.</span>
+        <span class="small muted">В наличии. Плитка и затирка — из одной партии, резерв 7 дней. Не хватит по нашей смете — довезём бесплатно.</span>
         <button class="link" data-action="goods-sheet">Состав и как посчитано</button>
       </div>
       <span class="small muted">Кто делает работы</span>
