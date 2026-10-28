@@ -126,17 +126,8 @@ button { cursor: pointer; transition: border-color .15s ease, background-color .
 .info-strip button { background: none; border: 0; padding: 2px 0; color: inherit; display: inline-flex; align-items: center; gap: 4px; font-size: 13px; font-weight: 700; }
 .info-strip svg { width: 15px; height: 15px; }
 .info-strip .end { margin-left: auto; }
-.bar { position: relative; overflow: hidden; display: flex; align-items: center; gap: 4px; min-height: 58px; padding: 8px 12px; }
-.bar > :not(.bubbles) { position: relative; z-index: 1; }
-/* объёмные пузыри: блик слева сверху, тень справа снизу; медленно покачиваются */
-.bubbles { position: absolute; inset: 0; pointer-events: none; }
-.bubbles i { position: absolute; border-radius: 50%; background: radial-gradient(circle at 32% 28%, rgba(255,255,255,.7) 0 6%, rgba(205,175,255,.5) 20%, rgba(124,82,214,.42) 52%, rgba(55,25,130,.22) 100%); box-shadow: inset -4px -6px 12px rgba(25,8,70,.4), inset 2px 3px 6px rgba(255,255,255,.18), 0 6px 14px rgba(10,0,40,.25); animation: bubble 7s ease-in-out infinite alternate; }
-.bubbles i:nth-child(1) { width: 96px; height: 96px; right: -26px; top: -40px; }
-.bubbles i:nth-child(2) { width: 44px; height: 44px; right: 92px; bottom: -18px; animation-delay: -2s; }
-.bubbles i:nth-child(3) { width: 20px; height: 20px; right: 64px; top: 7px; animation-delay: -4s; }
-.bubbles i:nth-child(4) { width: 12px; height: 12px; right: 150px; top: 12px; animation-delay: -1s; }
-.bubbles i:nth-child(5) { width: 30px; height: 30px; left: 46%; bottom: -12px; animation-delay: -3s; opacity: .8; }
-@keyframes bubble { from { transform: translateY(0); } to { transform: translateY(-4px); } }
+/* баннер с объёмными фигурами; тёмная левая часть — под логотипом */
+.bar { position: relative; overflow: hidden; background: #1C1238 url(img/header-banner.jpg) center / cover no-repeat; display: flex; align-items: center; gap: 4px; min-height: 58px; padding: 8px 12px; }
 .bar h2 { margin: 0 0 0 4px; font: 700 18px/1.2 var(--f-display); flex: 1; min-width: 0; text-wrap: balance; }
 .bar-logo { display: flex; margin: 0 auto 0 4px; }
 .bar-btn { width: 40px; height: 40px; border: 0; border-radius: 10px; background: none; color: inherit; display: grid; place-items: center; flex: none; }
@@ -706,14 +697,13 @@ function render() {
 const TOP = { d: 0, U: 0, L: 0, lastY: 0, touching: false, snapT: 0 };
 let CITY = 'Минск';
 const CITIES = ['Минск', 'Брест', 'Витебск', 'Гомель', 'Гродно', 'Могилёв'];
-const BUBBLES = '<span class="bubbles" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>';
 function headerHTML(s) {
-  if (!ROOTS.includes(s)) return `<div class="bar">${BUBBLES}<button class="icon-btn" data-action="back" aria-label="Назад">${ICON.back}</button><h2>${TITLES[s]}</h2></div>`;
+  if (!ROOTS.includes(s)) return `<div class="bar"><button class="icon-btn" data-action="back" aria-label="Назад">${ICON.back}</button><h2>${TITLES[s]}</h2></div>`;
   const home = s === 'home';
   return `<div class="fold-y up">
       <div class="info-strip"><button data-action="city" aria-label="Город: ${CITY}">${ICON.pin}${CITY}${ICON.down}</button><button class="end" data-action="call">${ICON.phone}536-45-00</button></div>
     </div>
-    <div class="bar">${BUBBLES}
+    <div class="bar">
       ${home ? `<span class="bar-logo">${LOGO_LOCKUP}</span>` : `<h2>${TITLES[s]}</h2>`}
       <button class="bar-btn${home ? ' me-ic' : ''}" data-go="profile" aria-label="Профиль"><span class="avatar">${avatarInner()}</span></button>
     </div>`;
