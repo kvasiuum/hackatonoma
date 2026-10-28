@@ -250,12 +250,6 @@ button { cursor: pointer; transition: border-color .15s ease, background-color .
 .tile .muted { font-size: 12.5px; }
 .tile .mark { width: 36px; height: 36px; border-radius: 10px; background: var(--brand-soft); color: var(--brand-text); display: grid; place-items: center; }
 .tile .mark svg { width: 20px; height: 20px; }
-.promo { position: relative; overflow: hidden; border: 0; border-radius: 18px; padding: 20px; min-height: 150px; color: #fff; text-align: left; display: flex; flex-direction: column; justify-content: flex-end; gap: 6px; }
-.promo b { font: 700 19px/1.2 var(--f-display); }
-.promo span { font-size: 13.5px; opacity: .92; max-width: 82%; }
-.promo svg { position: absolute; right: 18px; top: 18px; width: 40px; height: 40px; opacity: .9; }
-.promo.neighbor { background: linear-gradient(135deg, #5B2E9E 0%, #E0457B 100%); }
-.promo.shop { background: linear-gradient(135deg, #005DD6 0%, #1FB5C9 100%); }
 .grid-tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 /* категории как на Wildberries: квадрат с названием сверху и объёмным предметом в углу */
 .cats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
@@ -263,6 +257,12 @@ button { cursor: pointer; transition: border-color .15s ease, background-color .
 .cat:hover { box-shadow: inset 0 0 0 1.5px var(--brand); }
 .cat b { position: relative; z-index: 1; font-size: 13px; line-height: 1.2; font-weight: 700; }
 .cat .note { position: relative; z-index: 1; font-size: 11px; font-weight: 700; color: var(--tone-orange); }
+.cats.two { grid-template-columns: 1fr 1fr; }
+.cats.two .cat { aspect-ratio: 1 / .9; padding: 12px 12px 0; }
+.cats.two .cat b { font-size: 15px; }
+.cats.two .cat img { width: 50%; right: -4%; bottom: -6%; }
+.cat .sub { position: relative; z-index: 1; font-size: 11.5px; line-height: 1.3; color: var(--muted); max-width: 70%; }
+.sec-title { margin: 6px 0 -4px; font-weight: 700; font-size: 15px; }
 .cat img { position: absolute; right: -8%; bottom: -8%; width: 70%; height: auto; pointer-events: none; }
 .linkrow { width: 100%; background: none; border: 0; border-top: 1px solid var(--line); text-align: left; color: inherit; }
 .linkrow:first-child { border-top: 0; }
@@ -316,6 +316,9 @@ label.f input, label.f select { border: 1px solid var(--line); background: var(-
 .sumcard .big { font: 700 22px/1.1 var(--f-display); font-variant-numeric: tabular-nums; }
 .line-item { display: flex; gap: 10px; align-items: center; justify-content: space-between; padding: 8px 0; border-top: 1px solid var(--line); font-size: 13.5px; }
 .line-item:first-child { border-top: 0; }
+.line-item.kv { align-items: flex-start; }
+.line-item.kv > :first-child { flex: none; }
+.line-item.kv > :last-child { flex: 1; min-width: 0; text-align: right; }
 .line-item .grow { flex: 1; min-width: 0; }
 .art { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
 .why { font-size: 12px; color: var(--brand-text); }
@@ -1228,15 +1231,15 @@ const VIEWS = {
   confirm() {
     if (!S.cart.length) return VIEWS.cart();
     const t = cartTotals(), c = S.consents;
-    const row = (k, v) => `<div class="line-item"><span class="grow muted">${k}</span><span style="text-align:right">${v}</span></div>`;
+    const row = (k, v) => `<div class="line-item kv"><span class="muted">${k}</span><span>${v}</span></div>`;
     const check = (id, key, html) => `<label class="check"><input type="checkbox" id="${id}" data-consent="${key}" ${c[key] ? 'checked' : ''}><span class="small">${html}</span></label>`;
     return `
       <p class="step-title">Проверьте заказ</p>
       <div class="card">
         <div>
-          ${row('Заказ', S.cart.map(b => esc(b.title)).join(', '))}
+          ${row('Заказ', S.cart.map(b => esc(b.title)).join('<br>'))}
           ${row('Адрес', 'г. Минск, ул. Примерная, 1 (демо)')}
-          ${row('Когда', S.cart.map(b => esc(b.delivery || 'по согласованию')).join('; '))}
+          ${row('Когда', S.cart.map(b => esc(b.delivery || 'по согласованию')).join('<br>'))}
           ${row('К оплате сейчас', `<b>${fmt(t.now)}</b>`)}
         </div>
         <button class="link" data-action="open-cart">Изменить заказ</button>
@@ -1346,8 +1349,15 @@ const VIEWS = {
 
   rent() {
     return `
-      <button class="promo neighbor" data-go="rentNeighbor">${ICON.users}<b>Прокат у соседа</b><span>Инструмент и вещи у людей рядом с вами</span></button>
-      <button class="promo shop" data-go="rentShop">${ICON.store}<b>Прокат у магазина</b><span>Инструмент, оборудование и прицеп ОМА посуточно</span></button>`;
+      <p class="hello">Что берём напрокат?</p>
+      <div class="cats two">
+        <button class="cat" data-go="rentNeighbor"><b>Прокат у соседа</b><span class="sub">Инструмент и вещи у людей рядом</span><img src="${IMG('houses')}" alt=""></button>
+        <button class="cat" data-go="rentShop"><b>Прокат у магазина</b><span class="sub">Инструмент и прицеп ОМА посуточно</span><img src="${IMG('store')}" alt=""></button>
+      </div>
+      <p class="sec-title">Популярное в магазине</p>
+      <div class="cats">
+        ${[['perf', 'Перфоратор', 'hammer'], ['tilecut', 'Плиткорез', 'saw'], ['trailer', 'Прицеп', 'pickup']].map(([id, name, img]) => `<button class="cat" data-go="rentShop"><b>${name}</b><span class="note">${fmt(RENT_SHOP.find(r => r.id === id).price)}/сут</span><img src="${IMG(img)}" alt=""></button>`).join('')}
+      </div>`;
   },
 
   rentShop() {
