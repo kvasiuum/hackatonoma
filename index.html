@@ -41,6 +41,7 @@
   --nav-active: #F07400;
   --badge: #5B2E9E;
   --tone-blue: #005DD6;
+  --cat: #E7ECF4;
   --tone-orange: #C25E00;
   --tone-teal: #0E7C8A;
   --tone-violet: #6A3BB5;
@@ -60,7 +61,7 @@
   --bar: #1A1233; --bar-grad: radial-gradient(120% 160% at 100% 0%, rgba(124, 82, 214, .3), transparent 60%), linear-gradient(90deg, #120C24, #251944);
   --strip: #16121F; --strip-ink: #8AB6FF; --field: #241F31; --field-ink: #EEEAF5;
   --nav-ink: #A9A2C0; --nav-active: #FF9A3D; --badge: #7A4FD0;
-  --tone-blue: #8AB6FF; --tone-orange: #FFAD5C; --tone-teal: #5FD3E2; --tone-violet: #C7A9FF;
+  --cat: #221D2E; --tone-blue: #8AB6FF; --tone-orange: #FFAD5C; --tone-teal: #5FD3E2; --tone-violet: #C7A9FF;
   color-scheme: dark;
 }
 @media (prefers-color-scheme: dark) {
@@ -72,7 +73,7 @@
     --bar: #1A1233; --bar-grad: radial-gradient(120% 160% at 100% 0%, rgba(124, 82, 214, .3), transparent 60%), linear-gradient(90deg, #120C24, #251944);
     --strip: #16121F; --strip-ink: #8AB6FF; --field: #241F31; --field-ink: #EEEAF5;
     --nav-ink: #A9A2C0; --nav-active: #FF9A3D; --badge: #7A4FD0;
-  --tone-blue: #8AB6FF; --tone-orange: #FFAD5C; --tone-teal: #5FD3E2; --tone-violet: #C7A9FF;
+  --cat: #221D2E; --tone-blue: #8AB6FF; --tone-orange: #FFAD5C; --tone-teal: #5FD3E2; --tone-violet: #C7A9FF;
     color-scheme: dark;
   }
 }
@@ -145,6 +146,58 @@ button { cursor: pointer; transition: border-color .15s ease, background-color .
 .me-card b { font-size: 15px; }
 .me-card .bal { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; padding-left: 12px; border-left: 1px solid var(--line); }
 .me-card .bal b { color: var(--tone-orange); white-space: nowrap; font-variant-numeric: tabular-nums; }
+/* регистрация: поверх приложения при первом входе */
+#onboard:empty { display: none; }
+.ob { position: absolute; inset: 0; z-index: 45; background: var(--surface-2); display: flex; flex-direction: column; overflow-y: auto; }
+.ob-hero { background: #1C1238 url(img/header-banner.jpg) center / cover no-repeat; color: #fff; padding: calc(22px + env(safe-area-inset-top, 0px)) 20px 20px; display: flex; flex-direction: column; gap: 10px; }
+.ob-hero .lockup { height: 34px; color: #fff; }
+.ob-hero h2 { margin: 0; font: 700 22px/1.2 var(--f-display); }
+.ob-hero p { margin: 0; opacity: .85; font-size: 14px; }
+.ob-body { padding: 16px 18px 24px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+.ob-steps { display: flex; gap: 6px; }
+.ob-steps i { flex: 1; height: 4px; border-radius: 2px; background: rgba(255,255,255,.25); }
+.ob-steps i.on { background: var(--cta); }
+.roles { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.role { position: relative; overflow: hidden; border: 1.5px solid transparent; border-radius: 16px; background: var(--cat); padding: 12px; min-height: 104px; text-align: left; color: var(--ink); display: flex; flex-direction: column; gap: 2px; }
+.role b { font-size: 14px; position: relative; z-index: 1; max-width: 70%; }
+.role span { font-size: 11.5px; color: var(--muted); position: relative; z-index: 1; max-width: 62%; line-height: 1.3; }
+.role img { position: absolute; right: -6px; bottom: -6px; width: 58px; }
+.role[aria-pressed="true"] { border-color: var(--cta); background: var(--cta-soft); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chips.scroll { flex-wrap: nowrap; overflow-x: auto; margin: 0 -18px; padding: 0 18px 2px; scrollbar-width: none; }
+.chips.scroll::-webkit-scrollbar { display: none; }
+.chip { flex: none; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; padding: 7px 12px; font-size: 13px; font-weight: 500; white-space: nowrap; }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+/* мастера и бригады */
+.ask { display: grid; gap: 10px; }
+.ask-card { position: relative; overflow: hidden; border: 0; border-radius: 18px; background: var(--cat); padding: 16px; min-height: 120px; text-align: left; color: var(--ink); display: flex; flex-direction: column; gap: 4px; }
+.ask-card b { font-size: 17px; max-width: 64%; }
+.ask-card span { font-size: 13px; color: var(--muted); max-width: 62%; line-height: 1.35; }
+.ask-card img { position: absolute; right: 8px; bottom: -6px; width: 104px; }
+.pro { display: flex; gap: 12px; align-items: flex-start; }
+.pro .avatar { width: 46px; height: 46px; font-size: 15px; background: linear-gradient(135deg, #005DD6, #5B2E9E); }
+.pro .avatar.team { background: linear-gradient(135deg, #FF8200, #E0457B); }
+.pro .grow { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.pro .meta { font-size: 12.5px; color: var(--muted); }
+.pro .tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 2px; }
+.tag { font-size: 11px; font-weight: 600; padding: 2px 7px; border-radius: 6px; background: var(--surface-2); color: var(--muted); }
+.tag.ok { background: var(--brand-soft); color: var(--brand-text); }
+.tag.warm { background: var(--cta-soft); color: var(--warn); }
+.pro .price { font-weight: 700; white-space: nowrap; font-size: 13.5px; }
+.filters { display: flex; gap: 8px; align-items: center; overflow-x: auto; margin: 0 -18px; padding: 0 18px 2px; scrollbar-width: none; }
+.filters::-webkit-scrollbar { display: none; }
+.filters > * { flex: none; }
+.filters select { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; padding: 7px 10px; font-size: 13px; }
+/* подбор решения */
+.plan { position: relative; }
+.plan.best { border-color: var(--cta); box-shadow: inset 0 0 0 1px var(--cta); }
+.plan .best-tag { position: absolute; top: -10px; right: 12px; background: var(--cta); color: var(--cta-ink); font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 6px; }
+.plan .total { font: 700 20px/1.1 var(--f-display); font-variant-numeric: tabular-nums; }
+.plan ul { margin: 0; padding-left: 18px; display: grid; gap: 3px; font-size: 13px; }
+.advisor-hero { position: relative; overflow: hidden; border-radius: 18px; padding: 16px 110px 16px 16px; color: #fff; background: radial-gradient(90% 90% at 100% 0%, rgba(255,130,0,.5), transparent 60%), linear-gradient(135deg, #005DD6, #37235E); display: flex; flex-direction: column; gap: 4px; }
+.advisor-hero b { font-size: 16px; }
+.advisor-hero span { font-size: 13px; opacity: .9; }
+.advisor-hero img { position: absolute; right: 10px; bottom: 4px; width: 92px; }
 .avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .avatar.big { width: 88px; height: 88px; font-size: 30px; cursor: pointer; }
 .nav-cart .fab { position: relative; width: 54px; height: 54px; margin-top: -26px; border-radius: 50%; background: linear-gradient(145deg, #FFB547 0%, #FF8200 52%, #F0560A 100%); box-shadow: inset 0 2px 3px rgba(255,255,255,.45), 0 4px 10px -4px rgba(0,0,0,.35); color: var(--cta-ink); display: grid; place-items: center; border: 4px solid var(--surface); box-shadow: 0 4px 10px -4px rgba(0,0,0,.35); }
@@ -163,11 +216,12 @@ button { cursor: pointer; transition: border-color .15s ease, background-color .
 .drawer-body { flex: 1; min-height: 0; overflow-y: auto; padding: 4px 18px 12px; display: flex; flex-direction: column; gap: 12px; touch-action: pan-y; }
 .drawer-foot { padding: 12px 18px calc(16px + env(safe-area-inset-bottom, 0px)); border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 6px; background: var(--surface-2); }
 .drawer-foot .sum { display: flex; justify-content: space-between; font-weight: 700; }
-.toast { z-index: 30; }
-.sheet-bg { z-index: 40; }
+.toast { z-index: 55; }
+.sheet-bg { z-index: 50; }
 .icon-btn { width: 34px; height: 34px; border-radius: 50%; border: 0; background: rgba(255,255,255,.18); color: inherit; display: grid; place-items: center; flex: none; }
 .icon-btn svg { width: 18px; height: 18px; }
 .screen { flex: 1; overflow-y: auto; overscroll-behavior: contain; padding: calc(16px + var(--top-h, 58px)) 18px 24px; scroll-padding-top: var(--top-h, 58px); display: flex; flex-direction: column; gap: 14px; user-select: none; -webkit-user-select: none; }
+.screen > * { flex-shrink: 0; }
 .screen input, .screen textarea { user-select: text; -webkit-user-select: text; }
 
 .nav { display: grid; grid-template-columns: repeat(5, 1fr); position: relative; z-index: 2; touch-action: none; background: var(--surface); border-top: 1px solid var(--line); padding: 6px 4px calc(8px + env(safe-area-inset-bottom, 0px)); }
@@ -203,17 +257,13 @@ button { cursor: pointer; transition: border-color .15s ease, background-color .
 .promo.neighbor { background: linear-gradient(135deg, #5B2E9E 0%, #E0457B 100%); }
 .promo.shop { background: linear-gradient(135deg, #005DD6 0%, #1FB5C9 100%); }
 .grid-tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-/* плитка: значок сверху, под ним название и подпись — у всех плиток текст начинается на одной высоте */
-.room { border: 1px solid var(--line); background: var(--surface); border-radius: 16px; padding: 14px; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; text-align: left; }
-.room:hover { border-color: var(--brand); }
-.room .txt { display: flex; flex-direction: column; gap: 3px; }
-.room b { font-size: 15px; line-height: 1.25; }
-.room .txt .small { font-size: 12.5px; line-height: 1.35; }
-.room .mark { --tone: var(--tone-blue); width: 44px; height: 44px; border-radius: 13px; color: var(--tone); background: color-mix(in srgb, var(--tone) 13%, var(--surface)); display: grid; place-items: center; }
-.room .mark svg { width: 24px; height: 24px; }
-.mark.orange { --tone: var(--tone-orange); }
-.mark.teal { --tone: var(--tone-teal); }
-.mark.violet { --tone: var(--tone-violet); }
+/* категории как на Wildberries: квадрат с названием сверху и объёмным предметом в углу */
+.cats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.cat { position: relative; overflow: hidden; aspect-ratio: 1 / 1.08; border: 0; border-radius: 16px; background: var(--cat); padding: 10px 10px 0; text-align: left; color: var(--ink); display: flex; flex-direction: column; gap: 3px; }
+.cat:hover { box-shadow: inset 0 0 0 1.5px var(--brand); }
+.cat b { position: relative; z-index: 1; font-size: 13px; line-height: 1.2; font-weight: 700; }
+.cat .note { position: relative; z-index: 1; font-size: 11px; font-weight: 700; color: var(--tone-orange); }
+.cat img { position: absolute; right: -8%; bottom: -8%; width: 70%; height: auto; pointer-events: none; }
 .linkrow { width: 100%; background: none; border: 0; border-top: 1px solid var(--line); text-align: left; color: inherit; }
 .linkrow:first-child { border-top: 0; }
 .linkrow svg { width: 16px; height: 16px; color: var(--muted); }
@@ -326,11 +376,14 @@ details.fold[open] > summary { margin-bottom: 8px; }
     <svg class="lockup" viewBox="0 0 1269 303" role="img" aria-label="ОМА для дома"><path fill="currentColor" fill-rule="evenodd" d="M 141.2 9 C 140.4 9.1 138.1 9.3 136.1 9.5 C 110.1 11.4 81.6 23.2 60.8 40.6 C 58.8 42.3 56.3 44.4 55.2 45.3 C 52.7 47.2 47.4 52.7 43.3 57.4 C 28.8 74.2 18.8 93.2 12.9 115.8 C 11.2 122.2 9.9 130.8 8.7 143.2 C 8.4 146.5 8.6 158.3 9 160.4 C 9.1 161.1 9.3 163.1 9.5 165 C 13.4 213.7 45.7 257.5 91.5 276.2 C 96.5 278.2 102.5 280.5 104 280.9 C 104.9 281.1 106.9 281.7 108.4 282.1 C 114.1 283.9 119.9 285.3 127.4 286.6 C 133.2 287.7 149.1 289 156.5 289 C 159.5 289 160.5 288.7 161.9 287.5 L 163 286.5 173.9 264.5 C 179.9 252.5 186.9 238.5 189.4 233.5 C 191.9 228.5 197.5 217.3 201.9 208.6 C 206.2 200 213.1 186.2 217.2 178.1 C 221.2 170 226.4 159.8 228.6 155.4 C 230.8 151 233.4 145.8 234.4 143.8 C 235.3 141.8 243 126.3 251.5 109.4 C 268.1 76.1 267.5 77.3 267.5 75.3 C 267.5 73 267 72.2 261.8 65.5 C 233.9 29.1 192.9 8.6 148.5 8.8 C 145.4 8.8 142.1 8.9 141.2 9 M 760.5 22.7 C 759.4 23 758.3 23.6 757.7 24.2 C 756.6 25.5 756.6 23.4 756.5 68 L 756.4 110.1 755.9 110.9 C 754.8 113 753.4 113.5 748.7 113.5 C 740.6 113.5 740.4 113.9 740.5 129.3 L 740.6 139.6 741.2 140.6 C 741.8 141.9 742.4 142.3 743.6 142.9 L 744.6 143.4 804.8 143.4 C 871 143.5 867 143.6 868.7 141.9 C 870.1 140.4 870.2 139.8 870.2 128.7 C 870.2 116.5 870.1 115.7 867.5 114.2 L 866.4 113.6 858 113.5 C 849.3 113.4 848.9 113.3 848.1 112.3 C 847.2 111.2 847.6 110.1 850.6 105.7 C 873.3 72.5 852.8 25.8 814.1 22.7 C 810.7 22.5 761.8 22.5 760.5 22.7 M 1054.4 22.7 C 1036 23.7 1020.8 36.4 1015.6 55.1 L 1014.6 58.6 1014.6 65.4 L 1014.6 72.1 1015.6 75.9 C 1018.1 85.5 1023.1 93.9 1029.2 98.8 C 1030.4 99.6 1031.9 100.8 1032.5 101.3 C 1035.1 103.3 1035.1 104.9 1032.8 108.8 C 1030.9 112.2 1025.9 120.3 1023.5 124.2 C 1022 126.7 1015.4 137.8 1014.8 138.8 C 1014 140.3 1014.5 142.2 1015.8 142.9 L 1016.6 143.4 1033 143.4 L 1049.4 143.4 1050.5 142.8 C 1052.6 141.8 1055.4 137.9 1059.8 129.6 C 1060.9 127.5 1065.1 120.4 1069.3 113.5 C 1071.5 109.9 1073.5 108.8 1074.8 110.5 C 1075.7 111.7 1075.7 112.9 1075.7 126 C 1075.8 141.3 1075.8 141.5 1078.7 142.9 L 1079.6 143.4 1094.2 143.4 L 1108.9 143.4 1110.1 142.7 C 1110.8 142.2 1111.4 141.6 1111.8 140.9 L 1112.4 139.9 1112.4 83.6 C 1112.5 43.1 1112.4 27.1 1112.2 26.2 C 1111.9 24.8 1111 23.7 1109.8 23.1 L 1108.9 22.6 1082.2 22.6 C 1067.6 22.6 1055.1 22.7 1054.4 22.7 M 440.6 23.1 C 439.6 23.6 438.5 25.1 436.8 28.8 C 435.4 31.7 418.8 65.2 399.2 104.8 C 394.3 114.6 387.6 128.1 384.3 134.8 C 377.4 148.9 376.6 149.9 374.5 149 C 373.1 148.4 372.9 148.1 358.4 118.4 C 343.7 88.2 312.2 25.5 311.5 24.9 C 310.5 24.1 309.6 24.1 308.5 24.8 L 307.6 25.4 301.5 37.6 C 268.5 103.4 257.7 124.9 254 132.5 C 248.4 144.1 232.8 175.5 202.7 235.6 C 187 267.2 178.2 285 178.1 285.7 C 177.9 287 178.5 288.2 179.7 288.7 L 180.6 289.1 236 289.1 L 291.4 289.1 292.6 288.5 C 293.2 288.2 294.2 287.5 294.7 286.9 C 295.4 286 314.2 248.8 323.1 230.4 C 324.4 227.8 327.5 221.3 330.1 216.1 C 332.7 210.9 336 204.3 337.4 201.4 C 340.1 195.8 341.2 194.2 342.7 193.7 C 345.1 192.9 349.7 195 350.8 197.4 L 351.3 198.5 351 199.8 C 350.8 201.1 347.2 208.3 324.7 253.6 C 309.2 285 309.4 284.5 309.3 285.9 L 309.2 287.2 310 288.1 C 311.3 289.3 308.3 289.3 370.8 289.2 L 427.9 289.1 429.3 288.4 C 431.3 287.5 432.2 286 435.3 279.6 C 436.7 276.7 439.3 271.5 441.1 268 C 442.9 264.5 446.3 257.6 448.8 252.6 C 454.5 241.2 456.4 237.3 463.6 223 C 505 140.7 503.4 144.2 501.3 139.6 C 499.9 136.6 473.5 83.2 458.6 53.4 C 452 40.2 446.1 28.3 445.4 27 C 443.7 23.5 442.3 22.3 440.6 23.1 M 578.3 24.4 C 577.1 24.7 575.5 27.8 552.2 74.4 C 539 100.9 516.4 146.1 502 174.9 C 487.7 203.6 472.7 233.5 468.9 241.2 C 465 249 460.4 258.2 458.7 261.6 C 448.8 281 447.2 284.4 447.1 285.8 L 446.9 287.1 447.6 287.9 C 448.8 289.3 446.9 289.2 498.1 289.2 C 551 289.3 547.8 289.4 549.8 287.6 L 551.1 286.4 557.9 272.5 C 561.7 264.9 567.9 252.3 571.7 244.6 C 575.6 236.9 579.4 229.1 580.3 227.1 C 583.7 219.6 585.2 218.6 589.9 220.9 C 595.1 223.5 595.1 223.7 587 240.1 C 584.2 245.8 580.7 253 579.2 256.1 C 577.7 259.3 574 266.9 570.9 273.1 L 565.4 284.4 565.3 285.8 L 565.2 287.2 566 288.1 C 567.3 289.3 563.1 289.3 638.8 289.2 L 708.4 289.1 709.1 288.8 C 710.3 288.2 710.8 287.2 710.8 285.9 L 710.8 284.7 700.9 264.9 C 695.4 254 690.8 245 690.7 244.9 C 690.6 244.6 684.8 233.2 656 175.5 C 639 141.5 639.3 142 637.5 142 C 635.8 142 635.3 142.9 625.6 162 C 608.1 196.5 608.6 195.5 607.4 196.7 L 606.3 197.8 605 197.8 C 602.3 197.8 598 194.9 597.6 192.9 C 597.3 191.5 597.8 190.4 601.7 182.8 C 603.8 178.8 606.8 172.9 608.5 169.5 C 610.2 166.1 614.9 156.9 618.9 148.9 C 630.1 127.1 630.7 125.8 629.9 123.2 C 629.5 121.7 582.7 28 581.5 26.2 C 580.9 25.3 579.4 24.1 579 24.3 C 578.9 24.3 578.6 24.4 578.3 24.4 M 939.9 25.3 C 939.3 26 938.2 27.7 937.2 29.5 C 936.4 31.2 934.8 34.1 933.8 36 C 932.8 37.9 930.9 41.5 929.6 44.1 C 928.3 46.7 926.2 50.8 924.9 53.1 C 923.7 55.5 921.5 59.6 920.1 62.2 C 918.7 64.9 916.7 68.8 915.6 70.9 C 914.5 72.9 912 77.5 910.2 81.1 C 906.4 88.5 900.5 99.6 899.6 101.1 C 899.3 101.7 897.1 105.9 894.7 110.5 C 892.4 115.1 889.6 120.3 888.6 122.1 C 879.3 138.9 878.4 141.5 881.2 142.9 L 882.1 143.4 899.5 143.4 L 916.9 143.4 918.1 142.9 C 920.3 142.1 921.7 139.6 924.9 131.4 C 925.2 130.7 926.3 128 927.4 125.4 C 928.4 122.8 929.9 119.2 930.5 117.5 C 934.3 108.1 936 104.8 937.7 103.9 C 941 102.2 944.2 104.3 946.4 109.6 C 947 111.3 947.9 113.2 948.3 114 C 948.6 114.8 949.7 117.3 950.7 119.6 C 951.7 122 953.1 125.1 953.8 126.6 C 954.5 128.1 955.9 131.4 957 133.9 C 961.5 144.4 958.8 143.4 982.5 143.4 L 1001.1 143.4 1001.9 142.9 C 1004.5 141.5 1004.4 140.7 999.3 131.2 C 997.5 127.8 993.6 120.4 990.6 114.6 C 987.6 108.8 984 101.9 982.5 99.1 C 981 96.4 977.8 90.3 975.4 85.6 C 965.6 66.6 965 65.5 962.9 65.5 C 961.2 65.5 961 65.7 955.1 79.1 C 949.9 90.8 948.8 92.2 946 91 C 943.7 90.1 943.7 88.3 946 83.4 C 949.2 76.4 955.9 60.9 957.4 56.8 C 958.6 53.6 958.6 53.7 947.7 32.6 C 943.1 23.7 942.2 22.9 939.9 25.3 M 926.1 171.3 C 898.5 174.8 876.3 194.5 872.2 219.3 C 871.9 220.6 871.5 223.1 871.2 225 C 869.9 232.6 870.9 242.9 874 252.1 C 879 267.5 890.2 280.6 904.6 287.8 C 910.3 290.6 915.4 292.3 920.9 293.3 C 927.9 294.5 928.1 294.6 933.9 294.4 L 939.4 294.3 943.9 293.4 C 956.5 290.9 969.9 284 975.4 277 C 976.6 275.5 981.3 266.2 984.1 259.8 C 984.6 258.7 986.4 254.8 988.2 251.1 C 994.2 238.5 994.7 237 994.4 228.6 C 993.7 202.4 974.9 179.7 948.1 172.8 L 943.9 171.8 938.3 171.3 C 931.7 170.7 930.7 170.7 926.1 171.3 M 777.8 171.2 L 759.9 171.4 759.1 171.8 C 758.3 172.3 757.5 173.1 757 174 C 756.7 174.5 756.6 181.7 756.5 216.8 L 756.4 258.9 755.8 259.9 C 755.5 260.4 754.8 261.2 754.3 261.5 L 753.4 262.1 748.9 262.3 C 743.4 262.4 742.4 262.8 741.2 265.1 L 740.6 266.1 740.6 277.4 L 740.6 288.6 741.2 289.8 C 741.8 291.1 742.8 291.9 744.1 292.3 C 744.6 292.4 768.1 292.5 805.5 292.5 L 866 292.5 867 292.1 C 869.9 290.9 870 290.4 870 277 L 870 266.1 869.5 265.1 C 868.4 262.7 866.8 262.3 856.2 262.3 C 846.4 262.2 845.7 261.4 849.9 255.1 C 862.8 235.9 863.2 212.2 851 193.6 C 843.4 182.2 832.4 175 817.6 172 C 815.2 171.5 802.7 170.9 797.4 171.1 C 796.4 171.1 787.6 171.2 777.8 171.2 M 1032.2 174.1 C 1031.2 174.7 1029.8 177.3 1024.8 188.1 C 1023.9 190.1 1021.9 194.3 1020.4 197.5 C 1014.1 210.4 1011.1 216.8 1009.6 220.2 C 1007.9 224 1006.3 227.3 1001.1 238.5 C 997.1 246.9 994 253.5 988.9 264.8 C 986.6 269.7 984 275.2 983.1 277.1 C 977.6 288 976.9 290.6 979.3 291.9 L 980.1 292.4 1000.5 292.4 L 1020.9 292.5 1022.3 291.8 C 1024.3 290.7 1027.2 285.8 1034.6 270.1 C 1045 248.3 1046.1 246.5 1049 248 C 1051.4 249.3 1050.9 251.1 1044.8 263.5 C 1031.1 291.4 1031.5 290.4 1034.3 291.9 L 1035.1 292.4 1056.9 292.4 L 1078.6 292.4 1079.4 292 C 1081.5 290.8 1082.3 289.5 1086.4 280.8 C 1088 277.2 1091 270.9 1093 266.8 C 1095 262.6 1097.7 257 1098.9 254.5 C 1100.1 252 1102.5 246.9 1104.3 243.2 C 1113.6 224 1114.8 221.1 1114.8 218.8 C 1114.8 216.4 1114.8 216.3 1100.4 187.5 C 1091.5 169.7 1092 169.8 1084.5 185.2 C 1082 190.3 1079.2 196 1078.1 198 C 1077.1 200 1073.8 206.5 1070.9 212.4 C 1064.6 225.2 1064.7 224.9 1063.6 225.4 L 1062.8 225.8 1061.9 225.4 C 1061.1 225.1 1059.2 222.7 1059.2 222.1 C 1059.2 221.8 1036.3 176 1035.7 175.2 C 1034.8 173.9 1033.4 173.5 1032.2 174.1 M 1200.1 174.5 C 1199.1 174.9 1198.4 176.1 1194.1 184.6 C 1187.8 197.1 1175.8 220.9 1164.1 244.1 C 1158.6 255.1 1151.3 269.5 1148 276.1 L 1141.9 288.2 1141.9 289.3 C 1141.9 290.9 1142.8 291.9 1144.5 292.2 C 1146.3 292.6 1182.3 292.6 1183.6 292.2 C 1185.9 291.6 1189.8 284.9 1197.9 267.6 C 1199.3 264.7 1200.2 263.1 1200.8 262.4 L 1201.8 261.5 1202.9 261.5 C 1206.6 261.5 1206.6 264 1203 271.5 C 1194 290.5 1193.9 290.5 1196.6 291.9 L 1197.4 292.4 1226.8 292.4 C 1259.2 292.5 1258 292.6 1259.2 291.3 L 1260.1 290.5 1259.9 289.1 L 1259.8 287.8 1249.7 267.7 C 1244.2 256.7 1237.4 243.2 1234.7 237.8 C 1226.4 221.2 1227 221.1 1217.4 241.5 C 1213.7 249.3 1213.1 250 1210.8 250 C 1207.7 250 1207.5 247.3 1210.1 241.8 C 1211 239.9 1213.7 234.2 1216.1 229.1 C 1218.6 224 1221 219 1221.4 217.9 L 1222.3 216 1222.2 214.1 L 1222.1 212.2 1215.8 199.7 C 1202.7 173.8 1202.5 173.5 1200.1 174.5 M 1118.1 230.2 C 1117.2 230.8 1115.9 233.2 1113.6 238.4 C 1112.9 240.2 1111.8 242.3 1111.4 243.1 C 1110.9 244 1109.5 246.9 1108.2 249.8 C 1106.9 252.6 1104.2 258.2 1102.3 262.2 C 1100.3 266.2 1098.8 269.6 1098.8 269.7 C 1098.8 269.7 1097.1 273.2 1095 277.5 C 1087.1 293.8 1085.6 292.6 1112.1 292.5 L 1130.4 292.4 1131.4 291.8 C 1133.1 290.9 1134 289.6 1137.5 282.3 L 1140.9 275.4 1140.9 273.5 L 1140.9 271.6 1138.3 266.4 C 1136.9 263.5 1134.3 258 1132.5 254.1 C 1121 229.6 1120.5 228.8 1118.1 230.2"/></svg>
     <p>Кликабельный прототип для частных клиентов ОМА: ремонт санузла и установка под ответственностью ОМА, а Паспорт дома возвращает клиента за следующей покупкой.</p>
     <ol>
+      <li><button data-jump="reg">Регистрация: род деятельности</button></li>
       <li><button data-jump="home">Главная: профиль, «Мой дом»</button></li>
       <li><button data-jump="rent">Прокат: у соседа и у магазина</button></li>
       <li><button data-jump="rentShop">Прокат у магазина</button></li>
       <li><button data-jump="design">Дизайн помещений</button></li>
-      <li><button data-jump="build">Стройка: бригада, клининг</button></li>
+      <li><button data-jump="build">Стройка: категории</button></li>
+      <li><button data-jump="pros">Мастера и бригады: фильтры</button></li>
+      <li><button data-jump="advisor">Подбор решения и бюджета</button></li>
       <li><button data-jump="bath2">Ремонт санузла: смета</button></li>
       <li><button data-jump="cart">Корзина (свайп вверх) → оплата</button></li>
       <li><button data-jump="projects">Этап: фото, чек-лист, приёмка</button></li>
@@ -349,6 +402,7 @@ details.fold[open] > summary { margin-bottom: 8px; }
       <div id="drawer"></div>
       <div class="toast" id="toast" role="status" aria-live="polite"></div>
       <div id="sheet"></div>
+      <div id="onboard"></div>
     </div>
   </div>
 </div>
@@ -464,9 +518,12 @@ function initialState() {
     cart: [],
     pay: 'card',
     consents: { pd: false, ads: false, offer: false },
-    user: { name: 'Анна Ковальчук', phone: '+375 29 000-00-00', avatar: '' },
+    user: { name: 'Анна Ковальчук', phone: '+375 29 000-00-00', avatar: '', role: 'buyer', pro: null },
     cleaning: { type: 'after', area: 45, date: '2026-11-12' },
     profileAds: false,
+    reg: { step: 0, name: '', phone: '', pd: false, ads: false, role: '', specs: [], helper: false, form: 'ИП', unp: '', admission: false },
+    pros: { need: '', spec: 'all', sort: 'rating', freeOnly: false, helperOnly: false },
+    adv: { room: 'bath', area: 4, budget: 6000, diy: 'none' },
     bonus: 1240,
     projects: [],
     rating: 0,
@@ -491,11 +548,41 @@ const NEIGHBOR = [
   { id: 'n2', name: 'Пароочиститель', who: 'Ольга', dist: '600 м', price: 7 },
   { id: 'n3', name: 'Шуруповёрт Werker', who: 'Дмитрий', dist: '900 м', price: 5 }
 ];
+const IMG = n => `img/3d/${n}.webp`;
 const DESIGN_ROOMS = [
-  { id: 'kitchen', name: 'Дизайн кухни', icon: 'pot', free: true }, { id: 'interior', name: 'Дизайн интерьера', icon: 'sofa' },
-  { id: 'bath', name: 'Дизайн санузла', icon: 'bath', free: true }, { id: 'hall', name: 'Дизайн коридора', icon: 'door' },
-  { id: 'adult', name: 'Взрослая комната', icon: 'bed' }, { id: 'kids', name: 'Детская комната', icon: 'baby' }
+  { id: 'kitchen', name: 'Дизайн кухни', img: 'kitchen', free: true }, { id: 'interior', name: 'Дизайн гостиной', img: 'living' },
+  { id: 'bath', name: 'Дизайн санузла', img: 'bath', free: true }, { id: 'hall', name: 'Дизайн коридора', img: 'door' },
+  { id: 'adult', name: 'Спальня', img: 'bed' }, { id: 'kids', name: 'Детская', img: 'teddy' }
 ];
+const BUILD_CATS = [
+  { go: 'pros', name: 'Мастера и бригады', img: 'worker' }, { go: 'advisor', name: 'Подбор решения и бюджета', img: 'moneybag' },
+  { go: 'bath1', name: 'Ремонт санузла', img: 'shower' }, { go: 'install', name: 'Установка с мастером', img: 'toolbox' },
+  { go: 'cleaning', name: 'Клининг', img: 'sponge' }, { go: 'rentShop', name: 'Прокат инструмента', img: 'ladder' }
+];
+// род деятельности при регистрации
+const ROLES = [
+  { id: 'buyer', name: 'Покупатель', hint: 'Ремонтирую для себя', img: 'cart' },
+  { id: 'master', name: 'Мастер', hint: 'Беру заказы на работы', img: 'hammer', specs: ['finish'] },
+  { id: 'helper', name: 'Мастер с подмастерьем', hint: 'Работаем вдвоём', img: 'mechanic', specs: ['finish'], helper: true },
+  { id: 'electric', name: 'Электрик', hint: 'Розетки, свет, щиток', img: 'plug', specs: ['electric'] },
+  { id: 'plumb', name: 'Сантехник', hint: 'Вода, отопление, канализация', img: 'plunger', specs: ['plumb'] },
+  { id: 'team', name: 'Бригада', hint: 'Ремонт под ключ', img: 'crane', specs: ['finish', 'tile', 'plumb'], team: true }
+];
+const SPECS = { plumb: 'Сантехник', electric: 'Электрик', finish: 'Отделочник', tile: 'Плиточник', furniture: 'Сборка мебели', handy: 'Мастер на час' };
+// каталог: только исполнители, прошедшие проверку ОМА; договор клиент заключает с ОМА (данные условные)
+const PROS = [
+  { id: 'p1', kind: 'master', name: 'Андрей К.', specs: ['plumb'], rating: 4.9, jobs: 132, from: 25, dist: 2.1, free: true, form: 'ИП' },
+  { id: 'p2', kind: 'master', name: 'Виктор С.', specs: ['electric'], admission: true, rating: 4.8, jobs: 87, from: 30, dist: 4.5, free: true, form: 'ИП' },
+  { id: 'p3', kind: 'master', name: 'Игорь Л.', specs: ['finish', 'tile'], helper: true, rating: 4.7, jobs: 64, from: 28, dist: 3.2, free: false, form: 'ИП' },
+  { id: 'p4', kind: 'master', name: 'Павел Н.', specs: ['handy', 'furniture'], rating: 4.9, jobs: 210, from: 20, dist: 1.4, free: true, form: 'ИП' },
+  { id: 'p5', kind: 'master', name: 'Сергей Т.', specs: ['plumb', 'tile'], helper: true, rating: 4.6, jobs: 51, from: 24, dist: 6.0, free: true, form: 'ИП' },
+  { id: 'p6', kind: 'master', name: 'Олег М.', specs: ['electric', 'handy'], admission: true, rating: 4.5, jobs: 38, from: 26, dist: 5.2, free: false, form: 'ИП' },
+  { id: 'b2', kind: 'team', name: 'ООО «Мастер-Отделка»', people: 5, specs: ['finish', 'tile', 'plumb'], rating: 4.8, jobs: 61, dist: 3.8, free: true, form: 'ООО' },
+  { id: 'b1', kind: 'team', name: 'ИП Ковалёв А. В.', people: 3, specs: ['finish', 'tile'], rating: 4.9, jobs: 38, dist: 2.6, free: false, form: 'ИП' },
+  { id: 'b3', kind: 'team', name: 'ООО «Ремонт-Сервис»', people: 7, specs: ['finish', 'tile', 'plumb', 'electric'], admission: true, rating: 4.6, jobs: 94, dist: 7.4, free: true, form: 'ООО' }
+];
+// ориентировочные ставки на м² пола для подбора решения (демо)
+const ADV_ROOMS = { bath: ['Санузел', 160, 140, 0], kitchen: ['Кухня', 120, 90, 0], room: ['Комната', 45, 40, 15], flat: ['Квартира целиком', 55, 50, 12] };
 const CLEAN = [
   { id: 'after', name: 'После ремонта', hint: 'Строительная пыль, следы затирки и краски', price: 4.5 },
   { id: 'general', name: 'Генеральная', hint: 'Вся квартира, включая кухню и санузел', price: 3.2 },
@@ -659,10 +746,11 @@ const TABS = [['home', 'Главная', ICON.home], ['rent', 'Прокат', IC
 const ROOTS = ['home', 'rent', 'design', 'build'];
 const TAB_OF = { home: 'home', cart: 'home', confirm: 'home', pay: 'home', projects: 'home', project: 'home', review: 'home', passport: 'home', profile: 'home',
   rent: 'rent', rentShop: 'rent', rentNeighbor: 'rent', design: 'design',
-  build: 'build', bath1: 'build', bath2: 'build', bath3: 'build', install: 'build', cleaning: 'build' };
-const TITLES = { rent: 'Прокат', rentShop: 'Прокат у магазина', rentNeighbor: 'Прокат у соседа', design: 'Дизайн', build: 'Стройка', cleaning: 'Клининг',
+  build: 'build', pros: 'build', advisor: 'build', bath1: 'build', bath2: 'build', bath3: 'build', install: 'build', cleaning: 'build' };
+const TITLES = { pros: 'Мастера и бригады', advisor: 'Подбор решения', rent: 'Прокат', rentShop: 'Прокат у магазина', rentNeighbor: 'Прокат у соседа', design: 'Дизайн', build: 'Стройка', cleaning: 'Клининг',
   bath1: 'Ремонт санузла', bath2: 'Ремонт санузла', bath3: 'Ремонт санузла', install: 'Установка с мастером', cart: 'Корзина', confirm: 'Оформление', pay: 'Оплата', projects: 'Мои проекты', project: 'Проект', review: 'Завершение', passport: 'Паспорт дома', profile: 'Профиль' };
 const initials = name => name.trim().split(/\s+/).slice(0, 2).map(w => w[0] || '').join('').toUpperCase() || '?';
+const roleLine = () => { const r = ROLES.find(x => x.id === S.user.role) || ROLES[0]; return r.id === 'buyer' ? 'Покупатель' : `${r.name} · на проверке`; };
 const avatarInner = () => S.user.avatar ? `<img src="${S.user.avatar}" alt="">` : esc(initials(S.user.name));
 
 function render() {
@@ -815,6 +903,71 @@ function snapTop() {
   screen.addEventListener('touchcancel', tEnd, { passive: true });
 })();
 
+/* ---------- регистрация при первом входе ---------- */
+const REG_KEY = 'oma-reg';
+function regDone() { try { return !!localStorage.getItem(REG_KEY); } catch (e) { return false; } }
+function regHTML() {
+  const r = S.reg, role = ROLES.find(x => x.id === r.role), total = role && role.id !== 'buyer' ? 3 : 2;
+  const steps = `<div class="ob-steps">${Array.from({ length: total }, (_, i) => `<i class="${i <= r.step ? 'on' : ''}"></i>`).join('')}</div>`;
+  const hero = (title, sub) => `<div class="ob-hero">${LOGO_LOCKUP}${steps}<h2>${title}</h2><p>${sub}</p></div>`;
+  if (r.step === 0) return hero('Добро пожаловать', 'Ремонт, дизайн, прокат и мастера — в одном приложении ОМА') + `
+    <div class="ob-body">
+      <div class="card">
+        <label class="f">Имя<input id="rgName" value="${esc(r.name)}" data-reg="name" autocomplete="given-name" placeholder="Как к вам обращаться"></label>
+        <label class="f">Телефон<input id="rgPhone" value="${esc(r.phone)}" data-reg="phone" inputmode="tel" autocomplete="tel" placeholder="+375 29 000-00-00"></label>
+        <span class="small muted">Пришлём код в SMS (в демо не нужен)</span>
+      </div>
+      <div class="card"><div>
+        <label class="check"><input type="checkbox" data-regc="pd" ${r.pd ? 'checked' : ''}><span class="small">Согласен на обработку персональных данных для регистрации и заказов. <button class="link" data-action="doc" data-doc="pd">Подробнее</button></span></label>
+        <label class="check"><input type="checkbox" data-regc="ads" ${r.ads ? 'checked' : ''}><span class="small">Хочу получать акции и подборки (необязательно)</span></label>
+      </div></div>
+      <button class="btn block" data-action="reg-next" ${r.pd && r.phone.replace(/\D/g, '').length >= 9 && r.name.trim() ? '' : 'disabled'}>Продолжить</button>
+      <button class="link" style="align-self:center" data-action="reg-skip">Пропустить (демо)</button>
+    </div>`;
+  if (r.step === 1) return hero('Кто вы?', 'От этого зависят разделы и предложения. Изменить можно в профиле') + `
+    <div class="ob-body">
+      <div class="roles">${ROLES.map(x => `<button class="role" data-action="reg-pick" data-val="${x.id}" aria-pressed="${r.role === x.id}"><b>${x.name}</b><span>${x.hint}</span><img src="${IMG(x.img)}" alt=""></button>`).join('')}</div>
+      <button class="btn block" data-action="reg-next" ${r.role ? '' : 'disabled'}>${role && role.id !== 'buyer' ? 'Дальше' : 'Готово'}</button>
+      <button class="link" style="align-self:center" data-action="reg-back">Назад</button>
+    </div>`;
+  const npd = r.form === 'НПД';
+  return hero(role.name, 'Расскажите о работе — после проверки ОМА профиль появится в каталоге мастеров') + `
+    <div class="ob-body">
+      <div class="card"><h3>Чем занимаетесь</h3>
+        <div class="chips">${Object.entries(SPECS).map(([k, v]) => `<button class="chip" data-action="reg-spec" data-val="${k}" aria-pressed="${r.specs.includes(k)}">${v}</button>`).join('')}</div>
+        ${role.team ? '' : `<label class="switch"><span><b>Работаю с подмастерьем</b></span><input type="checkbox" data-regc="helper" ${r.helper ? 'checked' : ''}></label>`}
+        ${r.specs.includes('electric') ? `<label class="switch"><span class="small"><b>Есть группа по электробезопасности</b><br><span class="muted">Без допуска электроработы не назначаются</span></span><input type="checkbox" data-regc="admission" ${r.admission ? 'checked' : ''}></label>` : ''}
+      </div>
+      <div class="card"><h3>Как работаете</h3>
+        <div class="seg" role="group" aria-label="Форма">${['ИП', 'ООО', 'НПД'].map(k => `<button data-action="reg-form" data-val="${k}" aria-pressed="${r.form === k}"><b>${k === 'НПД' ? 'Самозанятый' : k === 'ООО' ? 'Организация' : 'ИП'}</b></button>`).join('')}</div>
+        ${npd ? '<span class="small" style="color:var(--warn)">Сейчас работы по договору с ОМА — только для ИП и организаций. Профиль сохраним и сообщим, когда откроем приём самозанятых.</span>'
+              : `<label class="f">УНП<input id="rgUnp" value="${esc(r.unp)}" data-reg="unp" inputmode="numeric" maxlength="9" placeholder="9 цифр"></label>`}
+      </div>
+      <span class="small muted">Проверим УНП, допуски и отзывы, затем подпишем договор субподряда. Заказы приходят от ОМА: цена фиксирована, оплата после приёмки этапа.</span>
+      <button class="btn block" data-action="reg-finish" ${r.specs.length ? '' : 'disabled'}>Отправить на проверку</button>
+      <button class="link" style="align-self:center" data-action="reg-back">Назад</button>
+    </div>`;
+}
+function showReg(step = 0) {
+  S.reg.step = step;
+  if (step === 0) Object.assign(S.reg, { name: S.reg.name || '', phone: S.reg.phone || '' });
+  const root = document.getElementById('onboard');
+  root.innerHTML = `<div class="ob" role="dialog" aria-modal="true" aria-label="Регистрация">${regHTML()}</div>`;
+}
+function finishReg() {
+  const r = S.reg, role = ROLES.find(x => x.id === r.role) || ROLES[0];
+  if (r.name.trim()) S.user.name = r.name.trim();
+  if (r.phone.trim()) S.user.phone = r.phone.trim();
+  S.profileAds = r.ads;
+  S.user.role = role.id;
+  S.user.pro = role.id === 'buyer' ? null : { specs: [...r.specs], helper: role.helper || r.helper, form: r.form, unp: r.unp, admission: r.admission };
+  try { localStorage.setItem(REG_KEY, JSON.stringify({ role: role.id })); } catch (e) {}
+  const root = document.getElementById('onboard');
+  const done = () => { root.innerHTML = ''; render(); toast(role.id === 'buyer' ? 'Готово! Добро пожаловать' : 'Профиль отправлен на проверку ОМА'); };
+  if (canAnimate && root.firstElementChild) MOTION.animate(root.firstElementChild, { opacity: 0, y: 24 }, { duration: 0.22, ease: 'easeIn' }).then(done);
+  else done();
+}
+
 /* ---------- корзина: шторка снизу, закрывается свайпом вниз ---------- */
 let CART_OPEN = false;
 function cartBodyHTML() {
@@ -923,7 +1076,7 @@ const VIEWS = {
     return `
       <button class="me-card" data-go="profile">
         <span class="avatar">${avatarInner()}</span>
-        <span class="grow"><b>${esc(S.user.name)}</b><span class="small muted">Профиль и настройки</span></span>
+        <span class="grow"><b>${esc(S.user.name)}</b><span class="small muted">${roleLine()}</span></span>
         <span class="bal"><span class="small muted">Баланс</span><b>${S.bonus.toLocaleString('ru-RU')} бонусов</b></span>
       </button>
       <p class="hello">Чем займёмся?</p>
@@ -1217,23 +1370,103 @@ const VIEWS = {
   design() {
     return `
       <p class="hello">Что проектируем?</p>
-      <div class="grid-tiles">
-        ${DESIGN_ROOMS.map(r => `<button class="room" data-action="design-room" data-id="${r.id}"><span class="mark">${ICON[r.icon]}</span><span class="txt"><b>${r.name}</b><span class="small muted">${r.free ? '3D-проект бесплатно' : 'Новая услуга'}</span></span></button>`).join('')}
+      <div class="cats">
+        ${DESIGN_ROOMS.map(r => `<button class="cat" data-action="design-room" data-id="${r.id}"><b>${r.name}</b>${r.free ? '<span class="note">3D бесплатно</span>' : ''}<img src="${IMG(r.img)}" alt=""></button>`).join('')}
       </div>`;
   },
 
   build() {
-    const tiles = [
-      ['call-brigade', '', ICON.roller, 'orange', 'Вызвать бригаду', 'Отделка, сантехника, электрика'],
-      ['', 'cleaning', ICON.spray, 'teal', 'Клининг', 'После ремонта и генеральный'],
-      ['', 'bath1', ICON.shower, '', 'Ремонт санузла', 'Под ключ, гарантия ОМА'],
-      ['', 'install', ICON.wrench, 'violet', 'Установка с мастером', 'Смеситель, унитаз, полки']
-    ];
     return `
       <p class="hello">Что нужно сделать?</p>
-      <div class="grid-tiles">
-        ${tiles.map(([a, g, ic, tone, name, hint]) => `<button class="room" ${a ? `data-action="${a}"` : `data-go="${g}"`}><span class="mark ${tone}">${ic}</span><span class="txt"><b>${name}</b><span class="small muted">${hint}</span></span></button>`).join('')}
+      <div class="cats">
+        ${BUILD_CATS.map(c => `<button class="cat" data-go="${c.go}"><b>${c.name}</b><img src="${IMG(c.img)}" alt=""></button>`).join('')}
       </div>`;
+  },
+
+  pros() {
+    const f = S.pros;
+    if (!f.need) return `
+      <p class="step-title">Вашему ремонту нужна бригада или хватит одного мастера?</p>
+      <div class="ask">
+        <button class="ask-card" data-action="pros-need" data-val="team"><b>Нужна бригада</b><span>Несколько видов работ: демонтаж, плитка, сантехника. Срок — от недели</span><img src="${IMG('crane')}" alt=""></button>
+        <button class="ask-card" data-action="pros-need" data-val="master"><b>Хватит одного мастера</b><span>Точечная задача: смеситель, розетки, полки, сборка шкафа</span><img src="${IMG('mechanic')}" alt=""></button>
+      </div>
+      <button class="link" data-go="advisor">Не знаю — помогите выбрать и посчитать бюджет</button>`;
+    const team = f.need === 'team';
+    let list = PROS.filter(p => p.kind === (team ? 'team' : 'master'))
+      .filter(p => f.spec === 'all' || p.specs.includes(f.spec))
+      .filter(p => !f.freeOnly || p.free)
+      .filter(p => team || !f.helperOnly || p.helper);
+    list = list.sort(f.sort === 'price' ? (a, b) => (a.from || 0) - (b.from || 0) : f.sort === 'near' ? (a, b) => a.dist - b.dist : (a, b) => b.rating - a.rating);
+    const specIds = ['all', ...Object.keys(SPECS).filter(k => PROS.some(p => p.kind === (team ? 'team' : 'master') && p.specs.includes(k)))];
+    return `
+      <div class="seg" style="grid-template-columns:1fr 1fr" role="group" aria-label="Кто нужен">
+        <button data-action="pros-need" data-val="team" aria-pressed="${team}"><b>Бригады</b></button>
+        <button data-action="pros-need" data-val="master" aria-pressed="${!team}"><b>Мастера</b></button>
+      </div>
+      <div class="chips scroll">${specIds.map(k => `<button class="chip" data-action="pros-spec" data-val="${k}" aria-pressed="${f.spec === k}">${k === 'all' ? 'Все' : SPECS[k]}</button>`).join('')}</div>
+      <div class="filters">
+        <select aria-label="Сортировка" data-prosort><option value="rating" ${f.sort === 'rating' ? 'selected' : ''}>По рейтингу</option><option value="near" ${f.sort === 'near' ? 'selected' : ''}>Ближе ко мне</option>${team ? '' : `<option value="price" ${f.sort === 'price' ? 'selected' : ''}>Дешевле</option>`}</select>
+        <button class="chip" data-action="pros-free" aria-pressed="${f.freeOnly}">Свободны на неделе</button>
+        ${team ? '' : `<button class="chip" data-action="pros-helper" aria-pressed="${f.helperOnly}">С подмастерьем</button>`}
+      </div>
+      <span class="small muted">Найдено: ${list.length} · все проверены ОМА</span>
+      ${list.map(p => `
+        <div class="card"><div class="pro">
+          <span class="avatar ${team ? 'team' : ''}">${esc(initials(p.name.replace(/^(ООО|ИП)\s*/, '').replace(/[«»]/g, '')))}</span>
+          <div class="grow">
+            <div class="between"><b>${esc(p.name)}</b>${p.from ? `<span class="price">от ${p.from} BYN/ч</span>` : ''}</div>
+            <span class="meta">${p.specs.map(k => SPECS[k]).join(', ')}${team ? ` · ${p.people} чел.` : ''}</span>
+            <span class="meta"><span class="star">★</span> ${num1(p.rating)} · ${p.jobs} работ · ${num1(p.dist)} км</span>
+            <div class="tags"><span class="tag ok">Проверен ОМА</span>${p.admission ? '<span class="tag ok">Допуск к электроработам</span>' : ''}${p.helper ? '<span class="tag">С подмастерьем</span>' : ''}${p.free ? '<span class="tag warm">Свободен на неделе</span>' : ''}</div>
+          </div>
+        </div>
+        <button class="btn small ghost block" data-action="pro-pick" data-id="${p.id}">Выбрать ${team ? 'бригаду' : 'мастера'}</button></div>`).join('') || '<div class="empty"><b>Никого не нашли</b><span>Снимите часть фильтров или опишите задачу — технолог ОМА подберёт исполнителя.</span></div>'}
+      <button class="link" data-action="brigade-request">Не нашли нужного? Опишите задачу</button>
+      <span class="small muted">Договор заключается с ОМА, работы выполняет проверенный мастер или бригада-партнёр. Цена фиксируется до начала, оплата по этапам после приёмки, гарантия ОМА.</span>`;
+  },
+
+  advisor() {
+    const a = S.adv, [roomName, mat, work, design] = ADV_ROOMS[a.room], area = Math.max(1, +a.area || 0);
+    const free3d = a.room === 'bath' || a.room === 'kitchen';
+    const plans = [
+      { id: 'full', name: 'Под ключ: дизайн + материалы + работы', total: (design + mat + work * 1.1) * area, mat: mat * area,
+        items: [free3d ? 'Дизайн-проект в 3D — бесплатно при покупке в ОМА' : 'Дизайн-проект с подбором товаров ОМА', 'Бригада, технадзор ОМА и график этапов', 'Ваше участие — только приёмка этапов'], go: 'design', cta: 'Начать с дизайна' },
+      { id: 'mix', name: 'Материалы ОМА + монтаж мастером', total: (mat + work) * area, mat: mat * area,
+        items: ['Смета и материалы одной партией', 'Мастер или бригада из каталога ОМА', 'Вы согласуете решения сами'], go: 'pros', cta: 'Подобрать мастера' },
+      { id: 'diy', name: 'Только материалы — делаю сам', total: mat * 0.95 * area + 40, mat: mat * 0.95 * area,
+        items: ['Расчёт материалов с запасом', 'Прокат инструмента посуточно', 'Остатки в целых упаковках — обратно за бонусы'], go: 'rentShop', cta: 'Материалы и прокат' }
+    ];
+    const pref = a.diy === 'all' ? 'diy' : a.diy === 'part' ? 'mix' : 'full';
+    const fits = plans.filter(p => p.total <= (+a.budget || 0));
+    const best = fits.find(p => p.id === pref) || fits.find(p => p.id === 'mix') || fits[0] || plans[2];
+    return `
+      <div class="advisor-hero"><b>Консультант ОМА по бюджету ремонта</b><span>Сравним форматы ремонта, распланируем платежи и подскажем, где сэкономить. Консультация бесплатная.</span><img src="${IMG('moneybag')}" alt=""></div>
+      <div class="card">
+        <div class="fields two">
+          <label class="f">Что ремонтируем<select data-adv="room">${Object.entries(ADV_ROOMS).map(([k, v]) => `<option value="${k}" ${a.room === k ? 'selected' : ''}>${v[0]}</option>`).join('')}</select></label>
+          <label class="f">Площадь пола, м²<input type="number" min="1" max="300" value="${a.area}" data-adv="area"></label>
+        </div>
+        <label class="f">Бюджет, BYN<input type="number" min="0" step="100" value="${a.budget}" data-adv="budget"></label>
+        <span class="small muted">Сколько готовы делать сами</span>
+        <div class="seg" role="group" aria-label="Участие">${[['none', 'Ничего'], ['part', 'Часть'], ['all', 'Всё сам']].map(([k, l]) => `<button data-action="adv-diy" data-val="${k}" aria-pressed="${a.diy === k}"><b>${l}</b></button>`).join('')}</div>
+      </div>
+      ${plans.map(p => `
+        <div class="card plan ${p === best ? 'best' : ''}">
+          ${p === best ? '<span class="best-tag">Рекомендуем</span>' : ''}
+          <h3>${p.name}</h3>
+          <span class="total" data-count="adv-${p.id}" data-value="${p.total}">${fmt(p.total)}</span>
+          <span class="small ${p.total <= (+a.budget || 0) ? 'muted' : ''}" style="${p.total <= (+a.budget || 0) ? '' : 'color:var(--warn)'}">${p.total <= (+a.budget || 0) ? 'Укладывается в бюджет' : `Выше бюджета на ${fmt(p.total - (+a.budget || 0))}`}</span>
+          <ul>${p.items.map(i => `<li>${i}</li>`).join('')}</ul>
+          <span class="small muted">Материалы: сразу или в рассрочку банка-партнёра, пример на 12 мес — ${fmt(p.mat / 12)}/мес. ${p.id === 'diy' ? '' : 'Работы — по этапам после приёмки.'}</span>
+          <button class="btn small ${p === best ? '' : 'ghost'}" data-go="${p.go}">${p.cta}</button>
+        </div>`).join('')}
+      <div class="card"><h3>Где сэкономить</h3><ul class="small" style="margin:0;padding-left:18px;display:grid;gap:4px">
+        <li>Плитка и сантехника класса «Стандарт» вместо «Премиум» — до 25% на материалах</li>
+        <li>Бонусы «Баланс»: у вас ${S.bonus.toLocaleString('ru-RU')} — ими можно оплатить часть покупки</li>
+        <li>Целые упаковки, что останутся, — обратно в течение 60 дней</li></ul></div>
+      <button class="btn blue block" data-action="adv-book">Записаться к консультанту</button>
+      <span class="small muted">Расчёт ориентировочный: ${roomName.toLowerCase()}, ${area} м², ставки условные. Консультант ОМА не оказывает финансовых услуг — рассрочку и кредит оформляет банк по своему договору.</span>`;
   },
 
   cleaning() {
@@ -1263,6 +1496,12 @@ const VIEWS = {
       <div class="card">
         <label class="f">Имя и фамилия<input id="p-name" value="${esc(S.user.name)}" data-user="name" autocomplete="name"></label>
         <label class="f">Телефон<input id="p-phone" value="${esc(S.user.phone)}" data-user="phone" inputmode="tel" autocomplete="tel"></label>
+      </div>
+      <div class="card"><div class="between"><h3>Род деятельности</h3><button class="link" data-action="reg-role">Изменить</button></div>
+        <span>${roleLine()}</span>
+        ${S.user.pro ? `<span class="small muted">${S.user.pro.specs.map(k => SPECS[k]).join(', ')}${S.user.pro.helper ? ' · с подмастерьем' : ''} · ${S.user.pro.form}${S.user.pro.unp ? ' · УНП ' + esc(S.user.pro.unp) : ''}</span>
+          <span class="pill soon" style="align-self:flex-start">На проверке ОМА</span>
+          <span class="small muted">После проверки документов и подписания договора субподряда профиль появится в каталоге «Мастера и бригады».</span>` : ''}
       </div>
       <div class="balance">
         <span class="wm" aria-hidden="true">${LOGO}</span>
@@ -1379,7 +1618,7 @@ document.addEventListener('click', e => {
   const a = t.dataset.action;
   if (a === 'close-sheet') { if (e.target === t) sheet(''); return; }
   if (a === 'back') return back();
-  if (a === 'reset') { S = initialState(); sheet(''); render(); return toast('Демо начато заново'); }
+  if (a === 'reset') { S = initialState(); sheet(''); try { localStorage.removeItem(REG_KEY); } catch (e) {} render(); showReg(0); return toast('Демо начато заново'); }
   if (a === 'import3d') {
     Object.assign(S.bath, { L: 2.2, W: 1.8, H: 2.6, tier: 'std', from3d: 'В-2026-1047', editDims: false, tasks: { tile: true, mixer: true, shower: true, move: false } });
     go('bath1'); return toast('3D-проект загружен');
@@ -1461,11 +1700,39 @@ document.addEventListener('click', e => {
       <button class="btn block" data-action="design-book" data-name="${r.name}">Записаться к дизайнеру</button>
       ${r.id === 'bath' ? '<button class="btn ghost block" data-action="import3d">У меня уже есть проект — посчитать ремонт</button>' : ''}`);
   }
+  if (a === 'pros-need') { S.pros.need = t.dataset.val; S.pros.spec = 'all'; if (S.pros.sort === 'price' && S.pros.need === 'team') S.pros.sort = 'rating'; return render(); }
+  if (a === 'pros-spec') { S.pros.spec = t.dataset.val; return render(); }
+  if (a === 'pros-free') { S.pros.freeOnly = !S.pros.freeOnly; return render(); }
+  if (a === 'pros-helper') { S.pros.helperOnly = !S.pros.helperOnly; return render(); }
+  if (a === 'pro-pick') {
+    const p = PROS.find(x => x.id === t.dataset.id), team = p.kind === 'team';
+    return sheet(`<h3>${esc(p.name)}</h3>
+      <span class="small muted">${p.specs.map(k => SPECS[k]).join(', ')} · ${p.form}${team ? ` · ${p.people} чел.` : ''} · ★ ${num1(p.rating)}, ${p.jobs} работ через ОМА</span>
+      ${p.specs.includes('electric') ? '<span class="small">Электроработы: замена розеток, выключателей, светильников, подключение техники. Новая проводка — только по проекту.</span>' : ''}
+      <label class="f">Что нужно сделать<textarea id="proTask" rows="3" style="border:1px solid var(--line);border-radius:10px;padding:9px 10px;background:var(--surface-2);color:var(--ink)">${team ? 'Ремонт санузла 4 м²: демонтаж, плитка, сантехника' : 'Заменить смеситель на кухне'}</textarea></label>
+      <label class="f">Когда удобно<input id="proDate" type="date" value="2026-11-03"></label>
+      <span class="small muted">Договор с ОМА, ${team ? 'бригада' : 'мастер'} — исполнитель-партнёр. Смету и цену согласуете до начала работ, гарантия ОМА.</span>
+      ${team ? '<button class="btn ghost block" data-go="bath1">Ремонт санузла — посчитать смету</button>' : ''}
+      <button class="btn block" data-action="pro-send" data-name="${esc(p.name)}">Отправить заявку</button>`);
+  }
+  if (a === 'pro-send') { sheet(''); return toast(`Заявка отправлена: ${t.dataset.name} и технолог ОМА свяжутся для сметы (демо)`); }
+  if (a === 'adv-diy') { S.adv.diy = t.dataset.val; return render(); }
+  if (a === 'adv-book') return sheet(`<h3>Консультация по бюджету</h3>
+    <span class="small muted">Консультант разберёт смету, сравнит варианты и составит график платежей. Бесплатно.</span>
+    <div class="seg" role="group" aria-label="Формат">${['В магазине', 'Видео', 'Звонок'].map((l, i) => `<button data-action="seg-pick" aria-pressed="${i === 0}"><b>${l}</b></button>`).join('')}</div>
+    <label class="f">Дата<input id="advDate" type="date" value="2026-11-02"></label>
+    <button class="btn block" data-action="adv-booked">Записаться</button>`);
+  if (a === 'seg-pick') { t.parentElement.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b === t))); return; }
+  if (a === 'adv-booked') { sheet(''); return toast('Вы записаны к консультанту ОМА (демо)'); }
+  if (a === 'reg-next') { if (S.reg.step === 1 && S.reg.role === 'buyer') return finishReg(); return showReg(S.reg.step + 1); }
+  if (a === 'reg-back') return showReg(Math.max(0, S.reg.step - 1));
+  if (a === 'reg-skip') { S.reg.role = 'buyer'; return finishReg(); }
+  if (a === 'reg-pick') { const r = ROLES.find(x => x.id === t.dataset.val); Object.assign(S.reg, { role: r.id, specs: [...(r.specs || [])], helper: !!r.helper }); return showReg(1); }
+  if (a === 'reg-spec') { const k = t.dataset.val, sp = S.reg.specs; S.reg.specs = sp.includes(k) ? sp.filter(x => x !== k) : [...sp, k]; return showReg(2); }
+  if (a === 'reg-form') { S.reg.form = t.dataset.val; return showReg(2); }
+  if (a === 'reg-finish') return finishReg();
+  if (a === 'reg-role') { Object.assign(S.reg, { name: S.user.name, phone: S.user.phone, pd: true, role: S.user.role }); return showReg(1); }
   if (a === 'design-book') { sheet(''); return toast(`Вы записаны: ${t.dataset.name.toLowerCase()} (демо)`); }
-  if (a === 'call-brigade') return sheet(`<h3>Какая работа?</h3>
-    <button class="option" data-go="bath1"><span class="grow"><b>Ремонт санузла под ключ</b><span class="small muted">Материалы, бригада, гарантия ОМА</span></span>${ICON.chevron}</button>
-    <button class="option" data-go="install"><span class="grow"><b>Установка с мастером</b><span class="small muted">Смеситель, унитаз, полки, шкаф</span></span>${ICON.chevron}</button>
-    <button class="option" data-action="brigade-request"><span class="grow"><b>Другая работа</b><span class="small muted">Опишите задачу — технолог ОМА перезвонит</span></span>${ICON.chevron}</button>`);
   if (a === 'brigade-request') return sheet(`<h3>Заявка на работы</h3><label class="f">Что нужно сделать<textarea id="brReq" rows="4" style="border:1px solid var(--line);border-radius:10px;padding:9px 10px;background:var(--surface-2);color:var(--ink)">Покрасить стены в двух комнатах, около 60 м²</textarea></label><button class="btn block" data-action="brigade-sent">Отправить заявку</button>`);
   if (a === 'brigade-sent') { sheet(''); return toast('Заявка принята: технолог ОМА перезвонит (демо)'); }
   if (a === 'clean-to-cart') {
@@ -1484,6 +1751,11 @@ document.addEventListener('click', e => {
 
 document.addEventListener('input', e => {
   const t = e.target;
+  if (t.dataset.reg) {
+    S.reg[t.dataset.reg] = t.value;
+    const btn = document.querySelector('#onboard [data-action="reg-next"]');
+    if (btn && S.reg.step === 0) btn.disabled = !(S.reg.pd && S.reg.phone.replace(/\D/g, '').length >= 9 && S.reg.name.trim());
+  }
   if (t.dataset.dim) {
     S.bath[t.dataset.dim] = t.value;
     const c = bathCalc(), el = document.getElementById('area');
@@ -1492,6 +1764,9 @@ document.addEventListener('input', e => {
 });
 document.addEventListener('change', e => {
   const t = e.target;
+  if (t.dataset.regc) { S.reg[t.dataset.regc] = t.checked; return showReg(S.reg.step); }
+  if (t.dataset.prosort) { S.pros.sort = t.value; return render(); }
+  if (t.dataset.adv) { S.adv[t.dataset.adv] = t.value; return render(); }
   if (t.dataset.task) { S.bath.tasks[t.dataset.task] = t.checked; FX.warnIn = t.dataset.task === 'move' && t.checked; render(); }
   if (t.dataset.inst) { S.install.sel[t.dataset.inst] = t.checked; render(); }
   if (t.dataset.instgood) { S.install.withGood = t.checked; render(); }
@@ -1508,6 +1783,9 @@ document.addEventListener('change', e => {
 
 function jump(screen) {
   sheet('');
+  if (screen === 'reg') { if (S.screen !== 'home') { S.history = []; go('home', { replace: true }); } return showReg(0); }
+  document.getElementById('onboard').innerHTML = '';
+  if (screen === 'pros' && !S.pros.need) S.pros.need = 'master';
   if (screen !== 'cart' && CART_OPEN) { document.getElementById('drawer').innerHTML = ''; CART_OPEN = false; }
   const prepCart = () => { if (!S.cart.some(b => b.group === 'bath' && b.staged)) { S.bath.mode = 'master'; bathToCart(true); } };
   if (['cart', 'confirm', 'pay'].includes(screen)) {
@@ -1523,6 +1801,7 @@ function jump(screen) {
 }
 
 render();
+if (!regDone()) showReg(0);
 </script>
 </body>
 </html>
