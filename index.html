@@ -194,10 +194,32 @@ button { cursor: pointer; transition: border-color .15s ease, background-color .
 .plan .best-tag { position: absolute; top: -10px; right: 12px; background: var(--cta); color: var(--cta-ink); font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 6px; }
 .plan .total { font: 700 20px/1.1 var(--f-display); font-variant-numeric: tabular-nums; }
 .plan ul { margin: 0; padding-left: 18px; display: grid; gap: 3px; font-size: 13px; }
-.advisor-hero { position: relative; overflow: hidden; border-radius: 18px; padding: 16px 110px 16px 16px; color: #fff; background: radial-gradient(90% 90% at 100% 0%, rgba(255,130,0,.5), transparent 60%), linear-gradient(135deg, #005DD6, #37235E); display: flex; flex-direction: column; gap: 4px; }
-.advisor-hero b { font-size: 16px; }
-.advisor-hero span { font-size: 13px; opacity: .9; }
-.advisor-hero img { position: absolute; right: 10px; bottom: 4px; width: 92px; }
+.hero-card { position: relative; overflow: hidden; border-radius: 18px; padding: 16px 110px 16px 16px; color: #fff; background: radial-gradient(90% 90% at 100% 0%, rgba(255,130,0,.5), transparent 60%), linear-gradient(135deg, #005DD6, #37235E); display: flex; flex-direction: column; gap: 4px; }
+.hero-card b { font-size: 16px; }
+.hero-card span { font-size: 13px; opacity: .9; }
+.hero-card img { position: absolute; right: 10px; bottom: 4px; width: 92px; }
+/* кабинет исполнителя (B2B) */
+.earn { position: relative; overflow: hidden; color: #fff; border-radius: 20px; padding: 16px; display: flex; flex-direction: column; gap: 12px;
+  background: radial-gradient(90% 80% at 100% 0%, rgba(255, 130, 0, .5), transparent 60%), linear-gradient(135deg, #24164F 0%, #37235E 55%, #1B4FB8 120%);
+  box-shadow: 0 14px 28px -18px rgba(20, 10, 60, .7); }
+.earn .row1 { display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-weight: 600; opacity: .92; }
+.earn .main { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; }
+.earn .big { font: 700 34px/1 var(--f-display); font-variant-numeric: tabular-nums; letter-spacing: -.01em; white-space: nowrap; }
+.earn .big .unit { font-size: 16px; font-weight: 600; opacity: .85; margin-left: 5px; }
+.earn .stats { font-size: 12.5px; opacity: .85; margin-top: 6px; }
+.earn .bars { display: flex; align-items: flex-end; gap: 4px; flex: none; }
+.earn .bars span { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 10px; opacity: .85; }
+.earn .bars i { width: 10px; border-radius: 4px 4px 2px 2px; background: rgba(255, 255, 255, .35); }
+.earn .bars i.cur { background: #FF9A3D; }
+.earn .periods { display: flex; gap: 6px; }
+.earn .periods button { flex: 1; border: 0; border-radius: 999px; padding: 7px 0; font-size: 12.5px; font-weight: 600; background: rgba(255, 255, 255, .14); color: #fff; }
+.earn .periods button[aria-pressed="true"] { background: #fff; color: #24164F; }
+.earn .payout { display: flex; justify-content: space-between; gap: 10px; font-size: 13px; border-top: 1px solid rgba(255, 255, 255, .18); padding-top: 10px; }
+.ord .acts { display: flex; gap: 8px; }
+.ord .acts .btn { flex: 1; }
+.when { font-size: 12px; font-weight: 700; color: var(--tone-orange); }
+.kind { display: grid; gap: 10px; }
+.kind .ask-card[aria-pressed="true"] { box-shadow: inset 0 0 0 2px var(--cta); background: var(--cta-soft); }
 .avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .avatar.big { width: 88px; height: 88px; font-size: 30px; cursor: pointer; }
 .nav-cart .fab { position: relative; width: 54px; height: 54px; margin-top: -26px; border-radius: 50%; background: linear-gradient(145deg, #FFB547 0%, #FF8200 52%, #F0560A 100%); box-shadow: inset 0 2px 3px rgba(255,255,255,.45), 0 4px 10px -4px rgba(0,0,0,.35); color: var(--cta-ink); display: grid; place-items: center; border: 4px solid var(--surface); box-shadow: 0 4px 10px -4px rgba(0,0,0,.35); }
@@ -379,7 +401,7 @@ details.fold[open] > summary { margin-bottom: 8px; }
     <svg class="lockup" viewBox="0 0 1269 303" role="img" aria-label="ОМА для дома"><path fill="currentColor" fill-rule="evenodd" d="M 141.2 9 C 140.4 9.1 138.1 9.3 136.1 9.5 C 110.1 11.4 81.6 23.2 60.8 40.6 C 58.8 42.3 56.3 44.4 55.2 45.3 C 52.7 47.2 47.4 52.7 43.3 57.4 C 28.8 74.2 18.8 93.2 12.9 115.8 C 11.2 122.2 9.9 130.8 8.7 143.2 C 8.4 146.5 8.6 158.3 9 160.4 C 9.1 161.1 9.3 163.1 9.5 165 C 13.4 213.7 45.7 257.5 91.5 276.2 C 96.5 278.2 102.5 280.5 104 280.9 C 104.9 281.1 106.9 281.7 108.4 282.1 C 114.1 283.9 119.9 285.3 127.4 286.6 C 133.2 287.7 149.1 289 156.5 289 C 159.5 289 160.5 288.7 161.9 287.5 L 163 286.5 173.9 264.5 C 179.9 252.5 186.9 238.5 189.4 233.5 C 191.9 228.5 197.5 217.3 201.9 208.6 C 206.2 200 213.1 186.2 217.2 178.1 C 221.2 170 226.4 159.8 228.6 155.4 C 230.8 151 233.4 145.8 234.4 143.8 C 235.3 141.8 243 126.3 251.5 109.4 C 268.1 76.1 267.5 77.3 267.5 75.3 C 267.5 73 267 72.2 261.8 65.5 C 233.9 29.1 192.9 8.6 148.5 8.8 C 145.4 8.8 142.1 8.9 141.2 9 M 760.5 22.7 C 759.4 23 758.3 23.6 757.7 24.2 C 756.6 25.5 756.6 23.4 756.5 68 L 756.4 110.1 755.9 110.9 C 754.8 113 753.4 113.5 748.7 113.5 C 740.6 113.5 740.4 113.9 740.5 129.3 L 740.6 139.6 741.2 140.6 C 741.8 141.9 742.4 142.3 743.6 142.9 L 744.6 143.4 804.8 143.4 C 871 143.5 867 143.6 868.7 141.9 C 870.1 140.4 870.2 139.8 870.2 128.7 C 870.2 116.5 870.1 115.7 867.5 114.2 L 866.4 113.6 858 113.5 C 849.3 113.4 848.9 113.3 848.1 112.3 C 847.2 111.2 847.6 110.1 850.6 105.7 C 873.3 72.5 852.8 25.8 814.1 22.7 C 810.7 22.5 761.8 22.5 760.5 22.7 M 1054.4 22.7 C 1036 23.7 1020.8 36.4 1015.6 55.1 L 1014.6 58.6 1014.6 65.4 L 1014.6 72.1 1015.6 75.9 C 1018.1 85.5 1023.1 93.9 1029.2 98.8 C 1030.4 99.6 1031.9 100.8 1032.5 101.3 C 1035.1 103.3 1035.1 104.9 1032.8 108.8 C 1030.9 112.2 1025.9 120.3 1023.5 124.2 C 1022 126.7 1015.4 137.8 1014.8 138.8 C 1014 140.3 1014.5 142.2 1015.8 142.9 L 1016.6 143.4 1033 143.4 L 1049.4 143.4 1050.5 142.8 C 1052.6 141.8 1055.4 137.9 1059.8 129.6 C 1060.9 127.5 1065.1 120.4 1069.3 113.5 C 1071.5 109.9 1073.5 108.8 1074.8 110.5 C 1075.7 111.7 1075.7 112.9 1075.7 126 C 1075.8 141.3 1075.8 141.5 1078.7 142.9 L 1079.6 143.4 1094.2 143.4 L 1108.9 143.4 1110.1 142.7 C 1110.8 142.2 1111.4 141.6 1111.8 140.9 L 1112.4 139.9 1112.4 83.6 C 1112.5 43.1 1112.4 27.1 1112.2 26.2 C 1111.9 24.8 1111 23.7 1109.8 23.1 L 1108.9 22.6 1082.2 22.6 C 1067.6 22.6 1055.1 22.7 1054.4 22.7 M 440.6 23.1 C 439.6 23.6 438.5 25.1 436.8 28.8 C 435.4 31.7 418.8 65.2 399.2 104.8 C 394.3 114.6 387.6 128.1 384.3 134.8 C 377.4 148.9 376.6 149.9 374.5 149 C 373.1 148.4 372.9 148.1 358.4 118.4 C 343.7 88.2 312.2 25.5 311.5 24.9 C 310.5 24.1 309.6 24.1 308.5 24.8 L 307.6 25.4 301.5 37.6 C 268.5 103.4 257.7 124.9 254 132.5 C 248.4 144.1 232.8 175.5 202.7 235.6 C 187 267.2 178.2 285 178.1 285.7 C 177.9 287 178.5 288.2 179.7 288.7 L 180.6 289.1 236 289.1 L 291.4 289.1 292.6 288.5 C 293.2 288.2 294.2 287.5 294.7 286.9 C 295.4 286 314.2 248.8 323.1 230.4 C 324.4 227.8 327.5 221.3 330.1 216.1 C 332.7 210.9 336 204.3 337.4 201.4 C 340.1 195.8 341.2 194.2 342.7 193.7 C 345.1 192.9 349.7 195 350.8 197.4 L 351.3 198.5 351 199.8 C 350.8 201.1 347.2 208.3 324.7 253.6 C 309.2 285 309.4 284.5 309.3 285.9 L 309.2 287.2 310 288.1 C 311.3 289.3 308.3 289.3 370.8 289.2 L 427.9 289.1 429.3 288.4 C 431.3 287.5 432.2 286 435.3 279.6 C 436.7 276.7 439.3 271.5 441.1 268 C 442.9 264.5 446.3 257.6 448.8 252.6 C 454.5 241.2 456.4 237.3 463.6 223 C 505 140.7 503.4 144.2 501.3 139.6 C 499.9 136.6 473.5 83.2 458.6 53.4 C 452 40.2 446.1 28.3 445.4 27 C 443.7 23.5 442.3 22.3 440.6 23.1 M 578.3 24.4 C 577.1 24.7 575.5 27.8 552.2 74.4 C 539 100.9 516.4 146.1 502 174.9 C 487.7 203.6 472.7 233.5 468.9 241.2 C 465 249 460.4 258.2 458.7 261.6 C 448.8 281 447.2 284.4 447.1 285.8 L 446.9 287.1 447.6 287.9 C 448.8 289.3 446.9 289.2 498.1 289.2 C 551 289.3 547.8 289.4 549.8 287.6 L 551.1 286.4 557.9 272.5 C 561.7 264.9 567.9 252.3 571.7 244.6 C 575.6 236.9 579.4 229.1 580.3 227.1 C 583.7 219.6 585.2 218.6 589.9 220.9 C 595.1 223.5 595.1 223.7 587 240.1 C 584.2 245.8 580.7 253 579.2 256.1 C 577.7 259.3 574 266.9 570.9 273.1 L 565.4 284.4 565.3 285.8 L 565.2 287.2 566 288.1 C 567.3 289.3 563.1 289.3 638.8 289.2 L 708.4 289.1 709.1 288.8 C 710.3 288.2 710.8 287.2 710.8 285.9 L 710.8 284.7 700.9 264.9 C 695.4 254 690.8 245 690.7 244.9 C 690.6 244.6 684.8 233.2 656 175.5 C 639 141.5 639.3 142 637.5 142 C 635.8 142 635.3 142.9 625.6 162 C 608.1 196.5 608.6 195.5 607.4 196.7 L 606.3 197.8 605 197.8 C 602.3 197.8 598 194.9 597.6 192.9 C 597.3 191.5 597.8 190.4 601.7 182.8 C 603.8 178.8 606.8 172.9 608.5 169.5 C 610.2 166.1 614.9 156.9 618.9 148.9 C 630.1 127.1 630.7 125.8 629.9 123.2 C 629.5 121.7 582.7 28 581.5 26.2 C 580.9 25.3 579.4 24.1 579 24.3 C 578.9 24.3 578.6 24.4 578.3 24.4 M 939.9 25.3 C 939.3 26 938.2 27.7 937.2 29.5 C 936.4 31.2 934.8 34.1 933.8 36 C 932.8 37.9 930.9 41.5 929.6 44.1 C 928.3 46.7 926.2 50.8 924.9 53.1 C 923.7 55.5 921.5 59.6 920.1 62.2 C 918.7 64.9 916.7 68.8 915.6 70.9 C 914.5 72.9 912 77.5 910.2 81.1 C 906.4 88.5 900.5 99.6 899.6 101.1 C 899.3 101.7 897.1 105.9 894.7 110.5 C 892.4 115.1 889.6 120.3 888.6 122.1 C 879.3 138.9 878.4 141.5 881.2 142.9 L 882.1 143.4 899.5 143.4 L 916.9 143.4 918.1 142.9 C 920.3 142.1 921.7 139.6 924.9 131.4 C 925.2 130.7 926.3 128 927.4 125.4 C 928.4 122.8 929.9 119.2 930.5 117.5 C 934.3 108.1 936 104.8 937.7 103.9 C 941 102.2 944.2 104.3 946.4 109.6 C 947 111.3 947.9 113.2 948.3 114 C 948.6 114.8 949.7 117.3 950.7 119.6 C 951.7 122 953.1 125.1 953.8 126.6 C 954.5 128.1 955.9 131.4 957 133.9 C 961.5 144.4 958.8 143.4 982.5 143.4 L 1001.1 143.4 1001.9 142.9 C 1004.5 141.5 1004.4 140.7 999.3 131.2 C 997.5 127.8 993.6 120.4 990.6 114.6 C 987.6 108.8 984 101.9 982.5 99.1 C 981 96.4 977.8 90.3 975.4 85.6 C 965.6 66.6 965 65.5 962.9 65.5 C 961.2 65.5 961 65.7 955.1 79.1 C 949.9 90.8 948.8 92.2 946 91 C 943.7 90.1 943.7 88.3 946 83.4 C 949.2 76.4 955.9 60.9 957.4 56.8 C 958.6 53.6 958.6 53.7 947.7 32.6 C 943.1 23.7 942.2 22.9 939.9 25.3 M 926.1 171.3 C 898.5 174.8 876.3 194.5 872.2 219.3 C 871.9 220.6 871.5 223.1 871.2 225 C 869.9 232.6 870.9 242.9 874 252.1 C 879 267.5 890.2 280.6 904.6 287.8 C 910.3 290.6 915.4 292.3 920.9 293.3 C 927.9 294.5 928.1 294.6 933.9 294.4 L 939.4 294.3 943.9 293.4 C 956.5 290.9 969.9 284 975.4 277 C 976.6 275.5 981.3 266.2 984.1 259.8 C 984.6 258.7 986.4 254.8 988.2 251.1 C 994.2 238.5 994.7 237 994.4 228.6 C 993.7 202.4 974.9 179.7 948.1 172.8 L 943.9 171.8 938.3 171.3 C 931.7 170.7 930.7 170.7 926.1 171.3 M 777.8 171.2 L 759.9 171.4 759.1 171.8 C 758.3 172.3 757.5 173.1 757 174 C 756.7 174.5 756.6 181.7 756.5 216.8 L 756.4 258.9 755.8 259.9 C 755.5 260.4 754.8 261.2 754.3 261.5 L 753.4 262.1 748.9 262.3 C 743.4 262.4 742.4 262.8 741.2 265.1 L 740.6 266.1 740.6 277.4 L 740.6 288.6 741.2 289.8 C 741.8 291.1 742.8 291.9 744.1 292.3 C 744.6 292.4 768.1 292.5 805.5 292.5 L 866 292.5 867 292.1 C 869.9 290.9 870 290.4 870 277 L 870 266.1 869.5 265.1 C 868.4 262.7 866.8 262.3 856.2 262.3 C 846.4 262.2 845.7 261.4 849.9 255.1 C 862.8 235.9 863.2 212.2 851 193.6 C 843.4 182.2 832.4 175 817.6 172 C 815.2 171.5 802.7 170.9 797.4 171.1 C 796.4 171.1 787.6 171.2 777.8 171.2 M 1032.2 174.1 C 1031.2 174.7 1029.8 177.3 1024.8 188.1 C 1023.9 190.1 1021.9 194.3 1020.4 197.5 C 1014.1 210.4 1011.1 216.8 1009.6 220.2 C 1007.9 224 1006.3 227.3 1001.1 238.5 C 997.1 246.9 994 253.5 988.9 264.8 C 986.6 269.7 984 275.2 983.1 277.1 C 977.6 288 976.9 290.6 979.3 291.9 L 980.1 292.4 1000.5 292.4 L 1020.9 292.5 1022.3 291.8 C 1024.3 290.7 1027.2 285.8 1034.6 270.1 C 1045 248.3 1046.1 246.5 1049 248 C 1051.4 249.3 1050.9 251.1 1044.8 263.5 C 1031.1 291.4 1031.5 290.4 1034.3 291.9 L 1035.1 292.4 1056.9 292.4 L 1078.6 292.4 1079.4 292 C 1081.5 290.8 1082.3 289.5 1086.4 280.8 C 1088 277.2 1091 270.9 1093 266.8 C 1095 262.6 1097.7 257 1098.9 254.5 C 1100.1 252 1102.5 246.9 1104.3 243.2 C 1113.6 224 1114.8 221.1 1114.8 218.8 C 1114.8 216.4 1114.8 216.3 1100.4 187.5 C 1091.5 169.7 1092 169.8 1084.5 185.2 C 1082 190.3 1079.2 196 1078.1 198 C 1077.1 200 1073.8 206.5 1070.9 212.4 C 1064.6 225.2 1064.7 224.9 1063.6 225.4 L 1062.8 225.8 1061.9 225.4 C 1061.1 225.1 1059.2 222.7 1059.2 222.1 C 1059.2 221.8 1036.3 176 1035.7 175.2 C 1034.8 173.9 1033.4 173.5 1032.2 174.1 M 1200.1 174.5 C 1199.1 174.9 1198.4 176.1 1194.1 184.6 C 1187.8 197.1 1175.8 220.9 1164.1 244.1 C 1158.6 255.1 1151.3 269.5 1148 276.1 L 1141.9 288.2 1141.9 289.3 C 1141.9 290.9 1142.8 291.9 1144.5 292.2 C 1146.3 292.6 1182.3 292.6 1183.6 292.2 C 1185.9 291.6 1189.8 284.9 1197.9 267.6 C 1199.3 264.7 1200.2 263.1 1200.8 262.4 L 1201.8 261.5 1202.9 261.5 C 1206.6 261.5 1206.6 264 1203 271.5 C 1194 290.5 1193.9 290.5 1196.6 291.9 L 1197.4 292.4 1226.8 292.4 C 1259.2 292.5 1258 292.6 1259.2 291.3 L 1260.1 290.5 1259.9 289.1 L 1259.8 287.8 1249.7 267.7 C 1244.2 256.7 1237.4 243.2 1234.7 237.8 C 1226.4 221.2 1227 221.1 1217.4 241.5 C 1213.7 249.3 1213.1 250 1210.8 250 C 1207.7 250 1207.5 247.3 1210.1 241.8 C 1211 239.9 1213.7 234.2 1216.1 229.1 C 1218.6 224 1221 219 1221.4 217.9 L 1222.3 216 1222.2 214.1 L 1222.1 212.2 1215.8 199.7 C 1202.7 173.8 1202.5 173.5 1200.1 174.5 M 1118.1 230.2 C 1117.2 230.8 1115.9 233.2 1113.6 238.4 C 1112.9 240.2 1111.8 242.3 1111.4 243.1 C 1110.9 244 1109.5 246.9 1108.2 249.8 C 1106.9 252.6 1104.2 258.2 1102.3 262.2 C 1100.3 266.2 1098.8 269.6 1098.8 269.7 C 1098.8 269.7 1097.1 273.2 1095 277.5 C 1087.1 293.8 1085.6 292.6 1112.1 292.5 L 1130.4 292.4 1131.4 291.8 C 1133.1 290.9 1134 289.6 1137.5 282.3 L 1140.9 275.4 1140.9 273.5 L 1140.9 271.6 1138.3 266.4 C 1136.9 263.5 1134.3 258 1132.5 254.1 C 1121 229.6 1120.5 228.8 1118.1 230.2"/></svg>
     <p>Кликабельный прототип для частных клиентов ОМА: ремонт санузла и установка под ответственностью ОМА, а Паспорт дома возвращает клиента за следующей покупкой.</p>
     <ol>
-      <li><button data-jump="reg">Регистрация: род деятельности</button></li>
+      <li><button data-jump="reg">Регистрация: частное лицо или бизнес</button></li>
       <li><button data-jump="home">Главная: профиль, «Мой дом»</button></li>
       <li><button data-jump="rent">Прокат: у соседа и у магазина</button></li>
       <li><button data-jump="rentShop">Прокат у магазина</button></li>
@@ -392,6 +414,8 @@ details.fold[open] > summary { margin-bottom: 8px; }
       <li><button data-jump="projects">Этап: фото, чек-лист, приёмка</button></li>
       <li><button data-jump="passport">Паспорт дома</button></li>
       <li><button data-jump="profile">Профиль: фото и имя</button></li>
+      <li><button data-jump="orders">Бизнес: заказы и заработок</button></li>
+      <li><button data-jump="supply">Бизнес: закупка OMA PRO</button></li>
     </ol>
     <p class="links"><a href="slides/">Презентация</a> · <a href="README.html">Концепция</a> · <a href="docs/legal-compliance.html">Правовой разбор</a></p>
     <button class="reset" data-action="reset">Начать демо заново</button>
@@ -513,6 +537,33 @@ const CHECKS = {
   install: ['Прибор закреплён без люфта', 'Соединения сухие после проверки', 'Мастер убрал за собой и показал, как пользоваться']
 };
 
+// заказы исполнителя от ОМА (данные условные)
+function b2bSeed() {
+  const m = (name, qty, unit, price) => ({ name, qty, unit, price });
+  return {
+    period: 'month',
+    offers: [
+      { id: 'f1', title: 'Плитка на кухне, фартук 4 м²', area: 'Заводской р-н', when: '04.11, 9:00', amount: 260, spec: 'Плиточник' },
+      { id: 'f2', title: 'Замена сифона и смесителя', area: 'Первомайский р-н', when: '30.10, 15:00', amount: 85, spec: 'Сантехник' }
+    ],
+    orders: [
+      { id: 'o101', st: 'work', title: 'Санузел под ключ', client: 'Анна К.', area: 'Фрунзенский р-н', stage: 2, stages: 4, next: 'укладка плитки до 31.10', amount: 1577,
+        mats: [m('Плитка настенная 30×60, партия 0412', 6, 'уп.', 42.9), m('Клей плиточный С2, 25 кг', 5, 'меш.', 18.4), m('Затирка эпоксидная', 2, 'шт', 31.5)] },
+      { id: 'o102', st: 'work', title: 'Замена смесителя на кухне', client: 'Игорь П.', area: 'Московский р-н', stage: 1, stages: 1, next: 'сдать работу сегодня', amount: 45 },
+      { id: 'o103', st: 'active', title: 'Установка унитаза', client: 'Мария С.', area: 'Центральный р-н', when: '29.10, 12:00–15:00', amount: 70,
+        mats: [m('Гофра для унитаза', 1, 'шт', 9.8), m('Комплект крепления', 1, 'шт', 6.5)] },
+      { id: 'o104', st: 'active', title: 'Подключение стиральной машины', client: 'Олег Т.', area: 'Советский р-н', when: '01.11, 10:00', amount: 40 },
+      { id: 'o99', st: 'done', title: 'Ремонт санузла', date: '2026-10-22', amount: 1840, rating: 5, paid: false },
+      { id: 'o98', st: 'done', title: 'Сборка шкафа, 3 модуля', date: '2026-10-18', amount: 90, rating: 5, paid: false },
+      { id: 'o97', st: 'done', title: 'Полотенцесушитель', date: '2026-10-12', amount: 55, rating: 5, paid: true },
+      { id: 'o96', st: 'done', title: 'Гидроизоляция санузла', date: '2026-10-02', amount: 420, rating: 4, paid: true },
+      { id: 'o95', st: 'done', title: 'Кухонный фартук', date: '2026-09-21', amount: 310, rating: 5, paid: true },
+      { id: 'o94', st: 'done', title: 'Санузел под ключ', date: '2026-08-30', amount: 1650, rating: 5, paid: true },
+      { id: 'o93', st: 'done', title: 'Замена труб водоснабжения', date: '2026-07-15', amount: 380, rating: 5, paid: true },
+      { id: 'o92', st: 'done', title: 'Плитка в коридоре', date: '2026-05-28', amount: 540, rating: 4, paid: true }
+    ]
+  };
+}
 function initialState() {
   return {
     screen: 'home', history: [], projectId: null,
@@ -524,7 +575,8 @@ function initialState() {
     user: { name: 'Анна Ковальчук', phone: '+375 29 000-00-00', avatar: '', role: 'buyer', pro: null },
     cleaning: { type: 'after', area: 45, date: '2026-11-12' },
     profileAds: false,
-    reg: { step: 0, name: '', phone: '', pd: false, ads: false, role: '', specs: [], helper: false, form: 'ИП', unp: '', admission: false },
+    b2b: b2bSeed(),
+    reg: { step: 0, kind: '', name: '', phone: '', pd: false, ads: false, role: '', specs: [], helper: false, form: 'ИП', unp: '', admission: false },
     pros: { need: '', spec: 'all', sort: 'rating', freeOnly: false, helperOnly: false },
     adv: { room: 'bath', area: 4, budget: 6000, diy: 'none' },
     bonus: 1240,
@@ -564,13 +616,21 @@ const BUILD_CATS = [
 ];
 // род деятельности при регистрации
 const ROLES = [
-  { id: 'buyer', name: 'Покупатель', hint: 'Ремонтирую для себя', img: 'cart' },
   { id: 'master', name: 'Мастер', hint: 'Беру заказы на работы', img: 'hammer', specs: ['finish'] },
   { id: 'helper', name: 'Мастер с подмастерьем', hint: 'Работаем вдвоём', img: 'mechanic', specs: ['finish'], helper: true },
   { id: 'electric', name: 'Электрик', hint: 'Розетки, свет, щиток', img: 'plug', specs: ['electric'] },
   { id: 'plumb', name: 'Сантехник', hint: 'Вода, отопление, канализация', img: 'plunger', specs: ['plumb'] },
   { id: 'team', name: 'Бригада', hint: 'Ремонт под ключ', img: 'crane', specs: ['finish', 'tile', 'plumb'], team: true }
 ];
+const isB2B = () => S.user.role !== 'buyer';
+// разделы только для частных клиентов и только для исполнителей
+const PRIVATE_ONLY = ['design', 'build', 'pros', 'advisor', 'bath1', 'bath2', 'bath3', 'install', 'cleaning', 'projects', 'project', 'review', 'passport'];
+const B2B_ONLY = ['orders', 'supply'];
+const PERIODS = [['week', 'Неделя', 7], ['month', 'Месяц', 30], ['quarter', 'Квартал', 91], ['year', 'Год', 365]];
+const MONTHS = ['янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
+const daysAgo = d => Math.round((new Date('2026-10-27') - new Date(d)) / 864e5);
+const sumAmt = list => list.reduce((a, o) => a + o.amount, 0);
+const earned = days => sumAmt(S.b2b.orders.filter(o => o.st === 'done' && daysAgo(o.date) < days));
 const SPECS = { plumb: 'Сантехник', electric: 'Электрик', finish: 'Отделочник', tile: 'Плиточник', furniture: 'Сборка мебели', handy: 'Мастер на час' };
 // каталог: только исполнители, прошедшие проверку ОМА; договор клиент заключает с ОМА (данные условные)
 const PROS = [
@@ -746,14 +806,16 @@ function sheet(html) {
 
 
 const TABS = [['home', 'Главная', ICON.home], ['rent', 'Прокат', ICON.drill], ['design', 'Дизайн', ICON.ruler], ['build', 'Стройка', ICON.hardhat]];
-const ROOTS = ['home', 'rent', 'design', 'build'];
+// исполнителю дизайн и стройка не нужны: вместо них закупка по ценам OMA PRO и заказы
+const TABS_B2B = [['home', 'Главная', ICON.home], ['rent', 'Прокат', ICON.drill], ['supply', 'Закупка', ICON.box], ['orders', 'Заказы', ICON.proj]];
+const ROOTS = ['home', 'rent', 'design', 'build', 'supply', 'orders'];
 const TAB_OF = { home: 'home', cart: 'home', confirm: 'home', pay: 'home', projects: 'home', project: 'home', review: 'home', passport: 'home', profile: 'home',
-  rent: 'rent', rentShop: 'rent', rentNeighbor: 'rent', design: 'design',
+  rent: 'rent', rentShop: 'rent', rentNeighbor: 'rent', supply: 'supply', orders: 'orders', design: 'design',
   build: 'build', pros: 'build', advisor: 'build', bath1: 'build', bath2: 'build', bath3: 'build', install: 'build', cleaning: 'build' };
-const TITLES = { pros: 'Мастера и бригады', advisor: 'Подбор решения', rent: 'Прокат', rentShop: 'Прокат у магазина', rentNeighbor: 'Прокат у соседа', design: 'Дизайн', build: 'Стройка', cleaning: 'Клининг',
+const TITLES = { supply: 'Закупка', orders: 'Заказы', pros: 'Мастера и бригады', advisor: 'Подбор решения', rent: 'Прокат', rentShop: 'Прокат у магазина', rentNeighbor: 'Прокат у соседа', design: 'Дизайн', build: 'Стройка', cleaning: 'Клининг',
   bath1: 'Ремонт санузла', bath2: 'Ремонт санузла', bath3: 'Ремонт санузла', install: 'Установка с мастером', cart: 'Корзина', confirm: 'Оформление', pay: 'Оплата', projects: 'Мои проекты', project: 'Проект', review: 'Завершение', passport: 'Паспорт дома', profile: 'Профиль' };
 const initials = name => name.trim().split(/\s+/).slice(0, 2).map(w => w[0] || '').join('').toUpperCase() || '?';
-const roleLine = () => { const r = ROLES.find(x => x.id === S.user.role) || ROLES[0]; return r.id === 'buyer' ? 'Покупатель' : `${r.name} · на проверке`; };
+const roleLine = () => { if (!isB2B()) return 'Частное лицо'; const r = ROLES.find(x => x.id === S.user.role); return `${r ? r.name : 'Исполнитель'} · ${S.user.pro && S.user.pro.verified ? 'проверен ОМА' : 'на проверке'}`; };
 const avatarInner = () => S.user.avatar ? `<img src="${S.user.avatar}" alt="">` : esc(initials(S.user.name));
 
 function render() {
@@ -767,9 +829,10 @@ function render() {
   measureTop();
   applyTop(false);
   const tab = ([id, label, ic]) => `<button data-go="${id}" ${TAB_OF[s] === id && !CART_OPEN ? 'aria-current="page"' : ''}><span class="ic">${ic}</span>${label}</button>`;
-  document.getElementById('nav').innerHTML = tab(TABS[0]) + tab(TABS[1])
+  const T = isB2B() ? TABS_B2B : TABS;
+  document.getElementById('nav').innerHTML = tab(T[0]) + tab(T[1])
     + `<button class="nav-cart" data-action="open-cart" aria-label="Корзина" aria-expanded="${CART_OPEN}"><span class="fab">${ICON.cart}${n ? `<span class="badge">${n}</span>` : ''}</span>Корзина</button>`
-    + tab(TABS[2]) + tab(TABS[3]);
+    + tab(T[2]) + tab(T[3]);
   document.getElementById('screen').innerHTML = (VIEWS[s] || VIEWS.home)();
   FX.lastKey = key;
   afterRender(changed);
@@ -910,7 +973,7 @@ function snapTop() {
 const REG_KEY = 'oma-reg';
 function regDone() { try { return !!localStorage.getItem(REG_KEY); } catch (e) { return false; } }
 function regHTML() {
-  const r = S.reg, role = ROLES.find(x => x.id === r.role), total = role && role.id !== 'buyer' ? 3 : 2;
+  const r = S.reg, role = ROLES.find(x => x.id === r.role), total = r.kind === 'b2b' ? 4 : 2;
   const steps = `<div class="ob-steps">${Array.from({ length: total }, (_, i) => `<i class="${i <= r.step ? 'on' : ''}"></i>`).join('')}</div>`;
   const hero = (title, sub) => `<div class="ob-hero">${LOGO_LOCKUP}${steps}<h2>${title}</h2><p>${sub}</p></div>`;
   if (r.step === 0) return hero('Добро пожаловать', 'Ремонт, дизайн, прокат и мастера — в одном приложении ОМА') + `
@@ -927,14 +990,23 @@ function regHTML() {
       <button class="btn block" data-action="reg-next" ${r.pd && r.phone.replace(/\D/g, '').length >= 9 && r.name.trim() ? '' : 'disabled'}>Продолжить</button>
       <button class="link" style="align-self:center" data-action="reg-skip">Пропустить (демо)</button>
     </div>`;
-  if (r.step === 1) return hero('Кто вы?', 'От этого зависят разделы и предложения. Изменить можно в профиле') + `
+  if (r.step === 1) return hero('Как будете пользоваться ОМА?', 'От этого зависят разделы приложения. Изменить можно в профиле') + `
+    <div class="ob-body">
+      <div class="kind">
+        <button class="ask-card" data-action="reg-kind" data-val="private" aria-pressed="${r.kind === 'private'}"><b>Частное лицо</b><span>Ремонт для себя: товары, дизайн, мастера и бригады, прокат</span><img src="${IMG('home')}" alt=""></button>
+        <button class="ask-card" data-action="reg-kind" data-val="b2b" aria-pressed="${r.kind === 'b2b'}"><b>Бизнес</b><span>Мастер, бригада или компания: заказы от ОМА и закупка по ценам OMA PRO</span><img src="${IMG('briefcase')}" alt=""></button>
+      </div>
+      <button class="btn block" data-action="reg-next" ${r.kind ? '' : 'disabled'}>${r.kind === 'b2b' ? 'Дальше' : 'Готово'}</button>
+      <button class="link" style="align-self:center" data-action="reg-back">Назад</button>
+    </div>`;
+  if (r.step === 2) return hero('Чем занимаетесь?', 'Выберите, кем вы работаете — заказы будут приходить по профилю') + `
     <div class="ob-body">
       <div class="roles">${ROLES.map(x => `<button class="role" data-action="reg-pick" data-val="${x.id}" aria-pressed="${r.role === x.id}"><b>${x.name}</b><span>${x.hint}</span><img src="${IMG(x.img)}" alt=""></button>`).join('')}</div>
-      <button class="btn block" data-action="reg-next" ${r.role ? '' : 'disabled'}>${role && role.id !== 'buyer' ? 'Дальше' : 'Готово'}</button>
+      <button class="btn block" data-action="reg-next" ${role ? '' : 'disabled'}>Дальше</button>
       <button class="link" style="align-self:center" data-action="reg-back">Назад</button>
     </div>`;
   const npd = r.form === 'НПД';
-  return hero(role.name, 'Расскажите о работе — после проверки ОМА профиль появится в каталоге мастеров') + `
+  return hero(role.name, 'Расскажите о работе — после проверки ОМА начнут приходить заказы') + `
     <div class="ob-body">
       <div class="card"><h3>Чем занимаетесь</h3>
         <div class="chips">${Object.entries(SPECS).map(([k, v]) => `<button class="chip" data-action="reg-spec" data-val="${k}" aria-pressed="${r.specs.includes(k)}">${v}</button>`).join('')}</div>
@@ -946,7 +1018,7 @@ function regHTML() {
         ${npd ? '<span class="small" style="color:var(--warn)">Сейчас работы по договору с ОМА — только для ИП и организаций. Профиль сохраним и сообщим, когда откроем приём самозанятых.</span>'
               : `<label class="f">УНП<input id="rgUnp" value="${esc(r.unp)}" data-reg="unp" inputmode="numeric" maxlength="9" placeholder="9 цифр"></label>`}
       </div>
-      <span class="small muted">Проверим УНП, допуски и отзывы, затем подпишем договор субподряда. Заказы приходят от ОМА: цена фиксирована, оплата после приёмки этапа.</span>
+      <span class="small muted">Проверим УНП, допуски и отзывы, затем подпишем договор субподряда. Заказы приходят от ОМА: цена фиксирована, оплата после приёмки этапа. В демо проверка проходит сразу.</span>
       <button class="btn block" data-action="reg-finish" ${r.specs.length ? '' : 'disabled'}>Отправить на проверку</button>
       <button class="link" style="align-self:center" data-action="reg-back">Назад</button>
     </div>`;
@@ -958,15 +1030,16 @@ function showReg(step = 0) {
   root.innerHTML = `<div class="ob" role="dialog" aria-modal="true" aria-label="Регистрация">${regHTML()}</div>`;
 }
 function finishReg() {
-  const r = S.reg, role = ROLES.find(x => x.id === r.role) || ROLES[0];
+  const r = S.reg, role = r.kind === 'b2b' ? (ROLES.find(x => x.id === r.role) || ROLES[0]) : { id: 'buyer' };
   if (r.name.trim()) S.user.name = r.name.trim();
   if (r.phone.trim()) S.user.phone = r.phone.trim();
   S.profileAds = r.ads;
   S.user.role = role.id;
-  S.user.pro = role.id === 'buyer' ? null : { specs: [...r.specs], helper: role.helper || r.helper, form: r.form, unp: r.unp, admission: r.admission };
+  S.user.pro = role.id === 'buyer' ? null : { specs: [...r.specs], helper: role.helper || r.helper, form: r.form, unp: r.unp, admission: r.admission, verified: r.form !== 'НПД' };
+  S.screen = 'home'; S.history = [];
   try { localStorage.setItem(REG_KEY, JSON.stringify({ role: role.id })); } catch (e) {}
   const root = document.getElementById('onboard');
-  const done = () => { root.innerHTML = ''; render(); toast(role.id === 'buyer' ? 'Готово! Добро пожаловать' : 'Профиль отправлен на проверку ОМА'); };
+  const done = () => { root.innerHTML = ''; render(); toast(role.id === 'buyer' ? 'Готово! Добро пожаловать' : 'Демо: проверка пройдена — открыт кабинет исполнителя'); };
   if (canAnimate && root.firstElementChild) MOTION.animate(root.firstElementChild, { opacity: 0, y: 24 }, { duration: 0.22, ease: 'easeIn' }).then(done);
   else done();
 }
@@ -1074,6 +1147,7 @@ const option = (attr, val, on, title, hint, right = '') =>
 
 const VIEWS = {
   home() {
+    if (isB2B()) return VIEWS.homeB2B();
     const soon = S.passport.flatMap(e => e.reminders.filter(r => r.soon).map(r => ({ ...r, room: e.room })));
     const active = S.projects.filter(p => !p.done);
     return `
@@ -1393,6 +1467,98 @@ const VIEWS = {
       </div>`;
   },
 
+  homeB2B() {
+    const B = S.b2b, work = B.orders.filter(o => o.st === 'work'), act = B.orders.filter(o => o.st === 'active'), next = work[0] || act[0];
+    return `
+      <button class="me-card" data-go="profile">
+        <span class="avatar">${avatarInner()}</span>
+        <span class="grow"><b>${esc(S.user.name)}</b><span class="small muted">${roleLine()}</span></span>
+        <span class="bal"><span class="small muted">За месяц</span><b>${fmt(earned(30))}</b></span>
+      </button>
+      <p class="hello">Сегодня</p>
+      ${next ? `
+        <div class="card ord">
+          <div class="between"><span class="when">${next.st === 'work' ? `В работе · этап ${next.stage} из ${next.stages}` : next.when}</span><b class="mono">${fmt(next.amount)}</b></div>
+          <h3>${esc(next.title)}</h3>
+          <span class="small muted">${esc(next.client)} · ${esc(next.area)}${next.next ? ` · ${esc(next.next)}` : ''}</span>
+          <button class="btn small blue" data-go="orders">Все заказы</button>
+        </div>` : ''}
+      ${B.offers.length ? `<p class="sec-title">Новые заявки от ОМА · ${B.offers.length}</p>` : ''}
+      ${B.offers.map(o => `
+        <div class="card ord">
+          <div class="between"><span class="when">${o.when}</span><b class="mono">≈ ${fmt(o.amount)}</b></div>
+          <h3>${esc(o.title)}</h3>
+          <span class="small muted">${esc(o.area)} · ${o.spec} · цена по прайсу ОМА</span>
+          <div class="acts"><button class="btn small" data-action="offer-accept" data-id="${o.id}">Принять</button><button class="btn small ghost" data-action="offer-skip" data-id="${o.id}">Пропустить</button></div>
+        </div>`).join('')}
+      <div class="cats">
+        <button class="cat" data-go="orders"><b>Мои заказы</b><span class="note">${work.length + act.length} активных</span><img src="${IMG('chart')}" alt=""></button>
+        <button class="cat" data-go="supply"><b>Закупка OMA PRO</b><img src="${IMG('bricks')}" alt=""></button>
+        <button class="cat" data-action="b2b-docs"><b>Документы</b><img src="${IMG('docs')}" alt=""></button>
+      </div>`;
+  },
+
+  orders() {
+    const B = S.b2b, per = PERIODS.find(p => p[0] === B.period);
+    const done = B.orders.filter(o => o.st === 'done'), inPer = done.filter(o => daysAgo(o.date) < per[2]);
+    const sum = sumAmt(inPer), payout = sumAmt(done.filter(o => !o.paid));
+    const rating = done.length ? done.reduce((a, o) => a + o.rating, 0) / done.length : 0;
+    const months = [5, 4, 3, 2, 1, 0].map(i => { const mi = 9 - i; return [MONTHS[mi], sumAmt(done.filter(o => new Date(o.date).getMonth() === mi && o.date.startsWith('2026')))]; });
+    const max = Math.max(1, ...months.map(m => m[1]));
+    const work = B.orders.filter(o => o.st === 'work'), act = B.orders.filter(o => o.st === 'active');
+    return `
+      <div class="earn">
+        <div class="row1"><span>Заработано · ${per[1].toLowerCase()}</span><span>★ ${num1(rating)}</span></div>
+        <div class="main">
+          <div><div class="big" data-value="${sum}">${Math.round(sum).toLocaleString('ru-RU')}<span class="unit">BYN</span></div><div class="stats">Заказов: ${inPer.length} · средний чек ${Math.round(inPer.length ? sum / inPer.length : 0).toLocaleString('ru-RU')} BYN</div></div>
+          <div class="bars" aria-label="По месяцам">${months.map(([n, v], i) => `<span><i class="${i === 5 ? 'cur' : ''}" style="height:${Math.max(4, Math.round(v / max * 44))}px"></i>${n}</span>`).join('')}</div>
+        </div>
+        <div class="periods" role="group" aria-label="Период">${PERIODS.map(([id, l]) => `<button data-action="b2b-period" data-val="${id}" aria-pressed="${B.period === id}">${l}</button>`).join('')}</div>
+        <div class="payout"><span>К выплате после приёмки</span><b>${fmt(payout)}</b></div>
+      </div>
+      <p class="sec-title">В работе · ${work.length}</p>
+      ${work.map(o => `
+        <div class="card ord">
+          <div class="between"><h3>${esc(o.title)}</h3><b class="mono">${fmt(o.amount)}</b></div>
+          <span class="small muted">${esc(o.client)} · ${esc(o.area)}</span>
+          <div class="progress"><i style="width:${(o.stage - 1) / o.stages * 100 + 100 / o.stages / 2}%"></i></div>
+          <span class="small">Этап ${o.stage} из ${o.stages}: ${esc(o.next)}</span>
+          <div class="acts"><button class="btn small" data-action="ord-stage" data-id="${o.id}">Сдать ${o.stage === o.stages ? 'работу' : 'этап'}</button><button class="btn small ghost" data-action="ord-open" data-id="${o.id}">Подробнее</button></div>
+        </div>`).join('') || '<span class="small muted">Сейчас нет работ в процессе</span>'}
+      <p class="sec-title">Активные · ${act.length}</p>
+      ${act.map(o => `
+        <div class="card ord">
+          <div class="between"><span class="when">${o.when}</span><b class="mono">${fmt(o.amount)}</b></div>
+          <h3>${esc(o.title)}</h3>
+          <span class="small muted">${esc(o.client)} · ${esc(o.area)}</span>
+          <div class="acts"><button class="btn small blue" data-action="ord-start" data-id="${o.id}">Начать работы</button><button class="btn small ghost" data-action="ord-open" data-id="${o.id}">Подробнее</button></div>
+        </div>`).join('') || '<span class="small muted">Нет запланированных заказов — примите заявку на главной</span>'}
+      <p class="sec-title">Завершённые · ${done.length}</p>
+      <div class="card"><div>
+        ${done.map(o => `<div class="line-item"><span class="grow">${esc(o.title)}<br><span class="small muted">${o.date.split('-').reverse().join('.')} · ${'★'.repeat(o.rating)}</span></span><span style="text-align:right"><b class="mono">${fmt(o.amount)}</b><br><span class="pill ${o.paid ? '' : 'soon'}">${o.paid ? 'выплачено' : 'к выплате'}</span></span></div>`).join('')}
+      </div></div>
+      <span class="small muted">Выплаты — по договору субподряда с ОМА после приёмки этапа клиентом. Налоги — по вашей системе налогообложения.</span>`;
+  },
+
+  supply() {
+    const lists = S.b2b.orders.filter(o => o.st !== 'done' && o.mats);
+    return `
+      <div class="hero-card"><b>Закупка по ценам OMA PRO</b><span>Для ИП и организаций: оплата по счёту, доставка на объект к дате работ</span><img src="${IMG('bricks')}" alt=""></div>
+      <p class="sec-title">Под ваши заказы</p>
+      ${lists.map(o => `
+        <div class="card">
+          <div class="between"><h3>${esc(o.title)}</h3><span class="small muted">${esc(o.client)}</span></div>
+          <div>${o.mats.map(i => `<div class="line-item"><span class="grow">${esc(i.name)}<br><span class="small muted">${i.qty} ${i.unit} × ${fmt(i.price)}</span></span><span class="mono">${fmt(i.qty * i.price)}</span></div>`).join('')}</div>
+          <div class="between"><b>Итого ${fmt(sumOf(o.mats))}</b><button class="btn small" data-action="supply-add" data-id="${o.id}">В корзину</button></div>
+        </div>`).join('')}
+      <p class="sec-title">Каталог OMA PRO</p>
+      <div class="cats">
+        ${[['Плитка и клей', 'bricks'], ['Сантехника', 'plunger'], ['Электрика', 'plug'], ['Инструмент', 'hammer'], ['Расходники', 'toolbox']].map(([n, img]) => `<button class="cat" data-action="pro-cat" data-name="${n}"><b>${n}</b><img src="${IMG(img)}" alt=""></button>`).join('')}
+        <button class="cat" data-go="rentShop"><b>Прокат техники</b><img src="${IMG('ladder')}" alt=""></button>
+      </div>
+      <span class="small muted">Цены в прототипе условные; в продукте — прайс OMA PRO по договору с вашей компанией.</span>`;
+  },
+
   pros() {
     const f = S.pros;
     if (!f.need) return `
@@ -1451,7 +1617,7 @@ const VIEWS = {
     const fits = plans.filter(p => p.total <= (+a.budget || 0));
     const best = fits.find(p => p.id === pref) || fits.find(p => p.id === 'mix') || fits[0] || plans[2];
     return `
-      <div class="advisor-hero"><b>Консультант ОМА по бюджету ремонта</b><span>Сравним форматы ремонта, распланируем платежи и подскажем, где сэкономить. Консультация бесплатная.</span><img src="${IMG('moneybag')}" alt=""></div>
+      <div class="hero-card"><b>Консультант ОМА по бюджету ремонта</b><span>Сравним форматы ремонта, распланируем платежи и подскажем, где сэкономить. Консультация бесплатная.</span><img src="${IMG('moneybag')}" alt=""></div>
       <div class="card">
         <div class="fields two">
           <label class="f">Что ремонтируем<select data-adv="room">${Object.entries(ADV_ROOMS).map(([k, v]) => `<option value="${k}" ${a.room === k ? 'selected' : ''}>${v[0]}</option>`).join('')}</select></label>
@@ -1507,18 +1673,19 @@ const VIEWS = {
         <label class="f">Имя и фамилия<input id="p-name" value="${esc(S.user.name)}" data-user="name" autocomplete="name"></label>
         <label class="f">Телефон<input id="p-phone" value="${esc(S.user.phone)}" data-user="phone" inputmode="tel" autocomplete="tel"></label>
       </div>
-      <div class="card"><div class="between"><h3>Род деятельности</h3><button class="link" data-action="reg-role">Изменить</button></div>
+      <div class="card"><div class="between"><h3>${isB2B() ? 'Карточка исполнителя' : 'Род деятельности'}</h3><button class="link" data-action="reg-role">Изменить</button></div>
         <span>${roleLine()}</span>
-        ${S.user.pro ? `<span class="small muted">${S.user.pro.specs.map(k => SPECS[k]).join(', ')}${S.user.pro.helper ? ' · с подмастерьем' : ''} · ${S.user.pro.form}${S.user.pro.unp ? ' · УНП ' + esc(S.user.pro.unp) : ''}</span>
-          <span class="pill soon" style="align-self:flex-start">На проверке ОМА</span>
-          <span class="small muted">После проверки документов и подписания договора субподряда профиль появится в каталоге «Мастера и бригады».</span>` : ''}
+        ${isB2B() && S.user.pro ? `<span class="small muted">${S.user.pro.specs.map(k => SPECS[k]).join(', ')}${S.user.pro.helper ? ' · с подмастерьем' : ''} · ${S.user.pro.form}${S.user.pro.unp ? ' · УНП ' + esc(S.user.pro.unp) : ''}</span>
+          <span class="pill ${S.user.pro.verified ? 'ok' : 'soon'}" style="align-self:flex-start">${S.user.pro.verified ? 'Проверен ОМА · договор субподряда' : 'На проверке ОМА'}</span>` : ''}
+        <span class="small muted">Режим приложения (демо)</span>
+        <div class="seg" style="grid-template-columns:1fr 1fr" role="group" aria-label="Режим"><button data-action="demo-mode" data-val="private" aria-pressed="${!isB2B()}"><b>Частное лицо</b></button><button data-action="demo-mode" data-val="b2b" aria-pressed="${isB2B()}"><b>Бизнес</b></button></div>
       </div>
-      <div class="balance">
+      ${isB2B() ? '' : `<div class="balance">
         <span class="wm" aria-hidden="true">${LOGO}</span>
         <div class="top-line"><span>Карта «Баланс»</span><span class="lvl">Начисление 2%</span></div>
         <div><span class="big">${S.bonus.toLocaleString('ru-RU')}</span><span class="unit">бонусов</span><div class="hint">За товары, работы и уход по календарю Паспорта</div></div>
         <div class="bottom-line"><span class="num">•••• 4821</span><span>${esc(S.user.name)}</span></div>
-      </div>
+      </div>`}
       <div class="card"><h3>Тема</h3><div class="seg" role="group" aria-label="Тема">${THEMES.map(([id, label, ic]) => `<button data-action="theme" data-val="${id}" aria-pressed="${THEME === id}">${ic}<b>${label}</b></button>`).join('')}</div>
         ${THEME === 'system' ? '<span class="small muted">Светлая или тёмная — как в настройках телефона</span>' : ''}</div>
       <div class="card"><h3>Согласия</h3><div>
@@ -1658,7 +1825,45 @@ document.addEventListener('click', e => {
   if (a === 'cart-rm') { S.cart = S.cart.filter(i => i.group !== t.dataset.group); fillCart(); return render(); }
   if (a === 'open-cart') return CART_OPEN ? closeCart() : openCart();
   if (a === 'close-cart') { if (t.classList.contains('drawer-bg') && e.target !== t) return; return closeCart(); }
+  if (a === 'cart-checkout' && isB2B()) return closeCart(() => sheet(`<h3>Счёт OMA PRO</h3>
+    <span class="small">Выставим счёт на ${S.user.pro.form === 'ООО' ? 'организацию' : 'ИП'} ${esc(S.user.name)}${S.user.pro.unp ? ', УНП ' + esc(S.user.pro.unp) : ''}. Оплата безналичным, отгрузка или доставка на объект после оплаты. Счёт, ТТН и акты — в разделе «Документы».</span>
+    <button class="btn block" data-action="b2b-invoice">Получить счёт</button>`));
   if (a === 'cart-checkout') return closeCart(() => go('confirm'));
+  if (a === 'b2b-invoice') { sheet(''); S.cart = []; render(); return toast('Счёт отправлен в приложение и на почту (демо)'); }
+  if (a === 'b2b-period') { S.b2b.period = t.dataset.val; return render(); }
+  if (a === 'offer-accept' || a === 'offer-skip') {
+    const o = S.b2b.offers.find(x => x.id === t.dataset.id);
+    S.b2b.offers = S.b2b.offers.filter(x => x !== o);
+    if (a === 'offer-accept') S.b2b.orders.push({ id: 'o' + o.id, st: 'active', title: o.title, client: 'Клиент ОМА', area: o.area, when: o.when, amount: o.amount });
+    render(); return toast(a === 'offer-accept' ? 'Заявка принята — она в «Заказах»' : 'Заявка передана другому исполнителю');
+  }
+  if (a === 'ord-start') { const o = S.b2b.orders.find(x => x.id === t.dataset.id); Object.assign(o, { st: 'work', stage: 1, stages: 1, next: 'выполнить работы и сдать' }); render(); return toast('Работы начаты — клиент получил уведомление'); }
+  if (a === 'ord-stage') {
+    const o = S.b2b.orders.find(x => x.id === t.dataset.id);
+    if (o.stage < o.stages) { o.stage++; o.next = o.stage === o.stages ? 'финальная приёмка' : 'следующий этап по графику'; render(); return toast('Этап отправлен клиенту на приёмку'); }
+    Object.assign(o, { st: 'done', date: '2026-10-27', rating: 5, paid: false }); render(); return toast('Работа сдана: выплата после приёмки клиентом');
+  }
+  if (a === 'ord-open') {
+    const o = S.b2b.orders.find(x => x.id === t.dataset.id);
+    return sheet(`<h3>${esc(o.title)}</h3>
+      <span class="small muted">${esc(o.client)} · ${esc(o.area)} · ${o.st === 'work' ? `этап ${o.stage} из ${o.stages}` : o.when}</span>
+      <ul><li>Заказчик по договору — ОМА, вы работаете как субподрядчик; цена ${fmt(o.amount)} зафиксирована</li>
+        <li>Номер клиента скрыт: звонок через приложение. Точный адрес открывается в день работ</li>
+        <li>${o.mats ? 'Материалы зарезервированы в ОМА — забрать в магазине или доставка на объект' : 'Материалы клиент купил в ОМА, они уже на объекте'}</li>
+        <li>Сдача: фото и чек-лист технолога, оплата после приёмки клиентом</li></ul>
+      ${o.mats ? '<button class="btn ghost block" data-go="supply">Материалы к заказу</button>' : ''}
+      <button class="btn block" data-action="ord-call">Позвонить клиенту</button>`);
+  }
+  if (a === 'ord-call') { sheet(''); return toast('Звонок через приложение: номер клиента скрыт (демо)'); }
+  if (a === 'supply-add') { const o = S.b2b.orders.find(x => x.id === t.dataset.id); addBundle('sup-' + o.id, 'Материалы: ' + o.title.toLowerCase(), o.mats.map(i => ({ ...i })), [], OMA_EXEC, { delivery: `на объект${o.when ? ' к ' + o.when.split(',')[0] : ''}` }); openCart(); return toast('Добавлено в корзину'); }
+  if (a === 'pro-cat') return toast(`«${t.dataset.name}» — каталог OMA PRO откроется в продукте`);
+  if (a === 'b2b-docs') return sheet(`<h3>Документы</h3><ul>
+    <li>Договор субподряда № СП-2026-118 с ОМА — подписан</li>
+    <li>Акты выполненных работ — ${S.b2b.orders.filter(o => o.st === 'done').length}</li>
+    <li>Счета и ТТН OMA PRO — 3</li>
+    <li>Акт сверки за октябрь — сформируется 01.11</li></ul>
+    <span class="small muted">Документы подписываются в приложении, бумажный экземпляр — по запросу.</span>`);
+  if (a === 'demo-mode') { setMode(t.dataset.val); return render(); }
   if (a === 'checkout') return checkout();
   if (a === 'open-project') return go('project', { projectId: t.dataset.id });
   if (a === 'accept') {
@@ -1734,14 +1939,15 @@ document.addEventListener('click', e => {
     <button class="btn block" data-action="adv-booked">Записаться</button>`);
   if (a === 'seg-pick') { t.parentElement.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b === t))); return; }
   if (a === 'adv-booked') { sheet(''); return toast('Вы записаны к консультанту ОМА (демо)'); }
-  if (a === 'reg-next') { if (S.reg.step === 1 && S.reg.role === 'buyer') return finishReg(); return showReg(S.reg.step + 1); }
+  if (a === 'reg-next') { if (S.reg.step === 1 && S.reg.kind === 'private') return finishReg(); return showReg(S.reg.step + 1); }
+  if (a === 'reg-kind') { S.reg.kind = t.dataset.val; return showReg(1); }
   if (a === 'reg-back') return showReg(Math.max(0, S.reg.step - 1));
-  if (a === 'reg-skip') { S.reg.role = 'buyer'; return finishReg(); }
-  if (a === 'reg-pick') { const r = ROLES.find(x => x.id === t.dataset.val); Object.assign(S.reg, { role: r.id, specs: [...(r.specs || [])], helper: !!r.helper }); return showReg(1); }
-  if (a === 'reg-spec') { const k = t.dataset.val, sp = S.reg.specs; S.reg.specs = sp.includes(k) ? sp.filter(x => x !== k) : [...sp, k]; return showReg(2); }
-  if (a === 'reg-form') { S.reg.form = t.dataset.val; return showReg(2); }
+  if (a === 'reg-skip') { S.reg.kind = 'private'; return finishReg(); }
+  if (a === 'reg-pick') { const r = ROLES.find(x => x.id === t.dataset.val); Object.assign(S.reg, { role: r.id, specs: [...(r.specs || [])], helper: !!r.helper }); return showReg(2); }
+  if (a === 'reg-spec') { const k = t.dataset.val, sp = S.reg.specs; S.reg.specs = sp.includes(k) ? sp.filter(x => x !== k) : [...sp, k]; return showReg(3); }
+  if (a === 'reg-form') { S.reg.form = t.dataset.val; return showReg(3); }
   if (a === 'reg-finish') return finishReg();
-  if (a === 'reg-role') { Object.assign(S.reg, { name: S.user.name, phone: S.user.phone, pd: true, role: S.user.role }); return showReg(1); }
+  if (a === 'reg-role') { Object.assign(S.reg, { name: S.user.name, phone: S.user.phone, pd: true, kind: isB2B() ? 'b2b' : 'private', role: isB2B() ? S.user.role : '' }); return showReg(1); }
   if (a === 'design-book') { sheet(''); return toast(`Вы записаны: ${t.dataset.name.toLowerCase()} (демо)`); }
   if (a === 'brigade-request') return sheet(`<h3>Заявка на работы</h3><label class="f">Что нужно сделать<textarea id="brReq" rows="4" style="border:1px solid var(--line);border-radius:10px;padding:9px 10px;background:var(--surface-2);color:var(--ink)">Покрасить стены в двух комнатах, около 60 м²</textarea></label><button class="btn block" data-action="brigade-sent">Отправить заявку</button>`);
   if (a === 'brigade-sent') { sheet(''); return toast('Заявка принята: технолог ОМА перезвонит (демо)'); }
@@ -1791,10 +1997,18 @@ document.addEventListener('change', e => {
   }
 });
 
+// режим «частное лицо / бизнес» для демо: у исполнителя — проверенный профиль бригады
+function setMode(mode) {
+  if (mode === 'b2b' && !isB2B()) { S.user.role = 'team'; S.user.pro = S.user.pro || { specs: ['finish', 'tile', 'plumb'], helper: false, form: 'ИП', unp: '190123456', admission: false, verified: true }; }
+  if (mode === 'private') S.user.role = 'buyer';
+  if ((isB2B() && PRIVATE_ONLY.includes(S.screen)) || (!isB2B() && B2B_ONLY.includes(S.screen))) { S.screen = 'home'; S.history = []; }
+}
 function jump(screen) {
   sheet('');
   if (screen === 'reg') { if (S.screen !== 'home') { S.history = []; go('home', { replace: true }); } return showReg(0); }
   document.getElementById('onboard').innerHTML = '';
+  if (B2B_ONLY.includes(screen)) setMode('b2b');
+  if (PRIVATE_ONLY.includes(screen) || screen === 'cart' || screen === 'confirm' || screen === 'pay') setMode('private');
   if (screen === 'pros' && !S.pros.need) S.pros.need = 'master';
   if (screen !== 'cart' && CART_OPEN) { document.getElementById('drawer').innerHTML = ''; CART_OPEN = false; }
   const prepCart = () => { if (!S.cart.some(b => b.group === 'bath' && b.staged)) { S.bath.mode = 'master'; bathToCart(true); } };
