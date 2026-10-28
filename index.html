@@ -6,7 +6,7 @@
 <title>ОМА для дома — прототип</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&family=JetBrains+Mono:wght@400;600&display=swap">
 <style>
 /* Layout: на десктопе — карта прототипа слева и «телефон» справа; на телефоне — приложение во весь экран.
    Палитра — фирменные цвета ОМА: синий для навигации и выбора, оранжевый для главного действия,
@@ -38,14 +38,15 @@
   --field: #FFFFFF;
   --field-ink: #0F1B2D;
   --nav-ink: #1F3270;
-  --nav-active: #5B2E9E;
-  --nav-active-soft: #EEE7F8;
+  --nav-active: #F07400;
+  --nav-flash: #5B2E9E;
   --tone-blue: #005DD6;
   --tone-orange: #C25E00;
   --tone-teal: #0E7C8A;
   --tone-violet: #6A3BB5;
-  --f-display: "Unbounded", "Arial Black", system-ui, sans-serif;
-  --f-body: "Manrope", "Segoe UI", system-ui, sans-serif;
+  /* Roboto — как на oma.by */
+  --f-display: "Roboto", "Segoe UI", system-ui, sans-serif;
+  --f-body: "Roboto", "Segoe UI", system-ui, sans-serif;
   --f-mono: "JetBrains Mono", ui-monospace, "Consolas", monospace;
   --r: 14px;
   color-scheme: light;
@@ -58,7 +59,7 @@
   --frame: #000000; --toast: #2E2840;
   --bar: #1A1233; --bar-grad: radial-gradient(120% 160% at 100% 0%, rgba(124, 82, 214, .3), transparent 60%), linear-gradient(90deg, #120C24, #251944);
   --strip: #16121F; --strip-ink: #8AB6FF; --field: #241F31; --field-ink: #EEEAF5;
-  --nav-ink: #A9A2C0; --nav-active: #C7A9FF; --nav-active-soft: #2B2245;
+  --nav-ink: #A9A2C0; --nav-active: #FF9A3D; --nav-flash: #7A4FD0;
   --tone-blue: #8AB6FF; --tone-orange: #FFAD5C; --tone-teal: #5FD3E2; --tone-violet: #C7A9FF;
   color-scheme: dark;
 }
@@ -70,7 +71,7 @@
     --frame: #000000; --toast: #2E2840;
     --bar: #1A1233; --bar-grad: radial-gradient(120% 160% at 100% 0%, rgba(124, 82, 214, .3), transparent 60%), linear-gradient(90deg, #120C24, #251944);
     --strip: #16121F; --strip-ink: #8AB6FF; --field: #241F31; --field-ink: #EEEAF5;
-    --nav-ink: #A9A2C0; --nav-active: #C7A9FF; --nav-active-soft: #2B2245;
+    --nav-ink: #A9A2C0; --nav-active: #FF9A3D; --nav-flash: #7A4FD0;
   --tone-blue: #8AB6FF; --tone-orange: #FFAD5C; --tone-teal: #5FD3E2; --tone-violet: #C7A9FF;
     color-scheme: dark;
   }
@@ -121,14 +122,22 @@ button { cursor: pointer; transition: border-color .15s ease, background-color .
 /* flow-root: отступ строки профиля входит в высоту блока, иначе после подрезки остаётся полоска */
 .fold-y { display: flow-root; }
 .top.snap { transition: transform .24s cubic-bezier(.22, 1, .36, 1), clip-path .24s cubic-bezier(.22, 1, .36, 1); }
-.promo-strip { display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; border: 0; background: var(--cta); color: var(--cta-ink); font: 700 12px/1.2 var(--f-body); letter-spacing: .06em; text-transform: uppercase; padding: 9px 12px; }
-.promo-strip svg { width: 15px; height: 15px; }
 .info-strip { display: flex; align-items: center; gap: 14px; background: var(--strip); color: var(--strip-ink); padding: 6px 16px; }
 .info-strip button { background: none; border: 0; padding: 2px 0; color: inherit; display: inline-flex; align-items: center; gap: 4px; font-size: 13px; font-weight: 700; }
 .info-strip svg { width: 15px; height: 15px; }
 .info-strip .end { margin-left: auto; }
-.bar { display: flex; align-items: center; gap: 4px; min-height: 54px; padding: 8px 12px; }
-.bar h2 { margin: 0 0 0 4px; font: 700 16px/1.2 var(--f-display); flex: 1; min-width: 0; text-wrap: balance; }
+.bar { position: relative; overflow: hidden; display: flex; align-items: center; gap: 4px; min-height: 58px; padding: 8px 12px; }
+.bar > :not(.bubbles) { position: relative; z-index: 1; }
+/* объёмные пузыри: блик слева сверху, тень справа снизу; медленно покачиваются */
+.bubbles { position: absolute; inset: 0; pointer-events: none; }
+.bubbles i { position: absolute; border-radius: 50%; background: radial-gradient(circle at 32% 28%, rgba(255,255,255,.7) 0 6%, rgba(205,175,255,.5) 20%, rgba(124,82,214,.42) 52%, rgba(55,25,130,.22) 100%); box-shadow: inset -4px -6px 12px rgba(25,8,70,.4), inset 2px 3px 6px rgba(255,255,255,.18), 0 6px 14px rgba(10,0,40,.25); animation: bubble 7s ease-in-out infinite alternate; }
+.bubbles i:nth-child(1) { width: 96px; height: 96px; right: -26px; top: -40px; }
+.bubbles i:nth-child(2) { width: 44px; height: 44px; right: 92px; bottom: -18px; animation-delay: -2s; }
+.bubbles i:nth-child(3) { width: 20px; height: 20px; right: 64px; top: 7px; animation-delay: -4s; }
+.bubbles i:nth-child(4) { width: 12px; height: 12px; right: 150px; top: 12px; animation-delay: -1s; }
+.bubbles i:nth-child(5) { width: 30px; height: 30px; left: 46%; bottom: -12px; animation-delay: -3s; opacity: .8; }
+@keyframes bubble { from { transform: translateY(0); } to { transform: translateY(-4px); } }
+.bar h2 { margin: 0 0 0 4px; font: 700 18px/1.2 var(--f-display); flex: 1; min-width: 0; text-wrap: balance; }
 .bar-logo { display: flex; margin: 0 auto 0 4px; }
 .bar-btn { width: 40px; height: 40px; border: 0; border-radius: 10px; background: none; color: inherit; display: grid; place-items: center; flex: none; }
 .bar-btn:hover { background: rgba(255,255,255,.1); }
@@ -136,19 +145,20 @@ button { cursor: pointer; transition: border-color .15s ease, background-color .
 .bar-btn .avatar { width: 30px; height: 30px; font-size: 12px; box-shadow: 0 0 0 2px rgba(255,255,255,.85); }
 .me-ic { opacity: 0; pointer-events: none; transition: opacity .15s ease; }
 .top.collapsed .me-ic { opacity: 1; pointer-events: auto; }
-.me { display: flex; align-items: center; gap: 12px; width: calc(100% - 24px); margin: 0 12px 12px; background: rgba(255,255,255,.1); border: 0; border-radius: 14px; padding: 8px 12px 8px 8px; color: inherit; text-align: left; }
-.me:hover { background: rgba(255,255,255,.16); }
-.me .grow { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
-.me b { font-size: 15px; }
-.me .small { opacity: .8; font-size: 12.5px; }
-.me > svg { width: 18px; height: 18px; opacity: .7; flex: none; }
 .seg svg { width: 20px; height: 20px; color: var(--brand-text); }
 .avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #FF8200, #E0457B); color: #fff; display: grid; place-items: center; font-weight: 700; font-size: 15px; flex: none; overflow: hidden; }
+.me-card { display: flex; align-items: center; gap: 12px; width: 100%; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 12px 14px 12px 12px; text-align: left; color: inherit; }
+.me-card:hover { border-color: var(--brand); }
+.me-card .avatar { width: 44px; height: 44px; font-size: 16px; }
+.me-card .grow { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.me-card b { font-size: 15px; }
+.me-card .bal { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; padding-left: 12px; border-left: 1px solid var(--line); }
+.me-card .bal b { color: var(--tone-orange); white-space: nowrap; font-variant-numeric: tabular-nums; }
 .avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .avatar.big { width: 88px; height: 88px; font-size: 30px; cursor: pointer; }
-.nav-cart .fab { position: relative; width: 54px; height: 54px; margin-top: -26px; border-radius: 50%; background: var(--cta); color: var(--cta-ink); display: grid; place-items: center; border: 4px solid var(--surface); box-shadow: 0 4px 10px -4px rgba(0,0,0,.35); }
+.nav-cart .fab { position: relative; width: 54px; height: 54px; margin-top: -26px; border-radius: 50%; background: linear-gradient(145deg, #FFB547 0%, #FF8200 52%, #F0560A 100%); box-shadow: inset 0 2px 3px rgba(255,255,255,.45), 0 4px 10px -4px rgba(0,0,0,.35); color: var(--cta-ink); display: grid; place-items: center; border: 4px solid var(--surface); box-shadow: 0 4px 10px -4px rgba(0,0,0,.35); }
 .nav-cart .fab svg { width: 24px; height: 24px; }
-.nav-cart .badge { top: -4px; left: auto; right: -6px; background: var(--nav-active); color: #fff; }
+.nav-cart .badge { top: -4px; left: auto; right: -6px; background: var(--nav-flash); color: #fff; }
 .nav-cart[aria-expanded="true"] { color: var(--nav-active); font-weight: 700; }
 #drawer { position: absolute; inset: 0; z-index: 20; pointer-events: none; }
 #drawer:empty { display: none; }
@@ -174,7 +184,9 @@ button { cursor: pointer; transition: border-color .15s ease, background-color .
 .nav button svg { width: 22px; height: 22px; }
 .nav button .ic { width: 54px; height: 30px; border-radius: 15px; display: grid; place-items: center; transition: background-color .15s ease; }
 .nav button[aria-current="page"] { color: var(--nav-active); font-weight: 700; }
-.nav button[aria-current="page"] .ic { background: var(--nav-active-soft); }
+.nav button > * { position: relative; z-index: 1; }
+.nav .flash { position: absolute; inset: 0 6px; z-index: 0; border-radius: 14px; background: var(--nav-flash); opacity: 0; pointer-events: none; animation: nav-flash .5s cubic-bezier(.2, .7, .3, 1) forwards; }
+@keyframes nav-flash { 0% { opacity: .9; transform: scale(.86); filter: blur(0); } 30% { opacity: .7; transform: scale(1); filter: blur(1px); } 100% { opacity: 0; transform: scale(1.3); filter: blur(10px); } }
 .badge { position: absolute; top: 0; left: calc(50% + 6px); background: var(--cta); color: var(--cta-ink); font-size: 10px; font-weight: 700; line-height: 16px; min-width: 16px; height: 16px; border-radius: 8px; padding: 0 4px; }
 
 .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 14px; display: flex; flex-direction: column; gap: 10px; }
@@ -571,7 +583,7 @@ const canAnimate = !!MOTION && !REDUCED;
 if (canAnimate) document.documentElement.classList.add('has-motion');
 const EASE_OUT = [0.22, 1, 0.36, 1];
 const anim = (el, kf, opts) => (canAnimate && el ? MOTION.animate(el, kf, opts) : null);
-const FX = { dir: 'tab', lastKey: null, lastCart: 0, counts: {}, justDone: null, star: null, warnIn: false };
+const FX = { navFlash: null, dir: 'tab', lastKey: null, lastCart: 0, counts: {}, justDone: null, star: null, warnIn: false };
 
 function enterScreen(screen, dir) {
   if (!canAnimate) return;
@@ -587,6 +599,11 @@ function enterScreen(screen, dir) {
 
 function afterRender(screenChanged) {
   const screen = document.getElementById('screen');
+  if (FX.navFlash) {
+    const btn = document.querySelector(`.nav [data-go="${FX.navFlash}"]`);
+    if (btn) { const f = document.createElement('span'); f.className = 'flash'; btn.prepend(f); setTimeout(() => f.remove(), 600); }
+    FX.navFlash = null;
+  }
   if (screenChanged) enterScreen(screen, FX.dir);
   // итоговые суммы перетекают к новому значению, когда пользователь меняет параметры
   screen.querySelectorAll('[data-count]').forEach(el => {
@@ -689,18 +706,17 @@ function render() {
 const TOP = { d: 0, U: 0, L: 0, lastY: 0, touching: false, snapT: 0 };
 let CITY = 'Минск';
 const CITIES = ['Минск', 'Брест', 'Витебск', 'Гомель', 'Гродно', 'Могилёв'];
+const BUBBLES = '<span class="bubbles" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>';
 function headerHTML(s) {
-  if (!ROOTS.includes(s)) return `<div class="bar"><button class="icon-btn" data-action="back" aria-label="Назад">${ICON.back}</button><h2>${TITLES[s]}</h2></div>`;
+  if (!ROOTS.includes(s)) return `<div class="bar">${BUBBLES}<button class="icon-btn" data-action="back" aria-label="Назад">${ICON.back}</button><h2>${TITLES[s]}</h2></div>`;
   const home = s === 'home';
   return `<div class="fold-y up">
-      <button class="promo-strip" data-go="profile">Карта «Баланс» · ${S.bonus.toLocaleString('ru-RU')} бонусов ${ICON.chevron}</button>
       <div class="info-strip"><button data-action="city" aria-label="Город: ${CITY}">${ICON.pin}${CITY}${ICON.down}</button><button class="end" data-action="call">${ICON.phone}536-45-00</button></div>
     </div>
-    <div class="bar">
+    <div class="bar">${BUBBLES}
       ${home ? `<span class="bar-logo">${LOGO_LOCKUP}</span>` : `<h2>${TITLES[s]}</h2>`}
       <button class="bar-btn${home ? ' me-ic' : ''}" data-go="profile" aria-label="Профиль"><span class="avatar">${avatarInner()}</span></button>
-    </div>
-    ${home ? `<div class="fold-y down"><button class="me" data-go="profile"><span class="avatar">${avatarInner()}</span><span class="grow"><b>${esc(S.user.name)}</b><span class="small">Профиль и настройки</span></span>${ICON.chevron}</button></div>` : ''}`;
+    </div>`;
 }
 // d — на сколько пикселей шапка свёрнута: сначала уезжают верхние полосы (U), затем строка профиля (L)
 function applyTop(snap) {
@@ -923,6 +939,11 @@ const VIEWS = {
     const soon = S.passport.flatMap(e => e.reminders.filter(r => r.soon).map(r => ({ ...r, room: e.room })));
     const active = S.projects.filter(p => !p.done);
     return `
+      <button class="me-card" data-go="profile">
+        <span class="avatar">${avatarInner()}</span>
+        <span class="grow"><b>${esc(S.user.name)}</b><span class="small muted">Профиль и настройки</span></span>
+        <span class="bal"><span class="small muted">Баланс</span><b>${S.bonus.toLocaleString('ru-RU')} бонусов</b></span>
+      </button>
       <p class="hello">Чем займёмся?</p>
       ${soon.map(r => `
         <div class="remind">${ICON.bell}<span class="grow"><b>${esc(r.text)}</b><br><span class="muted">${esc(r.room)} · до ${r.due} · замена 25 BYN</span></span>
@@ -1366,7 +1387,7 @@ document.addEventListener('click', e => {
   const t = e.target.closest('[data-go],[data-action],[data-jump],[data-tier],[data-brigade],[data-mode],[data-pay],[data-clean],[data-star]');
   if (!t) return;
   if (t.dataset.jump) return jump(t.dataset.jump);
-  if (t.dataset.go) { if (t.closest('.sheet')) sheet(''); if (TAB_OF[t.dataset.go] === t.dataset.go && t.closest('.nav')) S.history = []; return go(t.dataset.go, { replace: !!t.closest('.nav') }); }
+  if (t.dataset.go) { if (t.closest('.nav')) FX.navFlash = t.dataset.go; if (t.closest('.sheet')) sheet(''); if (TAB_OF[t.dataset.go] === t.dataset.go && t.closest('.nav')) S.history = []; return go(t.dataset.go, { replace: !!t.closest('.nav') }); }
   if (t.dataset.tier) { S.bath.tier = t.dataset.tier; return render(); }
   if (t.dataset.brigade) { S.bath.brigade = t.dataset.brigade; return render(); }
   if (t.dataset.mode) { S.bath.mode = t.dataset.mode; return render(); }
