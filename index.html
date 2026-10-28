@@ -39,7 +39,7 @@
   --field-ink: #0F1B2D;
   --nav-ink: #1F3270;
   --nav-active: #F07400;
-  --nav-flash: #5B2E9E;
+  --badge: #5B2E9E;
   --tone-blue: #005DD6;
   --tone-orange: #C25E00;
   --tone-teal: #0E7C8A;
@@ -59,7 +59,7 @@
   --frame: #000000; --toast: #2E2840;
   --bar: #1A1233; --bar-grad: radial-gradient(120% 160% at 100% 0%, rgba(124, 82, 214, .3), transparent 60%), linear-gradient(90deg, #120C24, #251944);
   --strip: #16121F; --strip-ink: #8AB6FF; --field: #241F31; --field-ink: #EEEAF5;
-  --nav-ink: #A9A2C0; --nav-active: #FF9A3D; --nav-flash: #7A4FD0;
+  --nav-ink: #A9A2C0; --nav-active: #FF9A3D; --badge: #7A4FD0;
   --tone-blue: #8AB6FF; --tone-orange: #FFAD5C; --tone-teal: #5FD3E2; --tone-violet: #C7A9FF;
   color-scheme: dark;
 }
@@ -71,7 +71,7 @@
     --frame: #000000; --toast: #2E2840;
     --bar: #1A1233; --bar-grad: radial-gradient(120% 160% at 100% 0%, rgba(124, 82, 214, .3), transparent 60%), linear-gradient(90deg, #120C24, #251944);
     --strip: #16121F; --strip-ink: #8AB6FF; --field: #241F31; --field-ink: #EEEAF5;
-    --nav-ink: #A9A2C0; --nav-active: #FF9A3D; --nav-flash: #7A4FD0;
+    --nav-ink: #A9A2C0; --nav-active: #FF9A3D; --badge: #7A4FD0;
   --tone-blue: #8AB6FF; --tone-orange: #FFAD5C; --tone-teal: #5FD3E2; --tone-violet: #C7A9FF;
     color-scheme: dark;
   }
@@ -149,7 +149,7 @@ button { cursor: pointer; transition: border-color .15s ease, background-color .
 .avatar.big { width: 88px; height: 88px; font-size: 30px; cursor: pointer; }
 .nav-cart .fab { position: relative; width: 54px; height: 54px; margin-top: -26px; border-radius: 50%; background: linear-gradient(145deg, #FFB547 0%, #FF8200 52%, #F0560A 100%); box-shadow: inset 0 2px 3px rgba(255,255,255,.45), 0 4px 10px -4px rgba(0,0,0,.35); color: var(--cta-ink); display: grid; place-items: center; border: 4px solid var(--surface); box-shadow: 0 4px 10px -4px rgba(0,0,0,.35); }
 .nav-cart .fab svg { width: 24px; height: 24px; }
-.nav-cart .badge { top: -4px; left: auto; right: -6px; background: var(--nav-flash); color: #fff; }
+.nav-cart .badge { top: -4px; left: auto; right: -6px; background: var(--badge); color: #fff; }
 .nav-cart[aria-expanded="true"] { color: var(--nav-active); font-weight: 700; }
 #drawer { position: absolute; inset: 0; z-index: 20; pointer-events: none; }
 #drawer:empty { display: none; }
@@ -175,9 +175,6 @@ button { cursor: pointer; transition: border-color .15s ease, background-color .
 .nav button svg { width: 22px; height: 22px; }
 .nav button .ic { width: 54px; height: 30px; border-radius: 15px; display: grid; place-items: center; transition: background-color .15s ease; }
 .nav button[aria-current="page"] { color: var(--nav-active); font-weight: 700; }
-.nav button > * { position: relative; z-index: 1; }
-.nav .flash { position: absolute; inset: 0 6px; z-index: 0; border-radius: 14px; background: var(--nav-flash); opacity: 0; pointer-events: none; animation: nav-flash .5s cubic-bezier(.2, .7, .3, 1) forwards; }
-@keyframes nav-flash { 0% { opacity: .9; transform: scale(.86); filter: blur(0); } 30% { opacity: .7; transform: scale(1); filter: blur(1px); } 100% { opacity: 0; transform: scale(1.3); filter: blur(10px); } }
 .badge { position: absolute; top: 0; left: calc(50% + 6px); background: var(--cta); color: var(--cta-ink); font-size: 10px; font-weight: 700; line-height: 16px; min-width: 16px; height: 16px; border-radius: 8px; padding: 0 4px; }
 
 .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 14px; display: flex; flex-direction: column; gap: 10px; }
@@ -574,7 +571,7 @@ const canAnimate = !!MOTION && !REDUCED;
 if (canAnimate) document.documentElement.classList.add('has-motion');
 const EASE_OUT = [0.22, 1, 0.36, 1];
 const anim = (el, kf, opts) => (canAnimate && el ? MOTION.animate(el, kf, opts) : null);
-const FX = { navFlash: null, dir: 'tab', lastKey: null, lastCart: 0, counts: {}, justDone: null, star: null, warnIn: false };
+const FX = { dir: 'tab', lastKey: null, lastCart: 0, counts: {}, justDone: null, star: null, warnIn: false };
 
 function enterScreen(screen, dir) {
   if (!canAnimate) return;
@@ -590,11 +587,6 @@ function enterScreen(screen, dir) {
 
 function afterRender(screenChanged) {
   const screen = document.getElementById('screen');
-  if (FX.navFlash) {
-    const btn = document.querySelector(`.nav [data-go="${FX.navFlash}"]`);
-    if (btn) { const f = document.createElement('span'); f.className = 'flash'; btn.prepend(f); setTimeout(() => f.remove(), 600); }
-    FX.navFlash = null;
-  }
   if (screenChanged) enterScreen(screen, FX.dir);
   // итоговые суммы перетекают к новому значению, когда пользователь меняет параметры
   screen.querySelectorAll('[data-count]').forEach(el => {
@@ -1377,7 +1369,7 @@ document.addEventListener('click', e => {
   const t = e.target.closest('[data-go],[data-action],[data-jump],[data-tier],[data-brigade],[data-mode],[data-pay],[data-clean],[data-star]');
   if (!t) return;
   if (t.dataset.jump) return jump(t.dataset.jump);
-  if (t.dataset.go) { if (t.closest('.nav')) FX.navFlash = t.dataset.go; if (t.closest('.sheet')) sheet(''); if (TAB_OF[t.dataset.go] === t.dataset.go && t.closest('.nav')) S.history = []; return go(t.dataset.go, { replace: !!t.closest('.nav') }); }
+  if (t.dataset.go) { if (t.closest('.sheet')) sheet(''); if (TAB_OF[t.dataset.go] === t.dataset.go && t.closest('.nav')) S.history = []; return go(t.dataset.go, { replace: !!t.closest('.nav') }); }
   if (t.dataset.tier) { S.bath.tier = t.dataset.tier; return render(); }
   if (t.dataset.brigade) { S.bath.brigade = t.dataset.brigade; return render(); }
   if (t.dataset.mode) { S.bath.mode = t.dataset.mode; return render(); }
